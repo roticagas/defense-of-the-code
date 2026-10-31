@@ -7,7 +7,12 @@ Preflight scanner for ORACLE & EARTHSHAKER:
 3. Detects Leaf-Node Utility files importing from domain/service/db layers (Law 3: Fan-Out > 0).
 4. Flags verbose function/method names on newly added/modified lines as soft hints (Law 5: ~2-3 lexeme guideline),
    automatically skipping unit test files and test_* methods.
+
+Note: --base compares committed history only (<base>...HEAD) plus untracked files;
+uncommitted edits to tracked files are not included in that mode.
 """
+from __future__ import annotations
+
 import argparse
 import re
 import subprocess
@@ -16,10 +21,22 @@ from pathlib import Path
 
 FUNC_PATTERN = re.compile(
     r"^\s*(?:"
-    r"(?:export\s+)?(?:async\s+)?(?:def|function|func)\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\("
+    # Keyword declarations: Python def, JS/TS function, Go/Swift func (incl. receivers), Kotlin fun, Rust fn
+    r"(?:(?:export|default|pub(?:\([^)]*\))?|async|suspend|override|open|inline|unsafe|const|static"
+    r"|private|public|protected|internal)\s+)*"
+    r"(?:def|function\*?|func|fun|fn)\s+(?:\([^)]*\)\s*)?(?:<[^>]*>\s*)?(?:[A-Za-z_][\w.]*\.)?"
+    r"([a-zA-Z_][a-zA-Z0-9_]*)\s*[<(]"
     r"|"
-    r"(?:(?:public|private|protected|internal|static|final|override|virtual|synchronized|async)\s+)+"
+    # Modifier-prefixed methods: Java, C#, Dart, TS classes
+    r"(?:(?:public|private|protected|internal|static|final|override|virtual|synchronized|async|abstract)\s+)+"
     r"(?:[a-zA-Z_][a-zA-Z0-9_<>,.\[\]?]*\s+)?([a-zA-Z_][a-zA-Z0-9_]*)\s*\("
+    r"|"
+    # Arrow functions: JS/TS
+    r"(?:export\s+)?(?:const|let|var)\s+([a-zA-Z_$][\w$]*)\s*=\s*(?:async\s+)?"
+    r"(?:\([^)]*\)|[a-zA-Z_$][\w$]*)\s*(?::\s*[^=]+)?=>"
+    r"|"
+    # Unmodified typed methods: `void` or PascalCase return type (Java package-private, Dart, C#)
+    r"(?:void|[A-Z]\w*(?:<[^>]*>)?\??)\s+([a-z_][a-zA-Z0-9_]*)\s*\("
     r")"
 )
 
@@ -30,10 +47,15 @@ IGNORED_KEYWORDS = {
 IGNORED_PREFIXES = {"get", "set", "is", "has", "can", "should", "on", "to", "from"}
 
 FORBIDDEN_UTIL_IMPORTS = re.compile(
-    r"^\s*(?:import|from|require\b|#include)\b.*"
+    # Android framework imports (e.g. `android.view.View`) are platform APIs, not domain layers.
+    r"^(?!\s*import\s+androidx?\.)"
+    r"(?:\s*(?:import|from|#include)\b|.*\brequire\s*\(|.*\bimport\s*\().*"
     r"(?:^|[/._\s\"'])(?:services?|controllers?|repositor(?:y|ies)|daos?|stores?|blocs?|views?|handlers?|usecases?)(?:$|[/._\s\"';])",
     re.IGNORECASE,
 )
+
+# Case-sensitive on purpose: `FooTest.java` is a test, `Latest.java` / `Contest.java` are not.
+TEST_SUFFIX_RE = re.compile(r"(?:_test\.\w+|_spec\.rb|(?:Test|Tests|Spec)\.(?:java|kt|cs|swift|scala|groovy))$")
 
 HUNK_HEADER_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 
@@ -125,12 +147,7 @@ def run_git(args: list[str]) -> str:
 
 
 def parse_modified_lines(path: Path, diff_ref: str) -> set[int] | None:
-    if diff_ref == "HEAD~1..HEAD":
-        diff_out = run_git(["diff", "-U0", "HEAD~1", "HEAD", "--", str(path)])
-    elif diff_ref == "--cached":
-        diff_out = run_git(["diff", "-U0", "--cached", "--", str(path)])
-    else:
-        diff_out = run_git(["diff", "-U0", diff_ref, "--", str(path)])
+    diff_out = run_git(["diff", "-U0", diff_ref, "--", str(path)])
 
     if not diff_out.strip():
         return None
@@ -150,18 +167,12 @@ def dump_unified_diff(
     out_path: Path, files: list[Path], changed_lines: dict[Path, set[int] | None], diff_ref: str
 ) -> None:
     chunks: list[str] = []
-    if diff_ref == "HEAD~1..HEAD":
-        tracked_diff = run_git(["diff", "HEAD~1", "HEAD"])
-    elif diff_ref == "--cached":
-        tracked_diff = run_git(["diff", "--cached"])
-    else:
-        tracked_diff = run_git(["diff", diff_ref])
-
-    if tracked_diff.strip():
-        chunks.append(tracked_diff)
-
     for p in files:
-        if changed_lines.get(p) is None and p.is_file():
+        if changed_lines.get(p) is not None:
+            file_diff = run_git(["diff", diff_ref, "--", str(p)])
+            if file_diff.strip():
+                chunks.append(file_diff)
+        elif p.is_file():
             try:
                 content = p.read_text(encoding="utf-8", errors="ignore")
                 numbered = "\n".join(
@@ -221,6 +232,9 @@ def scan_file(path: Path, active_lines: set[int] | None) -> None:
     skip_naming = is_test_file(path)
 
     for idx, line in enumerate(lines, start=1):
+        if active_lines is not None and idx not in active_lines:
+            continue
+
         if is_util and FORBIDDEN_UTIL_IMPORTS.search(line):
             print(
                 f"[LAW-3 VIOLATION] {path}:{idx} -> Utility file imports business/state layer: {line.strip()}"
@@ -228,12 +242,10 @@ def scan_file(path: Path, active_lines: set[int] | None) -> None:
 
         if skip_naming:
             continue
-        if active_lines is not None and idx not in active_lines:
-            continue
 
         match = FUNC_PATTERN.search(line)
         if match:
-            func_name = match.group(1) or match.group(2)
+            func_name = next((g for g in match.groups() if g), None)
             if not func_name or func_name in IGNORED_KEYWORDS:
                 continue
             if func_name.startswith("__") and func_name.endswith("__"):
@@ -262,7 +274,7 @@ def is_test_file(path: Path) -> bool:
         return True
     return (
         name_lower.startswith("test_")
-        or name_lower.endswith(("_test.py", "_test.go", "test.java", "test.kt", "tests.cs"))
+        or TEST_SUFFIX_RE.search(path.name) is not None
         or ".test." in name_lower
         or ".spec." in name_lower
     )
