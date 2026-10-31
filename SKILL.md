@@ -1,10 +1,12 @@
 ---
 name: defense-of-the-grid
 description: >-
-  ระบบออกแบบสถาปัตยกรรมและตรวจรีวิวโค้ดแบบ Progressive Skill 3 ขั้นตอน (ORACLE คัดกรองเลือกคัมภีร์ -> โหลดเฉพาะมุมมองขุนพลที่เกี่ยวข้อง -> DOOM กรองความเห็นขยะ)
-  บังคับใช้หลัก Orthogonal Decomposition (4-Axis + Core), Acyclic Call Topology & Dominator DAG, Leaf-Node Pure Utilities (Fan-Out = 0),
-  Subgraph State Isolation, Lexical Conciseness (~2-3 คำ) และ Linear Stepdown Ordering
-  ใช้เมื่อต้องการวางโครงสร้างก่อนเขียนโค้ด (/blueprint) หรือตรวจรีวิวโค้ด (/review หรือ /review deep)
+  Three-stage progressive software architecture blueprint and code review skill
+  (ORACLE triage router -> targeted specialist reference loading -> DOOM noise filter).
+  Enforces Orthogonal Decomposition (4-Axis + Core), Acyclic Call Topology & Dominator DAG,
+  Leaf-Node Pure Utilities (Fan-Out = 0), Subgraph State Isolation, Lexical Conciseness (~2-3 words),
+  and Linear Stepdown Ordering. Use when designing architecture before coding (/blueprint)
+  or reviewing code changes (/review or /review deep).
 ---
 
 # Defense of the Grid — Software Architecture & Progressive Code Review Skill
@@ -55,7 +57,7 @@ Load the reference files **ONLY** for the specialist lenses selected by `ORACLE`
 - **⚡ Default Mode (`/review` — In-Context Progressive Skill):**
   Read the selected specialist reference files (`02`–`07`) directly in the main agent and evaluate the changed code through each active checklist while preserving full conversation context.
 - **🔬 Deep / Fresh-Eyes Mode (`/review deep` — Parallel Subagents, ONLY when explicitly requested by user):**
-  If the user explicitly asks for `/review deep`, "fresh eyes", or "แยก subagent":
+  If the user explicitly asks for `/review deep`, "fresh eyes", or parallel subagent inspection:
   1. Re-run `preflight_scan.py` with `--dump-diff <scratch_dir>/current_review.diff`.
   2. Spawn one parallel `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`) per selected specialist in a single turn.
   3. Pass each subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) absolute paths to `00-the-ancients-core-laws.md` and its assigned specialist reference file, (c) the path to `<scratch_dir>/current_review.diff`, and (d) strict instructions to reply `NO_ISSUES_FOUND` if clean.
@@ -63,8 +65,8 @@ Load the reference files **ONLY** for the specialist lenses selected by `ORACLE`
 #### Stage 3: `DOOM` (Lead Filter & Verdict Arbiter)
 1. Read [08-doom-lead-filter.md](./references/08-doom-lead-filter.md).
 2. Filter all raw findings from Stage 2 through **DOOM's Silence Filter** (discard speculative generality/YAGNI violations, allow valid Leaf-Node Utility calls, discard unfounded theoretical edge cases, discard boilerplate comment requests, discard pedantic naming/casing nitpicks, and deduplicate overlapping findings).
-3. Present the final consolidated review in Thai (with technical identifiers in English), omitting any empty section:
+3. Present the final consolidated review in the user's conversation language (e.g., Thai if the user prompted in Thai, keeping technical identifiers in English), omitting any empty section:
    - If zero `BLOCKER` or `SHOULD FIX` items survive: output **`🟢 ANCIENTS APPROVED`**
-   - 🔴 **BLOCKER (ต้องแก้ไขก่อนใช้งานจริง — บั๊กร้ายแรง / ช่องโหว่ / ผิดหลักสถาปัตยกรรมขั้นวิกฤต)**
-   - 🟡 **SHOULD FIX (ควรปรับปรุง — โครงสร้างโมดูล / Subgraph Isolation / ความกระชับของชื่อ / ลำดับโค้ด Stepdown / ความกลมกลืนกับโค้ดเดิม)**
-   - 🗺️ **RUBICK'S MAP SYNC (ไฟล์เอกสาร / Spec / Config ที่ต้องอัปเดตให้ตรงกัน)**
+   - 🔴 **BLOCKER (Critical defects, security vulnerabilities, or severe architectural violations)**
+   - 🟡 **SHOULD FIX (Module partitioning, Subgraph Isolation, lexical conciseness, Stepdown ordering, or stylistic homogeneity)**
+   - 🗺️ **RUBICK'S MAP SYNC (Specifications, configs, or documentation files requiring synchronization)**
