@@ -1,23 +1,24 @@
 # 🏰 Defense of the Grid (`defense-of-the-grid`)
 
-> **Multi-Agent Architecture Blueprint & Code Review Skill สำหรับ Google Antigravity**  
-> ผสานปรัชญา **การวางผังเมืองและทฤษฎีกราฟ (City Planning & Graph Theory)** เข้ากับทีมผู้เชี่ยวชาญ **Dota 2 Multi-Agent Council** ที่รันแยกมิติแบบขนาน (Parallel Subagents) และคัดกรองความเห็นขยะทิ้งอย่างเด็ดขาด
+> **Progressive Architecture Blueprint & Code Review Skill สำหรับ Google Antigravity**  
+> ผสานปรัชญา **การวางผังเมืองและทฤษฎีกราฟ (City Planning & Graph Theory)** เข้ากับระบบ **Progressive Disclosure (เลือกหยิบเฉพาะคัมภีร์ขุนพล Dota 2 ที่เกี่ยวข้องมาตรวจ)** และคัดกรองความเห็นขยะทิ้งอย่างเด็ดขาดด้วย `DOOM`
 
 ---
 
 ## 🎯 ทำไมต้องมี Skill นี้?
 
 ปัญหาคลาสสิกของการให้ AI รีวิวโค้ดหรือออกแบบระบบ คือ:
-1. **ถ้าใช้ Agent ตัวเดียวดูทุกอย่าง:** มักจะหลุดรายละเอียดเชิงลึก หรือปนเปกันไปหมด
-2. **ถ้าใช้หลาย Agents แต่ไม่มีตัวคุม:** แต่ละตัวจะพยายาม *"เค้นหาเรื่องมาติให้ได้"* จนเกิดความเห็นขยะ (Nitpicking), แนะนำ Design Pattern ท่ายากเกินความจำเป็น (Cargo-cult Over-engineering), หรือสร้างความกลัวเกินจริง (Hypothetical Ghost Stories)
+1. **ถ้ายัดทุกกฎใส่ Prompt เดียวตลอดเวลา:** Context บวม เปลือง Token และ AI โฟกัสหลุด
+2. **ถ้าปั้นแยกเป็นหลาย Agents ถาวร:** คุยต่อกันไม่รู้เรื่อง บริบทตกหล่น (Context Loss) และช้า
+3. **ถ้าไม่มีตัวคุมท้าย:** AI มักพยายาม *"เค้นหาเรื่องมาติให้ได้"* จนเกิดความเห็นขยะ (Nitpicking), แนะนำ Design Pattern ท่ายากเกินความจำเป็น (Cargo-cult Over-engineering), หรือสร้างความกลัวเกินจริง (Hypothetical Ghost Stories)
 
-**`defense-of-the-grid`** แก้ปัญหานี้ด้วยการวาง **กฎเหล็ก 7 ข้อแห่งป้อมปราการ (The Ancients)** และแบ่งการทำงานเป็น **2 โหมดหลัก** (`/blueprint` และ `/review`) โดยใช้ระบบ **3-Stage Multi-Agent Pipeline**:
+**`defense-of-the-grid`** แก้ปัญหานี้ตามแนวทาง **"Build Skills, Not Agents"**: ให้ Main Agent ตัวเดียวที่รู้บริบทโปรเจกต์ครบ 100% ทำหน้าที่คัดกรองและ **เลือกเปิดอ่านเฉพาะคัมภีร์ของขุนพลที่เกี่ยวข้อง (`references/`)** ในจังหวะที่ต้องใช้ (หรือสั่งแยก Parallel Subagents เฉพาะเมื่อต้องการสายตาคนนอกด้วย `/review deep`):
 
 ```mermaid
 flowchart TD
-    Input["📥 Input: Code Diff / PR / Target Files"] --> S1["🔮 Stage 1: ORACLE (Triage Router)<br/>สแกนโค้ดด้วย preflight_scan.py + เลือกขุนพลที่เกี่ยวข้อง (สูงสุด 3-4 ตัว)"]
+    Input["📥 Input: Code Diff / Commit ล่าสุด / Target Files"] --> S1["🔮 Stage 1: ORACLE (Triage Router)<br/>สแกนโค้ดด้วย preflight_scan.py + เลือกคัมภีร์ขุนพลที่เกี่ยวข้อง (สูงสุด 3-4 ด้าน)"]
 
-    subgraph S2["⚔️ Stage 2: Parallel Specialist Subagents (invoke_subagent)"]
+    subgraph S2["⚔️ Stage 2: Progressive Specialist Inspection (โหลดเฉพาะคัมภีร์ที่เลือก)"]
         direction TB
         H1["⛰️ EARTHSHAKER<br/>Topology, 4-Compass & Style<br/>(Mandatory)"]
         H2["⚡ ARC WARDEN<br/>Contract, Schema & Screen-20 Isolation<br/>(Mandatory)"]
@@ -27,9 +28,9 @@ flowchart TD
         H6["🧙‍♂️ RUBICK<br/>Spec, Config & Doc Drift Sync<br/>(Conditional)"]
     end
 
-    S1 -->|Spawn Parallel Subagents| S2
-    S2 -->|ส่งผลตรวจดิบกลับมา| S3["🔥 Stage 3: DOOM (Lead Filter / The Judge)<br/>ร่าย DOOM ตัดความเห็นขยะ / ทฤษฎีโอเวอร์ / เรื่องจุกจิกทิ้ง"]
-    S3 --> Out["📋 Final Verdict<br/>🔴 BLOCKER | 🟡 SHOULD FIX | 🗺️ RUBICK'S MAP SYNC"]
+    S1 -->|"⚡ Default (/review): โหลดคัมภีร์เข้า Main Agent<br/>🔬 Optional (/review deep): แตก Parallel Subagents"| S2
+    S2 -->|ส่งผลตรวจดิบ| S3["🔥 Stage 3: DOOM (Lead Filter / The Judge)<br/>ร่าย DOOM ตัดความเห็นขยะ / ทฤษฎีโอเวอร์ / เรื่องจุกจิกทิ้ง"]
+    S3 --> Out["📋 Final Verdict<br/>🟢 APPROVED | 🔴 BLOCKER | 🟡 SHOULD FIX | 🗺️ RUBICK'S MAP SYNC"]
 ```
 
 ---
@@ -68,9 +69,13 @@ flowchart TD
 * เหมือนการส่ง `struct *self` ในภาษา C หรือการแยกร่างของ Arc Warden — ทุกโมดูลหรือหน้าจอต้องรับ State ที่ต้องใช้เข้ามาอย่างชัดเจนที่ปากทางเข้า
 * **ห้ามผูกติดลำดับก่อนหน้า (No Sequential Coupling):** นักพัฒนาหรือ Test Runner ต้องสามารถกระโดดเข้ามาที่ **หน้าจอที่ 20 (Node 20)** แล้วโยน Mock State เข้าไปรันหรือทำ TDD แยกเดี่ยวได้ทันที โดยไม่ต้องรันหน้าจอ 1 ถึง 19 มาก่อน
 
-### 5. ✂️ Concise 3-Word Naming Guideline (แนวทางตั้งชื่อกระชับ ~2–3 คำ)
-* พยายามตั้งชื่อฟังก์ชัน เมธอด และตัวแปรให้สื่อความหมายจบภายใน **ประมาณ 2–3 คำหลัก** (เน้น `snake_case` เพื่อให้อ่านกวาดตาง่าย หรือตาม Idiom ของภาษา โดยไม่นับ Prefix มาตรฐานอย่าง `get_`, `is_`, `on_`)
+### 5. ✂️ Concise 3-Word Naming Guideline (แนวทางตั้งชื่อกระชับ ~2–3 คำ & ลำดับศักดิ์ของ Case)
+* พยายามตั้งชื่อฟังก์ชัน เมธอด และตัวแปรให้สื่อความหมายจบภายใน **ประมาณ 2–3 คำหลัก** (ไม่นับ Prefix มาตรฐานอย่าง `get_`, `is_`, `on_`)
 * **เป็นเข็มทิศตรวจจับกลิ่นโค้ด (Smell Detector) ไม่ใช่กฎตายตัว:** ถ้าชื่อยาวเกินเพราะฟังก์ชันทำหลายอย่างปนกัน ให้แยกส่วนทันที แต่ถ้าจำเป็นต้องใช้ 4 คำเพื่อให้ตรงศัพท์ธุรกิจ (หรือเป็นชื่อ Unit Test) สามารถใช้ได้โดยไม่ต้องฝืนตัดคำจนเสียความหมาย
+* **ลำดับความสำคัญของรูปแบบตัวพิมพ์ (Casing Hierarchy):**
+  1. **ยึดตามโค้ดเดิมในไฟล์/โปรเจกต์นั้นก่อนเสมอ (Law 7)**
+  2. **ยึดตาม Best Practice ของภาษานั้นและจุดนั้น** (เช่น `camelCase` ใน Java/TS/Dart/Go, `PascalCase` ใน C#, `snake_case` ใน Python/Rust/C/SQL)
+  3. **ถ้าไม่มีข้อบังคับ ให้ Favor `snake_case`** เพราะแยกคำด้วยสายตาได้ชัดเจนที่สุด
 
 ### 6. 📝 Notepad++ Spatial Ergonomics (เรียงโค้ดบนลงล่าง & สมมาตร A-to-Z)
 * **Top-Down Narrative Flow:** วาง Public Orchestrator Method ไว้บนสุดของไฟล์ แล้วเรียง Private Methods ลูกน้องข้างล่างตามลำดับที่ถูกเรียก `1 -> 2 -> 3` เป๊ะๆ เพื่อให้อ่านไหลจากบนลงล่างได้ในโปรแกรมแก้ไขข้อความธรรมดาโดยไม่ต้องไถจอขึ้นลง
@@ -154,13 +159,16 @@ Agent จะ:
 * เสนอชื่อฟังก์ชันตาม **กฎ 3 คำ** เรียงลำดับบนลงล่างแบบ **Top-Down Narrative**
 * ระบุสัญญา **Screen-20 Isolation Contract** เพื่อให้เขียนเทสต์แยกเดี่ยวได้ทันทีก่อนเริ่มลงมือเขียนโค้ดจริง
 
-### 2. โหมดตรวจรับและรีวิวโค้ด (`/review`)
-> *"ช่วย `/review` โค้ดที่แก้ใน `git diff` (หรือไฟล์ `src/...`) ด้วย `defense-of-the-grid` ให้หน่อย"*
-
-Agent จะ:
-1. ให้ **`ORACLE`** รัน [`scripts/preflight_scan.py`](./scripts/preflight_scan.py) และประกาศรายชื่อขุนพลที่ถูกอัญเชิญ
-2. แตก **Parallel Subagents (`invoke_subagent`)** ออกไปตรวจพร้อมกันเฉพาะมุมที่เกี่ยวข้อง
-3. ให้ **`DOOM`** รวบรวมผล ปัดตกความเห็นขยะ และสรุปเฉพาะประเด็นสำคัญเป็น:
-   * 🔴 **BLOCKER** (ต้องแก้ก่อนขึ้นระบบ)
-   * 🟡 **SHOULD FIX** (ควรเกลาตามผังเมืองและปรัชญาโค้ด)
-   * 🗺️ **RUBICK'S MAP SYNC** (รายการไฟล์ Spec/Config/Doc ที่ต้องอัปเดตตาม)
+### 2. โหมดตรวจรับและรีวิวโค้ด (`/review` และ `/review deep`)
+* **รีวิวปกติ (เร็วและรู้บริบทแชทครบ 100%):**
+  > *"ช่วย `/review` โค้ดที่แก้ล่าสุด (หรือไฟล์ `src/...`) ให้หน่อย"*
+  * **`ORACLE`** จะรัน [`scripts/preflight_scan.py`](./scripts/preflight_scan.py) และประกาศรายชื่อคัมภีร์ขุนพลที่เลือก (สูงสุด 3–4 ด้าน)
+  * **Main Agent** จะเปิดอ่านเฉพาะไฟล์ `references/` ของขุนพลที่ถูกเลือกขึ้นมาตรวจ (ไม่โหลดตัวที่ไม่เกี่ยวให้รกสมอง)
+* **รีวิวแบบสายตาคนนอก (`/review deep` — แยก Parallel Subagents):**
+  > *"ช่วย `/review deep` รอบนี้ให้หน่อย อยากได้สายตาคนนอกจับผิด"*
+  * ระบบจะแตก **Parallel Subagents (`invoke_subagent`)** ห้องใหม่แยกกันตรวจคนละมุมเพื่อป้องกันอคติจากโค้ดที่เพิ่งเขียนเอง
+* ปิดท้ายด้วย **`DOOM`** รวบรวมผล ปัดตกความเห็นขยะ และสรุปเฉพาะประเด็นสำคัญเป็น:
+  * 🟢 **ANCIENTS APPROVED** (เมื่อโค้ดคลีนผ่านเกณฑ์ครบ)
+  * 🔴 **BLOCKER** (ต้องแก้ก่อนขึ้นระบบ)
+  * 🟡 **SHOULD FIX** (ควรเกลาตามผังเมืองและปรัชญาโค้ด)
+  * 🗺️ **RUBICK'S MAP SYNC** (รายการไฟล์ Spec/Config/Doc ที่ต้องอัปเดตตาม)

@@ -8,7 +8,7 @@ Immediately **DELETE** any specialist finding that violates these rules:
 2. **Drop Utility Policing:** Delete any complaint about upper layers calling `Bedrock Utility` functions directly across layers (Law 3 explicitly permits unrestricted Fan-In to pure utilities).
 3. **Drop Hypothetical Ghost Stories:** Delete any resilience, security, or performance warning that cannot provide a concrete, realistic trigger scenario in the current system context.
 4. **Drop Comment Nagging:** Delete any request to add docstrings or inline comments explaining self-evident code.
-5. **Drop Pedantic Word-Count Nitpicks:** Law 5 (3-Word Naming) is a soft guideline, not a hard rule. Delete any complaint about a 4-word function name or test name if the name is already clear and the function has a single responsibility.
+5. **Drop Pedantic Naming & Casing Nitpicks:** Law 5 (~3-Word Naming) is a soft guideline, not a hard rule. Delete any complaint about a 4-word function name or test name if the name is already clear and single-purpose. Delete any suggestion to convert `camelCase`/`PascalCase` to `snake_case` when the file or language standard already uses `camelCase`/`PascalCase`.
 6. **Drop Legacy Code Complaints:** Delete warnings targeting untouched legacy lines outside the scope of the current diff unless the current change directly breaks them.
 7. **Deduplicate Overlapping Hits:** If `EARTHSHAKER` and `ARC WARDEN` flag the same lines, merge them into a single, sharp point.
 

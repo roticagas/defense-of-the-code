@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
 Preflight scanner for ORACLE & EARTHSHAKER:
-1. Detects tracked (staged/unstaged) and untracked changed files, and optionally dumps a unified diff
-   snapshot (--dump-diff <path>) so read-only subagents can inspect exact changes.
-2. Detects Bedrock Utility files importing from business/service/db layers (Law 3: Fan-Out > 0).
-3. Flags verbose function/method names on newly added/modified lines as soft hints (Law 5: ~3-word guideline),
+1. Detects tracked (staged/unstaged) and untracked changed files. If the working tree is clean,
+   automatically falls back to the latest commit (HEAD~1..HEAD).
+2. Optionally dumps a unified diff snapshot (--dump-diff <path>) so read-only subagents can inspect exact changes.
+3. Detects Bedrock Utility files importing from business/service/db layers (Law 3: Fan-Out > 0).
+4. Flags verbose function/method names on newly added/modified lines as soft hints (Law 5: ~3-word guideline),
    automatically skipping unit test files and test_* methods.
 """
 import argparse
@@ -43,30 +44,49 @@ def main() -> None:
     parser.add_argument("--dump-diff", dest="dump_diff", help="Write unified diff snapshot to this file path")
     args = parser.parse_args()
 
+    diff_ref = "HEAD"
     if args.files:
         targets = [Path(arg) for arg in args.files if Path(arg).is_file()]
         changed_lines: dict[Path, set[int] | None] = {p: None for p in targets}
+        mode_label = "explicit CLI files"
     else:
-        targets, changed_lines = collect_changed_targets()
+        targets, changed_lines, diff_ref, mode_label = collect_changed_targets()
 
     if not targets:
-        print("No target files detected via git diff, untracked files, or CLI args.")
+        print("No target files detected via working tree, latest commit (HEAD~1..HEAD), or CLI args.")
         sys.exit(0)
 
     if args.dump_diff:
-        dump_unified_diff(Path(args.dump_diff), targets, changed_lines)
+        dump_unified_diff(Path(args.dump_diff), targets, changed_lines, diff_ref)
 
-    print(f"=== Preflight Scan on {len(targets)} file(s) ===")
+    total_changed = count_changed_lines(targets, changed_lines)
+    print(
+        f"=== Preflight Scan on {len(targets)} file(s) [{mode_label} | ~{total_changed} changed line(s)] ==="
+    )
     for target in targets:
         print(f" * {target} [{format_line_ranges(changed_lines.get(target))}]")
         scan_file(target, changed_lines.get(target))
 
 
-def collect_changed_targets() -> tuple[list[Path], dict[Path, set[int] | None]]:
+def collect_changed_targets() -> tuple[list[Path], dict[Path, set[int] | None], str, str]:
     tracked_out = run_git(["diff", "--name-only", "HEAD"])
+    diff_ref = "HEAD"
+    mode_label = "working tree (HEAD)"
+
     if not tracked_out.strip():
         tracked_out = run_git(["diff", "--name-only", "--cached"])
+        if tracked_out.strip():
+            diff_ref = "--cached"
+            mode_label = "staged (--cached)"
+
     untracked_out = run_git(["ls-files", "--others", "--exclude-standard"])
+
+    # Fallback: if working tree & untracked are completely clean, inspect latest commit (HEAD~1..HEAD)
+    if not tracked_out.strip() and not untracked_out.strip():
+        tracked_out = run_git(["diff", "--name-only", "HEAD~1", "HEAD"])
+        if tracked_out.strip():
+            diff_ref = "HEAD~1..HEAD"
+            mode_label = "latest commit (HEAD~1..HEAD)"
 
     files: list[Path] = []
     seen: set[Path] = set()
@@ -77,7 +97,7 @@ def collect_changed_targets() -> tuple[list[Path], dict[Path, set[int] | None]]:
         if p.is_file() and p not in seen:
             seen.add(p)
             files.append(p)
-            changed_lines[p] = parse_modified_lines(p)
+            changed_lines[p] = parse_modified_lines(p, diff_ref)
 
     for line in untracked_out.splitlines():
         p = Path(line.strip())
@@ -86,7 +106,7 @@ def collect_changed_targets() -> tuple[list[Path], dict[Path, set[int] | None]]:
             files.append(p)
             changed_lines[p] = None
 
-    return files, changed_lines
+    return files, changed_lines, diff_ref, mode_label
 
 
 def run_git(args: list[str]) -> str:
@@ -98,10 +118,14 @@ def run_git(args: list[str]) -> str:
         return ""
 
 
-def parse_modified_lines(path: Path) -> set[int] | None:
-    diff_out = run_git(["diff", "-U0", "HEAD", "--", str(path)])
-    if not diff_out.strip():
+def parse_modified_lines(path: Path, diff_ref: str) -> set[int] | None:
+    if diff_ref == "HEAD~1..HEAD":
+        diff_out = run_git(["diff", "-U0", "HEAD~1", "HEAD", "--", str(path)])
+    elif diff_ref == "--cached":
         diff_out = run_git(["diff", "-U0", "--cached", "--", str(path)])
+    else:
+        diff_out = run_git(["diff", "-U0", "HEAD", "--", str(path)])
+
     if not diff_out.strip():
         return None
 
@@ -116,11 +140,17 @@ def parse_modified_lines(path: Path) -> set[int] | None:
     return lines
 
 
-def dump_unified_diff(out_path: Path, files: list[Path], changed_lines: dict[Path, set[int] | None]) -> None:
+def dump_unified_diff(
+    out_path: Path, files: list[Path], changed_lines: dict[Path, set[int] | None], diff_ref: str
+) -> None:
     chunks: list[str] = []
-    tracked_diff = run_git(["diff", "HEAD"])
-    if not tracked_diff.strip():
+    if diff_ref == "HEAD~1..HEAD":
+        tracked_diff = run_git(["diff", "HEAD~1", "HEAD"])
+    elif diff_ref == "--cached":
         tracked_diff = run_git(["diff", "--cached"])
+    else:
+        tracked_diff = run_git(["diff", "HEAD"])
+
     if tracked_diff.strip():
         chunks.append(tracked_diff)
 
@@ -131,13 +161,27 @@ def dump_unified_diff(out_path: Path, files: list[Path], changed_lines: dict[Pat
                 numbered = "\n".join(
                     f"+{i}: {line}" for i, line in enumerate(content.splitlines(), start=1)
                 )
-                chunks.append(f"diff --git a/{p} b/{p}\nnew untracked file\n--- /dev/null\n+++ b/{p}\n{numbered}\n")
+                chunks.append(f"diff --git a/{p} b/{p}\nnew/full file\n--- /dev/null\n+++ b/{p}\n{numbered}\n")
             except Exception:
                 pass
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text("\n".join(chunks) if chunks else "No diff detected.\n", encoding="utf-8")
     print(f"Diff snapshot written to: {out_path}")
+
+
+def count_changed_lines(files: list[Path], changed_lines: dict[Path, set[int] | None]) -> int:
+    total = 0
+    for p in files:
+        lines = changed_lines.get(p)
+        if lines is not None:
+            total += len(lines)
+        elif p.is_file():
+            try:
+                total += len(p.read_text(encoding="utf-8", errors="ignore").splitlines())
+            except Exception:
+                pass
+    return total
 
 
 def format_line_ranges(line_nums: set[int] | None) -> str:
