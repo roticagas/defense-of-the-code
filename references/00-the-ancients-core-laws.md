@@ -1,38 +1,34 @@
-# THE ANCIENTS — Core Architecture & Philosophy Laws
+# THE ANCIENTS — Core Architecture & Engineering Laws
 
-These 7 laws represent the non-negotiable architectural DNA of the system. Every agent must enforce these rules while rejecting textbook ceremony.
+These 7 principles define the architectural invariants of the codebase. Every review and blueprint must enforce these principles while rejecting speculative over-engineering (YAGNI).
 
-## Law 1: The 4-Directional Compass (Service Zoning)
-Never let the Service layer become a monolithic dumping ground. Partition logic into 4 clear directions:
-- **⬆️ North (Orchestrator / Flow Control):** Directs execution flow only. Calls West, East, and South in sequence. Must NEVER contain low-level SQL/query building, string manipulation, or HTTP protocol formatting.
-- **⬅️ West (Inbound / Driving Boundary):** Handles incoming requests, payload parsing, and boundary validation before entering the core flow.
-- **➡️ East (Outbound / External Gateway):** Isolates all communication with external third-party APIs, payment/hardware gateways, or message queues.
-- **⬇️ South (Foundation / Persistence):** Manages internal database repositories, schemas, and storage state.
+## Law 1: Orthogonal Decomposition (4-Axis + Core Partitioning)
+- **Avoid Monolithic Services:** Partition module responsibilities along orthogonal functional axes (**up to 4 Peripheral Axes + 1 optional `Core/Center` Coordinator**).
+- **High Cohesion, Single Axis of Responsibility:** What each axis represents adapts to the system's domain (e.g., flow orchestration, ingress, egress, persistence, or distinct sub-domains). Once partitioned, each zone must strictly operate within its own abstraction level without bleeding responsibilities into adjacent zones.
 
-## Law 2: Strict DAG & Dominator Nodes (No Layer Jumping)
-- Treat the call graph as a strict **Directed Acyclic Graph (DAG)**. Circular dependencies between modules or layers are strictly forbidden.
-- **Respect Dominator Nodes:** Upper layers must never bypass intermediate control blocks to call lower layers directly (even if bypassing looks shorter). Every call must pass through the designated middle gatekeeper so logging, interception, and mocking have a single choke point.
+## Law 2: Acyclic Call Topology & Dominator Enforcement (Strict DAG)
+- **Directed Acyclic Graph (DAG):** The dependency and call graph across modules must remain strictly acyclic. Circular dependencies (`A -> B -> A`) are forbidden.
+- **Dominator Vertex Enforcement:** Higher-level modules must never bypass intermediate control layers (Dominator vertices) to invoke lower-level modules directly. Routing all cross-layer transitions through designated gatekeepers preserves a single choke point for policy enforcement, instrumentation, and test doubles.
 
-## Law 3: The Bedrock Utility Exception (Underground Infrastructure)
-- Pure helper functions that do not fit directional business layers belong in the **Bedrock Utility** layer.
-- **Unrestricted Fan-In:** Any layer (North, South, East, West) is explicitly permitted to call Bedrock Utilities directly without violating Law 2.
-- **Zero Fan-Out (Strict Constraint):** Bedrock Utilities must be 100% stateless and pure. They must NEVER import, reference, or call any business service, domain state, or database repository (`Fan-Out = 0`).
+## Law 3: Leaf-Node Pure Utilities (`Fan-Out = 0` Invariant)
+- **Stateless Leaf Modules:** Pure, deterministic helper functions belong in the leaf utility layer (`util/`, `common/`).
+- **Unrestricted Fan-In (`In-Degree ≥ 0`):** Any architectural zone may invoke leaf utilities directly without violating Law 2.
+- **Zero Fan-Out (`Out-Degree = 0`):** Leaf utilities must remain 100% stateless and side-effect-free. They must NEVER import, reference, or invoke domain services, controllers, stateful managers, or persistence repositories.
 
-## Law 4: Screen-20 Isolation & Explicit `self` (Subgraph Testability)
-- Like passing an explicit `struct *self` pointer in C or spawning an independent clone, every module, service, or UI screen/controller must declare its required state explicitly at its entry point.
-- **No Sequential Coupling:** Never rely on hidden global state or implicit side effects left behind by steps 1 through 19. Any engineer or test runner must be able to jump directly into Node/Screen 20, inject a mock state payload, and execute or TDD it in complete isolation.
+## Law 4: Subgraph State Isolation & Explicit Context Injection
+- **Zero Sequential Coupling:** No module, service, or UI view/controller may rely on hidden global singletons or implicit state mutated by prior execution steps (`Steps 1..N-1`).
+- **Explicit Context Injection:** Every component must declare its required state context explicitly at its entry interface (e.g., constructor injection, explicit state parameters, or `self` context struct) so any arbitrary node $N$ in the execution graph can be instantiated, tested, or executed in complete isolation.
 
-## Law 5: Concise 3-Word Naming Guideline & Casing Hierarchy
-- **Word Count Guideline (~2–3 Words):** Aim for function, method, and variable names that express their intent in **roughly 2 to 3 core words**. Treat >3 words as a *smell detector* rather than a rigid cap—if a name is long because the function is doing multiple jobs, split it; if 4 words are genuinely needed for domain clarity (or test descriptions), allow it.
-- **Casing Priority Hierarchy (Strict Order):**
-  1. **Local File / Project Convention First (Law 7):** Always follow the existing casing convention already established in that file or module.
-  2. **Language / Framework Best Practice Second:** Follow the standard idiom of the language and symbol type (e.g., `camelCase` methods in Java/TS/JS/Dart/Go, `PascalCase` in C#/types, `snake_case` in Python/Rust/C/SQL).
-  3. **Favor `snake_case` When Unconstrained:** Where the language, framework, or context allows free choice (e.g., C, scripts, SQL, JSON/config keys, or mixed-style codebases), prefer `snake_case` for visual word separation.
+## Law 5: Lexical Conciseness (~2–3 Lexemes) & Idiomatic Casing Hierarchy
+- **Lexical Conciseness Guideline:** Aim for function, method, and variable identifiers composed of **roughly 2 to 3 core lexemes (words)**. Treat >3 core words as a *Single-Responsibility smell detector* rather than a rigid cap: if an identifier is verbose because the function performs multiple tasks, decompose the function; if 4 words are required for domain precision (or test scenario descriptions), permit them.
+- **Casing Priority Hierarchy (Strict Precedence):**
+  1. **Local Module Convention First (Law 7):** Match the casing style already established in the target file or module.
+  2. **Language / Ecosystem Idiom Second:** Follow the canonical style of the language and symbol kind (e.g., `camelCase` methods in Java/TS/JS/Dart/Go, `PascalCase` in C#/types, `snake_case` in Python/Rust/C/SQL).
+  3. **Favor `snake_case` When Unconstrained:** Where the language or medium permits free choice (e.g., C, shell/scripts, SQL schemas, config keys), prefer `snake_case` for optimal visual word separation.
 
-## Law 6: Notepad++ Spatial Ergonomics (Top-Down & A-to-Z Symmetry)
-- **Top-Down Narrative Flow:** Place the primary public orchestrator method at the very top of the file/class. Order all subordinate `private` methods beneath it in the exact `1 -> 2 -> 3` sequence in which they are called, allowing top-to-bottom reading without scrolling back and forth.
-- **Cross-Layer A-to-Z Symmetry:** When an upper layer calls or maps items `A` through `Z` into a lower layer, the lower layer must declare and handle `A` through `Z` in the exact same order so missing or orphaned items are immediately visible to the naked eye.
+## Law 6: Linear Execution Ordering (Stepdown Rule) & Structural Symmetry
+- **Top-Down Stepdown Rule:** Place the primary public entry/orchestrator method at the top of the file or class. Order all subordinate `private`/helper methods beneath it in the exact `1 -> 2 -> 3` chronological sequence in which they are invoked, enabling linear top-to-bottom reading without vertical jumping.
+- **Cross-Layer Structural Symmetry:** When an upper layer maps, validates, or dispatches a set of fields/operations `A..Z` into a lower layer, the lower layer must declare and process `A..Z` in the exact same lexicographical or positional order so missing or orphaned elements are immediately apparent.
 
-## Law 7: Git-Blame Camouflage (Seamless Integration)
-- Any newly added or modified method inside an existing file must adopt the exact vocabulary, abstraction granularity, and error-handling rhythm of its neighboring methods.
-- **Success Criteria:** A reader inspecting the file without opening `git diff` or `git blame` must not be able to guess which method was recently bolted on.
+## Law 7: Contextual Stylistic Homogeneity
+- **Seamless Local Integration:** Any newly added or modified method within an existing file must match the vocabulary, abstraction granularity, and error-handling conventions of its surrounding methods so the module reads as if authored by a single mind.
