@@ -22,9 +22,9 @@ Never let the Service layer become a monolithic dumping ground. Partition logic 
 - Like passing an explicit `struct *self` pointer in C or spawning an independent clone, every module, service, or UI screen/controller must declare its required state explicitly at its entry point.
 - **No Sequential Coupling:** Never rely on hidden global state or implicit side effects left behind by steps 1 through 19. Any engineer or test runner must be able to jump directly into Node/Screen 20, inject a mock state payload, and execute or TDD it in complete isolation.
 
-## Law 5: The 3-Word Naming Rule & Visual Spacing
-- Function, method, and variable names must express their complete intent in **at most 3 words** (favoring `snake_case` for visual word separation where permitted by the stack).
-- If a function cannot be named accurately in 3 words or fewer, it is doing too much or sitting in the wrong directional zone—split it or move it.
+## Law 5: Concise 3-Word Naming Guideline & Visual Spacing
+- Aim for function, method, and variable names that express their intent in **roughly 2 to 3 core words** (favoring `snake_case` for visual word separation where permitted by the stack).
+- **Guideline, Not a Rigid Cap:** Treat >3 words as a *smell detector* rather than a hard syntax error. If a name is long because the function is doing multiple things or sitting in the wrong directional zone, split the function or move it. However, if 4 words are genuinely needed for domain clarity (or in test case descriptions), allow it without nitpicking.
 
 ## Law 6: Notepad++ Spatial Ergonomics (Top-Down & A-to-Z Symmetry)
 - **Top-Down Narrative Flow:** Place the primary public orchestrator method at the very top of the file/class. Order all subordinate `private` methods beneath it in the exact `1 -> 2 -> 3` sequence in which they are called, allowing top-to-bottom reading without scrolling back and forth.
