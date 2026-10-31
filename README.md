@@ -140,8 +140,9 @@ defense-of-the-grid/
   ```
 * **ถอนการติดตั้ง (ลบเฉพาะตัวเชื่อม Symlink โดยที่ไฟล์ใน Repo ต้นทางยังอยู่ครบ):**
   ```bash
-  rm -rf ~/.gemini/config/skills/defense-of-the-grid
+  rm ~/.gemini/config/skills/defense-of-the-grid
   ```
+  *(ใช้ `rm` ธรรมดาเท่านั้น ห้ามใส่ `/` ต่อท้ายหรือใช้ `rm -rf .../defense-of-the-grid/` เพราะจะลบไฟล์ใน Repo ต้นทางผ่าน Symlink)*
 
 ### รูปแบบที่ 2: ติดตั้งเฉพาะโปรเจกต์ (Workspace-Specific)
 
@@ -154,7 +155,8 @@ defense-of-the-grid/
 * **ถอนการติดตั้งออกจากโปรเจกต์:**
   ```bash
   cd /path/to/your-project
-  rm -rf .agents/skills/defense-of-the-grid
+  rm .agents/skills/defense-of-the-grid          # กรณีติดตั้งแบบ Symlink
+  # rm -rf .agents/skills/defense-of-the-grid    # กรณีคัดลอกโฟลเดอร์มาวางจริง (ไม่ใช่ Symlink) เท่านั้น
   ```
   *(หากติดตั้งไว้เป็น Git Submodule ให้รัน `git submodule deinit -f .agents/skills/defense-of-the-grid && git rm -f .agents/skills/defense-of-the-grid`)*
 

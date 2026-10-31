@@ -1,12 +1,14 @@
 ---
 name: defense-of-the-grid
 description: >-
-  Three-stage progressive software architecture blueprint and code review skill
-  (ORACLE triage router -> targeted specialist reference loading -> DOOM noise filter).
-  Enforces Orthogonal Decomposition (4-Axis + Core), Acyclic Call Topology & Dominator DAG,
-  Leaf-Node Pure Utilities (Fan-Out = 0), Subgraph State Isolation, Lexical Conciseness (~2-3 words),
-  and Linear Stepdown Ordering. Use when designing architecture before coding (/blueprint)
-  or reviewing code changes (/review or /review deep).
+  Architecture blueprint and progressive code review skill. Use this skill when the user
+  asks to review code, a pull request, a branch, a commit, specific files, or a git diff
+  ("review my code", "check this PR", "/review", "/review deep"), or asks to design, plan,
+  or structure a new feature or module before writing code ("design this feature",
+  "plan the architecture", "/blueprint"). Reviews run a 3-stage pipeline (triage router ->
+  selected specialist checklists -> noise filter) that enforces modular partitioning,
+  acyclic dependencies, pure leaf utilities, explicit state injection, concise naming,
+  and top-down method ordering while discarding YAGNI and nitpick findings.
 ---
 
 # Defense of the Grid — Software Architecture & Progressive Code Review Skill
@@ -26,11 +28,13 @@ Before executing any mode, read and internalize the 7 architectural laws in:
 ### Mode A: `/blueprint` (Pre-Implementation Architectural Blueprint)
 When the user asks to design, plan, or structure a new feature:
 1. Read [00-the-ancients-core-laws.md](./references/00-the-ancients-core-laws.md).
-2. Present the proposed blueprint using this exact 3-part output template:
+2. **Scale the blueprint to the feature size (YAGNI first):** Use only as many axes as the feature genuinely needs. For a small change (a single function, endpoint, or class), collapse Part 1 to a one-line placement statement (which existing zone/file it belongs to) and keep Parts 2–3 brief. Never invent empty axes, coordinators, or utility layers just to fill the template.
+3. Present the proposed blueprint using this 3-part output template:
    - **🧭 1. Orthogonal Module Partitioning (4-Axis + Core):** Partition responsibilities across orthogonal functional axes (up to 4 Peripheral Axes + optional `Core/Center` coordinator, adapted to the domain so each zone has high cohesion and a single responsibility) plus **Leaf-Node Pure Utilities** (`Fan-Out = 0`) if needed.
    - **📝 2. Linear Stepdown Skeleton:** List the file/class structure with the public orchestrator/entry method at the top and subordinate `private` methods ordered in `1 -> 2 -> 3` execution sequence below it (with **Cross-Layer Structural Symmetry** and concise **~2–3 lexeme identifiers** following local convention -> language idiom -> `snake_case` default).
    - **🧪 3. Subgraph State Isolation Contract:** Specify the explicit state context/collaborators required at the entry interface so Node $N$ can be instantiated, tested, or executed in complete isolation without running prior steps `1..N-1`.
-3. Wait for user confirmation before generating full implementation code.
+4. **Validate before presenting:** Confirm the proposed call graph has no cycles, no leaf utility depends on a stateful module, and every node in Part 3 can be constructed from its declared inputs alone. Fix the blueprint if any check fails.
+5. Wait for user confirmation before generating full implementation code.
 
 ---
 
@@ -41,8 +45,15 @@ When the user asks to review code, a PR, a branch, specific files, or `git diff`
 #### Stage 1: `ORACLE` (Triage Router)
 1. Run [preflight_scan.py](./scripts/preflight_scan.py) from the target repository root (automatically falls back to `HEAD~1..HEAD` if working tree is clean, or pass `--base <branch>` when reviewing a feature branch against `main`/`develop`):
    `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [target_files...]`
+   > `--base` compares committed history only (`<branch>...HEAD`, plus untracked files); uncommitted edits to tracked files are excluded, so ask the user to commit first or run a second scan without `--base`.
+
+   **Fallbacks if the preflight scan cannot run** (not a git repository, `python3` unavailable, script error, or `No target files detected`):
+   - Do NOT abort the review. State the failure reason in one line of the routing manifest (`Preflight Signals: unavailable — <reason>`).
+   - Gather the change set manually: `git diff HEAD` → `git diff --cached` → `git show HEAD` (first non-empty wins), or read the files the user named directly.
+   - Perform the Law 3 (leaf-utility imports) and Law 5 (identifier length) checks by reading the code yourself instead of relying on script hints.
+   - If there is genuinely nothing to review (no diff, no named files), ask the user which files, commit, or branch to review.
 2. Read [01-oracle-triage-router.md](./references/01-oracle-triage-router.md).
-3. Select **only the necessary specialist lenses (max 3–4)** from Stage 2 based on the actual changes. Always include `EARTHSHAKER` and `ARC WARDEN` as the mandatory baseline.
+3. Select **only the necessary specialist lenses (max 3–4)** from Stage 2 based on the actual changes, always applying the **Mandatory Baseline Summons** defined in `01-oracle-triage-router.md` (code changes vs. specification/schema-only changes use different baselines).
 4. Output the 3-line **ORACLE Routing Manifest** (`Affected Zones`, `Preflight Signals`, `Active Specialist Lenses`).
 
 #### Stage 2: Specialist Inspection (Progressive Skill Loading by Default)
@@ -59,13 +70,17 @@ Load the reference files **ONLY** for the specialist lenses selected by `ORACLE`
   Read the selected specialist reference files (`02`–`07`) directly in the main agent and evaluate the changed code through each active checklist while preserving full conversation context.
 - **🔬 Deep / Fresh-Eyes Mode (`/review deep` — Parallel Subagents, ONLY when explicitly requested by user):**
   If the user explicitly asks for `/review deep`, "fresh eyes", or parallel subagent inspection:
-  1. Re-run `preflight_scan.py` with `--dump-diff <scratch_dir>/current_review.diff`.
+  1. Re-run `preflight_scan.py` with `--dump-diff <scratch_dir>/current_review.diff` (`<scratch_dir>` = your conversation's scratch/artifact directory, outside the target project so the review stays read-only).
   2. Spawn one parallel `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`) per selected specialist in a single turn.
-  3. Pass each subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) absolute paths to `00-the-ancients-core-laws.md` and its assigned specialist reference file, (c) the path to `<scratch_dir>/current_review.diff`, and (d) strict instructions to reply `NO_ISSUES_FOUND` if clean.
+  3. Pass each subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) absolute paths to `00-the-ancients-core-laws.md` and its assigned specialist reference file, (c) the path to `<scratch_dir>/current_review.diff` (if the diff dump failed, pass the absolute paths of the changed files instead), (d) the instruction to report only findings on changed lines, and (e) this strict reply contract:
+     - Reply exactly `NO_ISSUES_FOUND` if clean.
+     - Otherwise reply with one finding per line, no preamble or summary:
+       `[HERO_NAME] | <BLOCKER|SHOULD FIX|MAP SYNC> | <file_path>:<line> | <law or check violated> | <failure scenario> | <suggested fix (inline snippet or 1-line description)>`
+  4. Wait for all subagents, then feed every returned finding line verbatim into Stage 3. If a subagent fails or returns malformed output, run that lens in-context (Default Mode) instead of dropping it.
 
 #### Stage 3: `DOOM` (Lead Filter & Verdict Arbiter)
 1. Read [08-doom-lead-filter.md](./references/08-doom-lead-filter.md).
-2. Filter all raw findings from Stage 2 through **DOOM's Silence Filter** (discard speculative generality/YAGNI violations, allow valid Leaf-Node Utility calls, discard unfounded theoretical edge cases, discard boilerplate comment requests, discard pedantic naming/casing nitpicks, and deduplicate overlapping findings).
+2. Filter all raw findings from Stage 2 through **every rule of DOOM's Silence Filter** as defined in `08-doom-lead-filter.md` (that file is the single source of truth for the pruning rules).
 3. Present the final consolidated review in the user's conversation language (e.g., Thai if the user prompted in Thai, keeping technical identifiers in English), omitting any empty section:
    - If zero `BLOCKER` or `SHOULD FIX` items survive: output **`🟢 ANCIENTS APPROVED`**
    - 🔴 **BLOCKER (Critical defects, security vulnerabilities, or severe architectural violations)**
