@@ -127,26 +127,36 @@ defense-of-the-grid/
 
 ---
 
-## 🚀 วิธีติดตั้ง (Installation)
+## 🚀 วิธีติดตั้งและถอนการติดตั้ง (Installation & Uninstallation)
 
 สามารถเลือกติดตั้งได้ 2 รูปแบบ:
 
 ### รูปแบบที่ 1: ติดตั้งระดับ Global (ใช้ได้กับทุกโปรเจกต์ในเครื่อง)
-ทำ Symlink ไปยังโฟลเดอร์ Global Skills ของ Antigravity:
 
-```bash
-mkdir -p ~/.gemini/config/skills
-ln -sfn /path/to/defense-of-the-grid ~/.gemini/config/skills/defense-of-the-grid
-```
+* **ติดตั้ง (สร้าง Symlink ไปยัง Global Skills ของ Antigravity):**
+  ```bash
+  mkdir -p ~/.gemini/config/skills
+  ln -sfn /path/to/defense-of-the-grid ~/.gemini/config/skills/defense-of-the-grid
+  ```
+* **ถอนการติดตั้ง (ลบเฉพาะตัวเชื่อม Symlink โดยที่ไฟล์ใน Repo ต้นทางยังอยู่ครบ):**
+  ```bash
+  rm -rf ~/.gemini/config/skills/defense-of-the-grid
+  ```
 
 ### รูปแบบที่ 2: ติดตั้งเฉพาะโปรเจกต์ (Workspace-Specific)
-ทำ Symlink หรือใส่เป็น Git Submodule ไว้ในโฟลเดอร์ `.agents/skills/` ของโปรเจกต์ปลายทาง:
 
-```bash
-cd /path/to/your-project
-mkdir -p .agents/skills
-ln -sfn /path/to/defense-of-the-grid .agents/skills/defense-of-the-grid
-```
+* **ติดตั้ง (สร้าง Symlink หรือวางไว้ใน `.agents/skills/` ของโปรเจกต์ปลายทาง):**
+  ```bash
+  cd /path/to/your-project
+  mkdir -p .agents/skills
+  ln -sfn /path/to/defense-of-the-grid .agents/skills/defense-of-the-grid
+  ```
+* **ถอนการติดตั้งออกจากโปรเจกต์:**
+  ```bash
+  cd /path/to/your-project
+  rm -rf .agents/skills/defense-of-the-grid
+  ```
+  *(หากติดตั้งไว้เป็น Git Submodule ให้รัน `git submodule deinit -f .agents/skills/defense-of-the-grid && git rm -f .agents/skills/defense-of-the-grid`)*
 
 ---
 

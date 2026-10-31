@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
 Preflight scanner for ORACLE & EARTHSHAKER:
-1. Detects tracked (staged/unstaged) and untracked changed files. If the working tree is clean,
-   automatically falls back to the latest commit (HEAD~1..HEAD).
+1. Detects tracked (staged/unstaged) and untracked changed files. Supports --base <ref> for branch/PR diffs,
+   and automatically falls back to the latest commit (HEAD~1..HEAD) if the working tree is clean.
 2. Optionally dumps a unified diff snapshot (--dump-diff <path>) so read-only subagents can inspect exact changes.
-3. Detects Bedrock Utility files importing from business/service/db layers (Law 3: Fan-Out > 0).
-4. Flags verbose function/method names on newly added/modified lines as soft hints (Law 5: ~3-word guideline),
+3. Detects Leaf-Node Utility files importing from domain/service/db layers (Law 3: Fan-Out > 0).
+4. Flags verbose function/method names on newly added/modified lines as soft hints (Law 5: ~2-3 lexeme guideline),
    automatically skipping unit test files and test_* methods.
 """
 import argparse
@@ -41,6 +41,7 @@ HUNK_HEADER_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 def main() -> None:
     parser = argparse.ArgumentParser(description="Preflight scanner for Defense of the Grid")
     parser.add_argument("files", nargs="*", help="Optional target files to scan")
+    parser.add_argument("--base", dest="base_ref", help="Compare against a base branch/ref (e.g., main, origin/develop)")
     parser.add_argument("--dump-diff", dest="dump_diff", help="Write unified diff snapshot to this file path")
     args = parser.parse_args()
 
@@ -50,7 +51,7 @@ def main() -> None:
         changed_lines: dict[Path, set[int] | None] = {p: None for p in targets}
         mode_label = "explicit CLI files"
     else:
-        targets, changed_lines, diff_ref, mode_label = collect_changed_targets()
+        targets, changed_lines, diff_ref, mode_label = collect_changed_targets(args.base_ref)
 
     if not targets:
         print("No target files detected via working tree, latest commit (HEAD~1..HEAD), or CLI args.")
@@ -68,25 +69,30 @@ def main() -> None:
         scan_file(target, changed_lines.get(target))
 
 
-def collect_changed_targets() -> tuple[list[Path], dict[Path, set[int] | None], str, str]:
-    tracked_out = run_git(["diff", "--name-only", "HEAD"])
-    diff_ref = "HEAD"
-    mode_label = "working tree (HEAD)"
+def collect_changed_targets(base_ref: str | None = None) -> tuple[list[Path], dict[Path, set[int] | None], str, str]:
+    if base_ref:
+        diff_ref = f"{base_ref}...HEAD"
+        mode_label = f"branch diff ({diff_ref})"
+        tracked_out = run_git(["diff", "--name-only", diff_ref])
+        untracked_out = run_git(["ls-files", "--others", "--exclude-standard"])
+    else:
+        tracked_out = run_git(["diff", "--name-only", "HEAD"])
+        diff_ref = "HEAD"
+        mode_label = "working tree (HEAD)"
 
-    if not tracked_out.strip():
-        tracked_out = run_git(["diff", "--name-only", "--cached"])
-        if tracked_out.strip():
-            diff_ref = "--cached"
-            mode_label = "staged (--cached)"
+        if not tracked_out.strip():
+            tracked_out = run_git(["diff", "--name-only", "--cached"])
+            if tracked_out.strip():
+                diff_ref = "--cached"
+                mode_label = "staged (--cached)"
 
-    untracked_out = run_git(["ls-files", "--others", "--exclude-standard"])
+        untracked_out = run_git(["ls-files", "--others", "--exclude-standard"])
 
-    # Fallback: if working tree & untracked are completely clean, inspect latest commit (HEAD~1..HEAD)
-    if not tracked_out.strip() and not untracked_out.strip():
-        tracked_out = run_git(["diff", "--name-only", "HEAD~1", "HEAD"])
-        if tracked_out.strip():
-            diff_ref = "HEAD~1..HEAD"
-            mode_label = "latest commit (HEAD~1..HEAD)"
+        if not tracked_out.strip() and not untracked_out.strip():
+            tracked_out = run_git(["diff", "--name-only", "HEAD~1", "HEAD"])
+            if tracked_out.strip():
+                diff_ref = "HEAD~1..HEAD"
+                mode_label = "latest commit (HEAD~1..HEAD)"
 
     files: list[Path] = []
     seen: set[Path] = set()
@@ -124,7 +130,7 @@ def parse_modified_lines(path: Path, diff_ref: str) -> set[int] | None:
     elif diff_ref == "--cached":
         diff_out = run_git(["diff", "-U0", "--cached", "--", str(path)])
     else:
-        diff_out = run_git(["diff", "-U0", "HEAD", "--", str(path)])
+        diff_out = run_git(["diff", "-U0", diff_ref, "--", str(path)])
 
     if not diff_out.strip():
         return None
@@ -149,7 +155,7 @@ def dump_unified_diff(
     elif diff_ref == "--cached":
         tracked_diff = run_git(["diff", "--cached"])
     else:
-        tracked_diff = run_git(["diff", "HEAD"])
+        tracked_diff = run_git(["diff", diff_ref])
 
     if tracked_diff.strip():
         chunks.append(tracked_diff)

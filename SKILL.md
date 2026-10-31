@@ -35,11 +35,12 @@ When the user asks to design, plan, or structure a new feature:
 ---
 
 ### Mode B: `/review` (3-Stage Progressive Code Review)
-When the user asks to review code, a PR, specific files, or `git diff`, execute the following 3 stages sequentially:
+When the user asks to review code, a PR, a branch, specific files, or `git diff`, execute the following 3 stages sequentially.
+> **Strict Read-Only Guard:** During `/review`, NEVER modify or overwrite any target project files automatically. Present `DOOM`'s verdict and wait for the user to explicitly specify which findings to apply.
 
 #### Stage 1: `ORACLE` (Triage Router)
-1. Run [preflight_scan.py](./scripts/preflight_scan.py) from the target repository root (automatically falls back to `HEAD~1..HEAD` if working tree is clean):
-   `python3 <skill_dir>/scripts/preflight_scan.py [target_files...]`
+1. Run [preflight_scan.py](./scripts/preflight_scan.py) from the target repository root (automatically falls back to `HEAD~1..HEAD` if working tree is clean, or pass `--base <branch>` when reviewing a feature branch against `main`/`develop`):
+   `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [target_files...]`
 2. Read [01-oracle-triage-router.md](./references/01-oracle-triage-router.md).
 3. Select **only the necessary specialist lenses (max 3–4)** from Stage 2 based on the actual changes. Always include `EARTHSHAKER` and `ARC WARDEN` as the mandatory baseline.
 4. Output the 3-line **ORACLE Routing Manifest** (`Affected Zones`, `Preflight Signals`, `Active Specialist Lenses`).
