@@ -5,6 +5,7 @@ These 7 principles define the architectural invariants of the codebase. Every re
 ## Law 1: Orthogonal Decomposition (4-Axis + Core Partitioning)
 - **Avoid Monolithic Services:** Partition module responsibilities along orthogonal functional axes (**up to 4 Peripheral Axes + 1 optional `Core/Center` Coordinator**).
 - **High Cohesion, Single Axis of Responsibility:** What each axis represents adapts to the system's domain (e.g., flow orchestration, ingress, egress, persistence, or distinct sub-domains). Once partitioned, each zone must strictly operate within its own abstraction level without bleeding responsibilities into adjacent zones.
+- **Brownfield Constructor Guard:** When extending an existing codebase (e.g., Guice `@Inject()` services in Scala Play), extend an existing collaborator in the matching axis rather than minting a new injectable class for a minor feature—changing a central service's constructor signature forces cascading edits across every existing unit test (`*Spec`).
 
 ## Law 2: Acyclic Call Topology & Dominator Enforcement (Strict DAG)
 - **Directed Acyclic Graph (DAG):** The dependency and call graph across modules must remain strictly acyclic. Circular dependencies (`A -> B -> A`) are forbidden.
@@ -29,6 +30,8 @@ These 7 principles define the architectural invariants of the codebase. Every re
 ## Law 6: Linear Execution Ordering (Stepdown Rule) & Structural Symmetry
 - **Top-Down Stepdown Rule:** Place the primary public entry/orchestrator method at the top of the file or class. Order all subordinate `private`/helper methods beneath it in the exact `1 -> 2 -> 3` chronological sequence in which they are invoked, enabling linear top-to-bottom reading without vertical jumping.
 - **Cross-Layer Structural Symmetry:** When an upper layer maps, validates, or dispatches a set of fields/operations `A..Z` into a lower layer, the lower layer must declare and process `A..Z` in the exact same lexicographical or positional order so missing or orphaned elements are immediately apparent.
+- **Brownfield Minimal-Churn Exception:** Apply Stepdown ordering and Cross-Layer Symmetry strictly to **newly created files, classes, and methods**. In existing files, NEVER shuffle/reorder untouched existing methods or reorder existing `case class`/struct/DTO fields (which breaks positional callers and bloats `git diff`); place new helper methods near their caller and append or position new fields safely.
 
-## Law 7: Contextual Stylistic Homogeneity
+## Law 7: Contextual Stylistic Homogeneity & Surgical Edits
 - **Seamless Local Integration:** Any newly added or modified method within an existing file must match the vocabulary, abstraction granularity, and error-handling conventions of its surrounding methods so the module reads as if authored by a single mind.
+- **Surgical Brownfield Edits:** When adding a small condition or fix inside an existing legacy method (e.g., nested `match`/`if-else`), keep the diff surgical—do not rewrite the entire untouched method body (e.g., into a full `for`-comprehension) unless explicitly asked to refactor that method.

@@ -9,7 +9,7 @@ Immediately **DISCARD** any Stage 2 finding that matches these criteria:
 3. **Discard Unfounded Theoretical Edge Cases:** Delete resilience, security, or performance warnings that lack a realistic trigger scenario within the system's actual operating context.
 4. **Discard Boilerplate Comment Requests:** Delete requests to add docstrings or inline comments explaining self-evident code.
 5. **Discard Pedantic Naming & Casing Nitpicks:** Law 5 (~2–3 Lexeme Conciseness) is a heuristic smell detector, not a rigid word cap. Delete complaints about 4-word identifiers or test method names when the identifier is clear and single-purpose. Delete any suggestion to convert `camelCase`/`PascalCase` to `snake_case` when the file or language ecosystem standard uses `camelCase`/`PascalCase`.
-6. **Discard Out-of-Scope Legacy Complaints:** Delete warnings targeting untouched lines outside the current diff unless the new changes directly break them.
+6. **Discard Out-of-Scope Legacy Complaints & High-Churn Brownfield Demands:** Delete warnings targeting untouched lines outside the current diff unless the new changes directly break them. Also delete demands to: (a) reorder pre-existing untouched methods in an existing file, (b) reorder existing `case class`/DTO/struct fields (which breaks positional callers), (c) extract a new `@Inject()` service for a minor addition that fits an existing collaborator (which breaks existing `*Spec` unit tests), or (d) rewrite an entire legacy `match`/`if-else` method when the diff only adds a small surgical branch.
 7. **Deduplicate Overlapping Findings:** If multiple specialist lenses flag the same lines, consolidate them into a single, precise point.
 
 ## Final Verdict Output Format
