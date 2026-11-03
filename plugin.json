@@ -1,8 +1,8 @@
 {
   "name": "defense-of-the-code",
   "displayName": "Defense of the Code",
-  "version": "1.0.0",
-  "description": "Progressive software architecture blueprint and rigorous code review pipeline grounded in graph topology, orthogonal decomposition, and state isolation.",
+  "version": "2.0.0",
+  "description": "Multi-Commander & Squad software architecture blueprint, progressive code review, and technical documentation pipeline (33 Heroes, 1 Hero = 1 File) grounded in graph topology, orthogonal decomposition, and state isolation.",
   "author": {
     "name": "roticagas",
     "url": "https://github.com/roticagas"
@@ -15,6 +15,7 @@
   "suggestedPrompts": [
     "/defense-of-the-code ช่วยออกแบบฟีเจอร์นี้ให้หน่อย",
     "/defense-of-the-code รีวิวโค้ดที่เพิ่งแก้ล่าสุดให้หน่อย",
-    "/defense-of-the-code รีวิวละเอียดแบบเข้มๆ ทุกจุด"
+    "/defense-of-the-code รีวิวละเอียดแบบเข้มๆ ทุกจุด",
+    "/defense-of-the-code ช่วยเขียนเอกสารและวาด diagram สรุป flow นี้หน่อย"
   ]
 }
