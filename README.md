@@ -1,7 +1,7 @@
 # 🏰 Defense of the Grid (`defense-of-the-grid`)
 
 > **Progressive Software Architecture & Code Review Skill สำหรับ Google Antigravity**  
-> ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **Progressive Disclosure** ที่เลือกโหลดเฉพาะคัมภีร์ผู้เชี่ยวชาญที่เกี่ยวข้องและคัดกรองความเห็นขยะทิ้งอย่างเด็ดขาด
+> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **Progressive Disclosure** ที่เลือกโหลดเฉพาะคัมภีร์ผู้เชี่ยวชาญที่เกี่ยวข้อง และคัดกรองความเห็นขยะรวมถึงข้อเรียกร้องที่สร้าง Churn สูงในโค้ดเดิม (High-Churn Brownfield Demands) ทิ้งอย่างเด็ดขาด
 
 ---
 
@@ -39,10 +39,17 @@ flowchart TD
 
 รายละเอียดฉบับเต็มอยู่ใน [`references/00-the-ancients-core-laws.md`](./references/00-the-ancients-core-laws.md):
 
+### ⚖️ ปรัชญาแกนกลาง: ทางสายกลาง (The Middle Path — Proportional Engineering)
+ความสมบูรณ์แบบทางสถาปัตยกรรมดำเนินตาม **ทางสายกลาง (The Middle Path)** โดยปรับความลึกของโครงสร้างให้สมส่วนกับความซับซ้อนที่แท้จริงของโจทย์ (Essential Domain Complexity):
+* **ปฏิเสธ Under-Engineering แบบมักง่าย:** ไม่เขียนโค้ดทางลัดที่เปราะบาง (Spaghetti Code), ไม่สร้างผลข้างเคียงที่ควบคุมไม่ได้ (Unconstrained Side Effects), ไม่สุมตรรกะไว้ในจุดเดียว และไม่ผูกมัดสถานะข้ามเวลา (Temporal Coupling) แล้วอ้างว่า "เขียนง่ายๆ"
+* **ปฏิเสธ Over-Engineering แบบเพ้อฝัน (YAGNI):** ไม่สร้าง Abstraction ซ้อนหลายชั้นโดยไม่จำเป็น, ไม่สร้าง Generic Interfaces เผื่ออนาคตที่ยังมาไม่ถึง, ไม่เพิ่ม Config หรือ Indirection ที่ซับซ้อนเกินจริง
+* **The Pragmatic Golden Mean:** สร้างโครงสร้างที่เพรียวลมและเรียบง่ายที่สุดเท่าที่ยังการันตีความถูกต้องเชิงคณิตศาสตร์ (Acyclic DAG), มีขอบเขตการตัดตอนสถานะชัดเจน (State Isolation) และแยกทดสอบแบบ Unit Test ได้จริง
+
 ### 1. 🧭 Orthogonal Decomposition (4-Axis + Core Partitioning)
 ห้ามเทรวมตรรกะทั้งหมดลงใน `Service` ก้อนเดียว (Monolithic Service) ให้แยกส่วนรับผิดชอบออกเป็นแกนหน้าที่ที่ตั้งฉากต่อกัน (**ไม่เกิน 4 แกนรอบข้าง + 1 แกนกลาง `Core/Center`** ตามแนวคิดปุ่มควบคุม D-Pad):
 * **High Cohesion, Single Axis of Responsibility:** แต่ละแกนทำหน้าที่อะไรปรับเปลี่ยนได้ตามบริบทของโดเมนนั้นๆ (เช่น Flow Orchestration, Ingress, Egress, Persistence หรือแยกตาม Sub-domain)
 * **Strict Boundary:** เมื่อแบ่งโซนแล้ว แต่ละโซนต้องทำงานอยู่ในระดับนามธรรม (Abstraction Level) ของตัวเอง ห้ามเขียนโค้ดข้ามบทบาทปนกัน
+* **Brownfield Constructor Guard (เกราะป้องกัน Constructor แตกในระบบเดิม):** เมื่อต่อเติมฟีเจอร์ย่อยในระบบเดิมที่มีการทำ Dependency Injection (เช่น Guice `@Inject()` ใน Scala Play หรือ Spring) ให้เพิ่มเมธอดลงใน Collaborator เดิมในแกนที่ตรงกัน แทนที่จะสร้างคลาสใหม่มาฉีดเข้า Constructor กลาง เพราะการเปลี่ยน Signature ของ Constructor ใน Service หลักจะทำให้ Unit Test เดิม (`*Spec`) พังทั้งโปรเจกต์
 
 ```mermaid
 flowchart TD
@@ -81,8 +88,8 @@ flowchart TD
   3. **Favor `snake_case` When Unconstrained:** เมื่อไม่มีข้อบังคับของภาษา ให้ใช้ `snake_case` เป็นค่าเริ่มต้นเพื่อความชัดเจนในการแยกคำ
 
 ### 6. 📝 Linear Execution Ordering (Stepdown Rule) & Structural Symmetry
-* **Top-Down Stepdown Rule:** วาง Public Entry/Orchestrator Method ไว้บนสุดของไฟล์หรือคลาส แล้วเรียง Private Helper Methods ข้างล่างตามลำดับเวลาที่ถูกเรียก `1 -> 2 -> 3` เพื่อให้อ่านไล่จากบนลงล่างได้เป็นเส้นตรงโดยไม่ต้องกระโดดข้ามบรรทัด
-* **Cross-Layer Structural Symmetry:** เมื่อชั้นบนส่งหรือ Map ข้อมูล `A..Z` ลงไปชั้นล่าง ชั้นล่างต้องประกาศและประมวลผล `A..Z` ในลำดับเดียวกันเป๊ะ เพื่อให้ตรวจพบฟิลด์ที่ตกหล่นได้ทันที
+* **Top-Down Stepdown Rule:** วาง Public Entry/Orchestrator Method ไว้บนสุดของไฟล์หรือคลาส แล้วเรียง Private Helper Methods ข้างล่างตามลำดับเวลาที่ถูกเรียก `1 -> 2 -> 3` เพื่อให้อ่านไล่จากบนลงล่างได้เป็นเส้นตรงโดยไม่ต้องกระโดดข้ามบรรทัด (**บังคับใช้กับคลาสและเมธอดที่เขียนขึ้นใหม่เท่านั้น ห้ามสั่งสลับลำดับเมธอดเดิมในไฟล์เก่าที่ไม่ได้ถูกแตะ**)
+* **Cross-Layer Structural Symmetry:** เมื่อชั้นบนส่งหรือ Map ข้อมูล `A..Z` ลงไปชั้นล่าง ชั้นล่างต้องประกาศและประมวลผล `A..Z` ในลำดับเดียวกันเป๊ะ เพื่อให้ตรวจพบฟิลด์ที่ตกหล่นได้ทันที (**บังคับใช้เฉพาะกับ Type หรือ Data Structure ที่สร้างขึ้นใหม่ ห้ามสั่งสลับฟิลด์ของ `case class`/DTO/struct เดิม** เพราะจะทำให้ Positional Constructor พังและทำให้ Git Diff บวมโดยเปล่าประโยชน์)
 
 ### 7. 🦎 Contextual Stylistic Homogeneity
 * โค้ดที่เพิ่มหรือแก้ไขในไฟล์เดิม ต้องคงระดับนามธรรม (Abstraction Granularity) คลังคำศัพท์ และรูปแบบการจัดการ Error ให้เป็นเนื้อเดียวกับเมธอดรอบข้าง
@@ -100,7 +107,7 @@ flowchart TD
 | **Stage 2** | 🗡️ **TEMPLAR ASSASSIN** | **Ingress Security & Data Lifecycle** | เปิดใช้เมื่อแตะ Ingress Controller, AuthN/AuthZ, Raw Query/Command หรือข้อมูลลับ (PIN, Key, Token, PII) | [`05-templar-security-hygiene.md`](./references/05-templar-security-hygiene.md) |
 | **Stage 2** | 🚀 **TINKER** | **Scalability & Diagnostic Telemetry** | เปิดใช้เมื่อแตะ DB Query, Loop ข้อมูลชุดใหญ่, Stream/Batch หรือจุดตัดเลเยอร์ที่ต้องมี Structured Log สำหรับวิเคราะห์ปัญหาบน Production | [`06-tinker-scale-trace.md`](./references/06-tinker-scale-trace.md) |
 | **Stage 2** | 🧙‍♂️ **RUBICK** | **Specification & Documentation Sync** | เปิดใช้เมื่อแก้ API Schema/DTO, DB Migration, Env/Config หรือ Flow หลัก (รันคู่กับ `doc_drift_finder.py`) | [`07-rubick-spec-doc-sync.md`](./references/07-rubick-spec-doc-sync.md) |
-| **Stage 3** | 🔥 **DOOM** | **Lead Filter & Verdict Arbiter** | รันปิดท้ายทุกครั้ง — ตัดความเห็นขยะ, Speculative Generality (YAGNI), กรณีสมมติเกินจริง และยุบรวมประเด็นซ้ำ | [`08-doom-lead-filter.md`](./references/08-doom-lead-filter.md) |
+| **Stage 3** | 🔥 **DOOM** | **Lead Filter & Verdict Arbiter** | รันปิดท้ายทุกครั้ง — ตัดความเห็นขยะ, Speculative Generality (YAGNI), กรณีสมมติเกินจริง, Pedantic Casing Nitpicks และ High-Churn Brownfield Demands (เช่น ห้ามสั่งรื้อทั้งบล็อก `match`/`if-else` เก่าเมื่อเป็นเพียง surgical branch ย่อย) พร้อมยุบรวมประเด็นซ้ำ | [`08-doom-lead-filter.md`](./references/08-doom-lead-filter.md) |
 
 ---
 
@@ -164,19 +171,46 @@ defense-of-the-grid/
 
 ## 💡 วิธีเรียกใช้งาน (Usage)
 
-### 1. โหมดวางโครงสร้างสถาปัตยกรรมก่อนเขียนโค้ด (`/blueprint`)
-> *"ช่วยวาง `/blueprint` สำหรับฟีเจอร์ตัดเงินและออกใบกำกับภาษีหน่อย"*
+> **🔒 Explicit Invocation Rule:** Skill นี้ถูกออกแบบให้ **ไม่เปิดทำงานอัตโนมัติ** ในระหว่างการสนทนาทั่วไป การปรึกษา feasibility หรือการพูดคุยทางเทคนิคทั่วไป เพื่อให้อิสระในการแลกเปลี่ยนไอเดียอย่างเป็นธรรมชาติ Skill จะทำงานก็ต่อเมื่อผู้ใช้เรียกใช้ผ่านคำสั่ง `/defense-of-the-grid` (หรือคำสั่งย่อ `/blueprint`, `/review`, `/review deep`) เท่านั้น
+
+### 🗣️ Natural Language Intent Routing (สั่งงานด้วยภาษาพูด)
+สามารถเรียก `/defense-of-the-grid` ตามด้วยข้อความภาษาธรรมชาติเพื่อเลือกโหมดได้ทันที:
+
+```text
+/defense-of-the-grid ช่วยออกแบบฟีเจอร์คำนวณภาษีต่อจากที่คุยกันเมื่อกี้หน่อย      --> Mode A (Blueprint)
+/defense-of-the-grid รีวิวโค้ดที่เพิ่งแก้ใน commit ล่าสุดให้หน่อย                 --> Mode B (Standard Review)
+/defense-of-the-grid รีวิวละเอียดแบบเข้มๆ ขอ fresh eyes                         --> Mode B (Deep Review)
+```
+
+---
+
+### 1. โหมดวางโครงสร้างสถาปัตยกรรม (Mode A: Architectural Blueprint)
+> เรียกด้วย: `/defense-of-the-grid ช่วยออกแบบ...`, `/defense-of-the-grid วางโครงสร้างต่อจากที่คุย` หรือพิมพ์ย่อ `/blueprint`
+
+* **Preserve Context & Layer On Prior Exploration:** หากในการสนทนาก่อนหน้ามีการวิเคราะห์ feasibility, payload API, ข้อจำกัด infra หรือ root-cause มาแล้ว Agent จะนำข้อมูลเชิงลึกเหล่านั้นมาสังเคราะห์ลงใน Blueprint ทันที โดยไม่เริ่มถามใหม่จากศูนย์
+* **Scale to Feature Size (YAGNI First):** ปรับขนาดตามงานจริง หากเป็นเพียงการเพิ่มเมธอดหรือ endpoint ย่อย จะระบุตำแหน่งไฟล์ในบรรทัดเดียว ไม่สร้างแกนโมดูลหรือเลเยอร์ปลอมขึ้นมาให้รก
+* **Brownfield Minimal-Churn:** ในโปรเจกต์เดิม จะเลือกเพิ่มเมธอดใน Collaborator เดิมที่มีอยู่แล้วเพื่อเลี่ยงการแก้ Constructor ที่กระทบ Unit Test ทั้งระบบ
 
 Agent จะนำเสนอโครงสร้าง 3 ส่วนก่อนเริ่มเขียนโค้ดจริง:
-* **🧭 Orthogonal Module Partitioning:** แยกความรับผิดชอบออกเป็นแกนหน้าที่ (`4-Axis + Core` และ `Leaf-Node Utilities`)
-* **📝 Linear Stepdown Skeleton:** โครงเมธอดเรียงจากบนลงล่าง `1 -> 2 -> 3` ด้วยชื่อที่กระชับตามลำดับศักดิ์ของภาษา
-* **🧪 Subgraph State Isolation Contract:** ระบุ State Context ที่ต้องรับเข้ามาเพื่อให้ทดสอบโหนดนี้แยกเดี่ยวได้ทันที
+1. **🧭 Orthogonal Module Partitioning:** แยกความรับผิดชอบออกเป็นแกนหน้าที่ (`4-Axis + Core` และ `Leaf-Node Utilities`)
+2. **📝 Linear Stepdown Skeleton:** โครงเมธอดเรียงจากบนลงล่าง `1 -> 2 -> 3` ด้วยชื่อที่กระชับตามลำดับศักดิ์ของภาษา
+3. **🧪 Subgraph State Isolation Contract:** ระบุ State Context ที่ต้องรับเข้ามาเพื่อให้ทดสอบโหนดนี้แยกเดี่ยวได้ทันที
 
-### 2. โหมดตรวจรีวิวโค้ด (`/review` และ `/review deep`)
-* **รีวิวมาตรฐาน (เร็วและคงบริบทการสนทนาครบ 100%):**
-  > *"ช่วย `/review` โค้ดที่แก้ล่าสุด (หรือไฟล์ `src/...`) ให้หน่อย"*
-  * **`ORACLE`** รัน [`scripts/preflight_scan.py`](./scripts/preflight_scan.py) และเลือกคัมภีร์ที่เกี่ยวข้อง (สูงสุด 3–4 ด้าน)
-  * **Main Agent** เปิดอ่านเฉพาะไฟล์ `references/` ที่ถูกเลือกขึ้นมาตรวจสอบและกรองผลผ่าน **`DOOM`**
-* **รีวิวแบบแยก Subagent อิสระ (`/review deep`):**
-  > *"ช่วย `/review deep` รอบนี้ให้หน่อย"*
-  * แตก **Parallel Subagents (`invoke_subagent`)** แยกห้องตรวจเพื่อรับมุมมองที่เป็นอิสระจากโค้ดที่เพิ่งเขียน
+---
+
+### 2. โหมดตรวจรีวิวโค้ด (Mode B: 3-Stage Progressive Review)
+> **Strict Read-Only Guard:** ระหว่างการรีวิว Agent จะอ่านโค้ดอย่างเดียวเท่านั้น และ **ไม่มีสิทธิ์แก้ไขไฟล์ในโปรเจกต์โดยพลการ** จนกว่าผู้ใช้จะยืนยันให้นำข้อเสนอแนะไปปรับใช้
+
+#### ⚡ แบบมาตรฐาน (Standard Review — In-Context Progressive Skill):
+> เรียกด้วย: `/defense-of-the-grid ช่วยรีวิวโค้ดให้หน่อย`, `/defense-of-the-grid เช็ค PR นี้ที` หรือพิมพ์ย่อ `/review`
+
+* ทำงานรวดเร็วและคงบริบทการพูดคุยในห้องเดิมครบ 100%
+* **`ORACLE`** รัน [`scripts/preflight_scan.py`](./scripts/preflight_scan.py) และเลือกคัมภีร์ที่เกี่ยวข้อง (สูงสุด 3–4 ด้าน)
+* **Main Agent** โหลดเฉพาะไฟล์ `references/` ที่เกี่ยวข้องเข้ามาตรวจสอบ แล้วส่งผลผ่าน **`DOOM`** เพื่อตัดความเห็นขยะทิ้ง
+
+#### 🔬 แบบละเอียดลึกซึ้ง (Deep / Fresh-Eyes Review — Parallel Subagents):
+> เรียกด้วย: `/defense-of-the-grid รีวิวละเอียด`, `/defense-of-the-grid รีวิวแบบเข้มๆ ทุกจุด`, `/defense-of-the-grid ขอ fresh eyes` หรือพิมพ์ย่อ `/review deep`
+
+* แยก **Parallel Subagents (`invoke_subagent`)** ประจำแต่ละ Lens ในห้องทำงานอิสระ ป้องกัน Bias จากการเขียนโค้ดในเซสชันเดิม
+* ดัมป์ scoped diff ไปยัง scratch directory แล้วส่งให้แต่ละ Subagent ตรวจสอบเฉพาะบรรทัดที่เปลี่ยนแปลง
+* รวบรวมผลตรวจและผ่านตัวกรอง **`DOOM`** เพื่อออก Final Verdict เดียวกัน
