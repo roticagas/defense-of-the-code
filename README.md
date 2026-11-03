@@ -116,6 +116,9 @@ flowchart TD
 ```text
 defense-of-the-grid/
 ├── SKILL.md                                      # ไฟล์คำสั่งหลักสำหรับ Antigravity Agent
+├── plugin.json                                   # Plugin Manifest สำหรับ Antigravity Plugin Manager / Marketplace
+├── install.sh                                    # สคริปต์ One-Liner ติดตั้งและอัปเดตอัตโนมัติ
+├── uninstall.sh                                  # สคริปต์ถอนการติดตั้งอย่างปลอดภัย
 ├── README.md                                     # เอกสารคู่มือการใช้งานสำหรับมนุษย์ (ไฟล์นี้)
 ├── references/                                   # คัมภีร์แยกตามบทบาท (Progressive Disclosure)
 │   ├── 00-the-ancients-core-laws.md              # หลักการสถาปัตยกรรมและวิศวกรรมซอฟต์แวร์ 7 ข้อ
@@ -136,36 +139,54 @@ defense-of-the-grid/
 
 ## 🚀 วิธีติดตั้งและถอนการติดตั้ง (Installation & Uninstallation)
 
-สามารถเลือกติดตั้งได้ 2 รูปแบบ:
+### ⚡ แบบที่ 1: One-Liner Quick Install (ง่ายและเร็วที่สุด สำหรับลงเครื่องใหม่)
+เปิด Terminal บนเครื่องที่ใช้งาน Antigravity แล้วรันคำสั่งเดียวจบ:
 
-### รูปแบบที่ 1: ติดตั้งระดับ Global (ใช้ได้กับทุกโปรเจกต์ในเครื่อง)
+```bash
+curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-grid/main/install.sh | bash
+```
 
-* **ติดตั้ง (สร้าง Symlink ไปยัง Global Skills ของ Antigravity):**
+> **หมายเหตุ:** หากเคยติดตั้งไว้แล้ว การรันคำสั่งเดิมซ้ำจะทำการ `git pull` อัปเดตเป็นเวอร์ชันล่าสุดให้อัตโนมัติ
+
+---
+
+### 🛠️ แบบที่ 2: ติดตั้งด้วยตัวเองหรือเลือกโหมด (Manual / Flexible Install)
+
+#### 1. ติดตั้งระดับ Global (ใช้ได้กับทุกโปรเจกต์ในเครื่อง)
+* **กรณีมีโฟลเดอร์ Repo ในเครื่องอยู่แล้ว:**
+  ```bash
+  ./install.sh                # สร้าง symlink เข้า ~/.gemini/config/skills/ อัตโนมัติ
+  ```
+* **หรือสร้าง Symlink ด้วยตัวเอง:**
   ```bash
   mkdir -p ~/.gemini/config/skills
   ln -sfn /path/to/defense-of-the-grid ~/.gemini/config/skills/defense-of-the-grid
   ```
-* **ถอนการติดตั้ง (ลบเฉพาะตัวเชื่อม Symlink โดยที่ไฟล์ใน Repo ต้นทางยังอยู่ครบ):**
+* **ถอนการติดตั้ง:**
   ```bash
-  rm ~/.gemini/config/skills/defense-of-the-grid
+  ./uninstall.sh              # หรือรัน: rm ~/.gemini/config/skills/defense-of-the-grid
   ```
-  *(ใช้ `rm` ธรรมดาเท่านั้น ห้ามใส่ `/` ต่อท้ายหรือใช้ `rm -rf .../defense-of-the-grid/` เพราะจะลบไฟล์ใน Repo ต้นทางผ่าน Symlink)*
 
-### รูปแบบที่ 2: ติดตั้งเฉพาะโปรเจกต์ (Workspace-Specific)
-
-* **ติดตั้ง (สร้าง Symlink หรือวางไว้ใน `.agents/skills/` ของโปรเจกต์ปลายทาง):**
+#### 2. ติดตั้งเฉพาะโปรเจกต์ (Workspace-Specific)
+* **ใช้สคริปต์ระบุโฟลเดอร์โปรเจกต์:**
+  ```bash
+  ./install.sh --workspace /path/to/your-project
+  ```
+* **หรือแชร์ผ่าน Git Submodule ในทีม:**
   ```bash
   cd /path/to/your-project
   mkdir -p .agents/skills
-  ln -sfn /path/to/defense-of-the-grid .agents/skills/defense-of-the-grid
+  git submodule add https://github.com/roticagas/defense-of-the-grid.git .agents/skills/defense-of-the-grid
   ```
-* **ถอนการติดตั้งออกจากโปรเจกต์:**
+
+#### 3. ติดตั้งในฐานะ Plugin Bundle (รองรับการเปิด/ปิดผ่าน UI Plugin Manager)
+* **ใช้สคริปต์ติดตั้ง:**
   ```bash
-  cd /path/to/your-project
-  rm .agents/skills/defense-of-the-grid          # กรณีติดตั้งแบบ Symlink
-  # rm -rf .agents/skills/defense-of-the-grid    # กรณีคัดลอกโฟลเดอร์มาวางจริง (ไม่ใช่ Symlink) เท่านั้น
+  ./install.sh --plugin       # ติดตั้งไปยัง ~/.gemini/config/plugins/defense-of-the-grid
   ```
-  *(หากติดตั้งไว้เป็น Git Submodule ให้รัน `git submodule deinit -f .agents/skills/defense-of-the-grid && git rm -f .agents/skills/defense-of-the-grid`)*
+* **ถอนการติดตั้ง:**
+  ```bash
+  ./uninstall.sh --plugin
 
 ---
 
