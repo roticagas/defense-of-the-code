@@ -1,20 +1,20 @@
 {
-  "name": "defense-of-the-grid",
-  "displayName": "Defense of the Grid",
+  "name": "defense-of-the-code",
+  "displayName": "Defense of the Code",
   "version": "1.0.0",
   "description": "Progressive software architecture blueprint and rigorous code review pipeline grounded in graph topology, orthogonal decomposition, and state isolation.",
   "author": {
     "name": "roticagas",
     "url": "https://github.com/roticagas"
   },
-  "homepage": "https://github.com/roticagas/defense-of-the-grid",
+  "homepage": "https://github.com/roticagas/defense-of-the-code",
   "repository": {
     "type": "git",
-    "url": "https://github.com/roticagas/defense-of-the-grid"
+    "url": "https://github.com/roticagas/defense-of-the-code"
   },
   "suggestedPrompts": [
-    "/defense-of-the-grid ช่วยออกแบบฟีเจอร์นี้ให้หน่อย",
-    "/defense-of-the-grid รีวิวโค้ดที่เพิ่งแก้ล่าสุดให้หน่อย",
-    "/defense-of-the-grid รีวิวละเอียดแบบเข้มๆ ทุกจุด"
+    "/defense-of-the-code ช่วยออกแบบฟีเจอร์นี้ให้หน่อย",
+    "/defense-of-the-code รีวิวโค้ดที่เพิ่งแก้ล่าสุดให้หน่อย",
+    "/defense-of-the-code รีวิวละเอียดแบบเข้มๆ ทุกจุด"
   ]
 }

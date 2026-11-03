@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# 🏰 Defense of the Grid — Uninstaller for Google Antigravity
+# 🏰 Defense of the Code — Uninstaller for Google Antigravity
 #
 # Usage:
 #   ./uninstall.sh [--global] [--workspace [DIR]] [--plugin]
@@ -15,7 +15,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-NAME="defense-of-the-grid"
+NAME="defense-of-the-code"
 MODE="global_skill"
 WORKSPACE_DIR="$(pwd)"
 
@@ -63,7 +63,7 @@ elif [ "$MODE" = "workspace_skill" ]; then
   TARGET="${WORKSPACE_DIR}/.agents/skills/${NAME}"
 fi
 
-echo -e "${BOLD}${CYAN}🏰 Defense of the Grid — Uninstaller${NC}"
+echo -e "${BOLD}${CYAN}🏰 Defense of the Code — Uninstaller${NC}"
 echo -e "Target: ${BOLD}${TARGET}${NC}"
 
 if [ -L "${TARGET}" ]; then

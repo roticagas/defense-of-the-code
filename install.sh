@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# 🏰 Defense of the Grid — Installer for Google Antigravity
+# 🏰 Defense of the Code — Installer for Google Antigravity
 #
 # Quick Install:
-#   curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-grid/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-code/main/install.sh | bash
 #
 # Options:
 #   --global             Install globally to ~/.gemini/config/skills/ (Default)
@@ -21,8 +21,8 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-REPO_URL="https://github.com/roticagas/defense-of-the-grid.git"
-NAME="defense-of-the-grid"
+REPO_URL="https://github.com/roticagas/defense-of-the-code.git"
+NAME="defense-of-the-code"
 MODE="global_skill"
 WORKSPACE_DIR="$(pwd)"
 
@@ -64,7 +64,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo -e "${BOLD}${CYAN}"
-echo "  🏰 Defense of the Grid — Installer"
+echo "  🏰 Defense of the Code — Installer"
 echo "  ==================================="
 echo -e "${NC}"
 
@@ -125,7 +125,8 @@ echo ""
 echo -e "${BOLD}${GREEN}🎉 Installation Complete!${NC}"
 echo ""
 echo "How to use in Antigravity:"
-echo -e "  ${BOLD}/defense-of-the-grid ช่วยออกแบบ...${NC}             (Mode A: Architectural Blueprint)"
-echo -e "  ${BOLD}/defense-of-the-grid รีวิวโค้ดให้หน่อย${NC}         (Mode B: Standard In-Context Review)"
-echo -e "  ${BOLD}/defense-of-the-grid รีวิวละเอียด ขอ fresh eyes${NC} (Mode B: Deep Review via Subagents)"
+echo -e "  ${BOLD}/defense-of-the-code ช่วยออกแบบ...${NC}             (Mode A: Architectural Blueprint)"
+echo -e "  ${BOLD}/defense-of-the-code รีวิวโค้ดให้หน่อย${NC}         (Mode B: Standard In-Context Review)"
+echo -e "  ${BOLD}/defense-of-the-code รีวิวละเอียด ขอ fresh eyes${NC} (Mode B: Deep Review via Subagents)"
+echo -e "  ${CYAN}(หรือใช้คำสั่งย่อ: ${BOLD}/dotc${CYAN}, ${BOLD}/blueprint${CYAN}, ${BOLD}/review${CYAN}, ${BOLD}/review deep${CYAN})${NC}"
 echo ""

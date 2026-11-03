@@ -61,7 +61,7 @@ HUNK_HEADER_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Preflight scanner for Defense of the Grid")
+    parser = argparse.ArgumentParser(description="Preflight scanner for Defense of the Code")
     parser.add_argument("files", nargs="*", help="Optional target files to scan")
     parser.add_argument("--base", dest="base_ref", help="Compare against a base branch/ref (e.g., main, origin/develop)")
     parser.add_argument("--dump-diff", dest="dump_diff", help="Write unified diff snapshot to this file path")

@@ -1,20 +1,20 @@
 ---
-name: defense-of-the-grid
+name: defense-of-the-code
 description: >-
   Explicitly invoked architecture blueprint and progressive code review skill.
-  Activate ONLY when the user explicitly invokes `/defense-of-the-grid` (or explicit
-  `/blueprint`, `/review`, `/review deep` commands). Do NOT auto-activate on general
+  Activate ONLY when the user explicitly invokes `/defense-of-the-code` (or explicit
+  `/dotc`, `/blueprint`, `/review`, `/review deep` commands). Do NOT auto-activate on general
   questions, feasibility checks, or casual design/planning discussions—let the agent
-  explore and answer freely first until the user explicitly calls `/defense-of-the-grid`
+  explore and answer freely first until the user explicitly calls `/defense-of-the-code` (or `/dotc`)
   followed by natural language instructions (e.g., "ช่วยออกแบบ...", "วางโครงสร้างต่อจากที่คุย",
   "รีวิวโค้ด", "รีวิวละเอียด").
 ---
 
-# Defense of the Grid — Software Architecture & Progressive Code Review Skill
+# Defense of the Code — Software Architecture & Progressive Code Review Skill
 
 You operate under the philosophy of **The Middle Path (Proportional Complexity)**, grounded in **Graph Theory, Modular Decomposition, and State Isolation**. Architecture must scale proportionally to the problem's essential domain complexity: reject both naive under-engineering (spaghetti code, unconstrained side effects, implicit state coupling) and speculative over-engineering (YAGNI violations, premature abstractions, cargo-cult design patterns, and unfounded theoretical edge cases).
 
-> **Explicit Activation Rule:** Only activate this skill when the user explicitly invokes `/defense-of-the-grid` (or `/blueprint`, `/review`). During normal conversation without this command, answer freely and naturally without imposing this skill's templates.
+> **Explicit Activation Rule:** Only activate this skill when the user explicitly invokes `/defense-of-the-code` (or `/dotc`, `/blueprint`, `/review`). During normal conversation without this command, answer freely and naturally without imposing this skill's templates.
 
 > **Path Resolution Note:** All `./references/...` and `./scripts/...` links below are relative to the directory containing this `SKILL.md` file (NOT the target project's working directory). Always resolve their absolute paths from this skill's folder while running commands inside the target project's working directory.
 
@@ -26,7 +26,7 @@ Before executing any mode, read and internalize the 7 architectural laws in:
 
 ## Operational Modes (Natural Language Intent Routing)
 
-When the user invokes `/defense-of-the-grid <natural language request>`, infer the mode from their conversational phrasing:
+When the user invokes `/defense-of-the-code <natural language request>` (or `/dotc <natural language request>`), infer the mode from their conversational phrasing:
 - **Design / Blueprint Intent** (e.g., *"ช่วยออกแบบหน่อย"*, *"วางแผนโค้ดต่อจากที่คุยกัน"*, *"ออกแบบละเอียด"*, *"blueprint"*) $\rightarrow$ Run **Mode A**.
 - **Standard Review Intent** (e.g., *"รีวิวโค้ดให้หน่อย"*, *"เช็ค PR นี้ที"*, *"ตรวจไฟล์ที่เพิ่งแก้"*, *"review"*) $\rightarrow$ Run **Mode B (⚡ Default Mode)**.
 - **Deep / Thorough Review Intent** (e.g., *"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ตรวจลึกๆ ทุกจุด"*, *"review deep"*, *"fresh eyes"*) $\rightarrow$ Run **Mode B (🔬 Deep / Fresh-Eyes Mode)**.

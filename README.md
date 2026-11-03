@@ -1,4 +1,4 @@
-# 🏰 Defense of the Grid (`defense-of-the-grid`)
+# 🏰 Defense of the Code (`defense-of-the-code`)
 
 > **Progressive Software Architecture & Code Review Skill สำหรับ Google Antigravity**  
 > ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **Progressive Disclosure** ที่เลือกโหลดเฉพาะคัมภีร์ผู้เชี่ยวชาญที่เกี่ยวข้อง และคัดกรองความเห็นขยะรวมถึงข้อเรียกร้องที่สร้าง Churn สูงในโค้ดเดิม (High-Churn Brownfield Demands) ทิ้งอย่างเด็ดขาด
@@ -12,7 +12,7 @@
 2. **ถ้าสร้างแยกเป็นหลาย Custom Agents ถาวร:** คุยต่อกันไม่รู้เรื่อง บริบทตกหล่น (Context Loss) และเสียเวลาสลับตัว
 3. **ถ้าไม่มีตัวกรองขั้นสุดท้าย:** AI มักพยายาม *"เค้นหาเรื่องมาติให้ได้"* จนเกิดความเห็นขยะ (Nitpicking), แนะนำ Design Pattern ท่ายากเกินความจำเป็น (Speculative Generality / YAGNI Violations), หรือยกกรณีสมมติที่ไม่มีโอกาสเกิดจริง
 
-**`defense-of-the-grid`** ใช้สถาปัตยกรรม **3-Stage Progressive Pipeline**: ให้ Main Agent ตัวเดียวที่รู้บริบทงานครบ 100% ทำหน้าที่คัดกรอง (`ORACLE`), เลือกเปิดอ่านเฉพาะคัมภีร์เฉพาะทางที่เกี่ยวข้อง (`references/02..07`), และกรองความเห็นขยะทิ้ง (`DOOM`):
+**`defense-of-the-code`** ใช้สถาปัตยกรรม **3-Stage Progressive Pipeline**: ให้ Main Agent ตัวเดียวที่รู้บริบทงานครบ 100% ทำหน้าที่คัดกรอง (`ORACLE`), เลือกเปิดอ่านเฉพาะคัมภีร์เฉพาะทางที่เกี่ยวข้อง (`references/02..07`), และกรองความเห็นขยะทิ้ง (`DOOM`):
 
 ```mermaid
 flowchart TD
@@ -114,7 +114,7 @@ flowchart TD
 ## 📂 โครงสร้างไฟล์ใน Repository
 
 ```text
-defense-of-the-grid/
+defense-of-the-code/
 ├── SKILL.md                                      # ไฟล์คำสั่งหลักสำหรับ Antigravity Agent
 ├── plugin.json                                   # Plugin Manifest สำหรับ Antigravity Plugin Manager / Marketplace
 ├── install.sh                                    # สคริปต์ One-Liner ติดตั้งและอัปเดตอัตโนมัติ
@@ -143,7 +143,7 @@ defense-of-the-grid/
 เปิด Terminal บนเครื่องที่ใช้งาน Antigravity แล้วรันคำสั่งเดียวจบ:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-grid/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-code/main/install.sh | bash
 ```
 
 > **หมายเหตุ:** หากเคยติดตั้งไว้แล้ว การรันคำสั่งเดิมซ้ำจะทำการ `git pull` อัปเดตเป็นเวอร์ชันล่าสุดให้อัตโนมัติ
@@ -160,11 +160,11 @@ curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-grid/main/
 * **หรือสร้าง Symlink ด้วยตัวเอง:**
   ```bash
   mkdir -p ~/.gemini/config/skills
-  ln -sfn /path/to/defense-of-the-grid ~/.gemini/config/skills/defense-of-the-grid
+  ln -sfn /path/to/defense-of-the-code ~/.gemini/config/skills/defense-of-the-code
   ```
 * **ถอนการติดตั้ง:**
   ```bash
-  ./uninstall.sh              # หรือรัน: rm ~/.gemini/config/skills/defense-of-the-grid
+  ./uninstall.sh              # หรือรัน: rm ~/.gemini/config/skills/defense-of-the-code
   ```
 
 #### 2. ติดตั้งเฉพาะโปรเจกต์ (Workspace-Specific)
@@ -176,37 +176,42 @@ curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-grid/main/
   ```bash
   cd /path/to/your-project
   mkdir -p .agents/skills
-  git submodule add https://github.com/roticagas/defense-of-the-grid.git .agents/skills/defense-of-the-grid
+  git submodule add https://github.com/roticagas/defense-of-the-code.git .agents/skills/defense-of-the-code
   ```
 
 #### 3. ติดตั้งในฐานะ Plugin Bundle (รองรับการเปิด/ปิดผ่าน UI Plugin Manager)
 * **ใช้สคริปต์ติดตั้ง:**
   ```bash
-  ./install.sh --plugin       # ติดตั้งไปยัง ~/.gemini/config/plugins/defense-of-the-grid
+  ./install.sh --plugin       # ติดตั้งไปยัง ~/.gemini/config/plugins/defense-of-the-code
   ```
 * **ถอนการติดตั้ง:**
   ```bash
   ./uninstall.sh --plugin
+  ```
 
 ---
 
 ## 💡 วิธีเรียกใช้งาน (Usage)
 
-> **🔒 Explicit Invocation Rule:** Skill นี้ถูกออกแบบให้ **ไม่เปิดทำงานอัตโนมัติ** ในระหว่างการสนทนาทั่วไป การปรึกษา feasibility หรือการพูดคุยทางเทคนิคทั่วไป เพื่อให้อิสระในการแลกเปลี่ยนไอเดียอย่างเป็นธรรมชาติ Skill จะทำงานก็ต่อเมื่อผู้ใช้เรียกใช้ผ่านคำสั่ง `/defense-of-the-grid` (หรือคำสั่งย่อ `/blueprint`, `/review`, `/review deep`) เท่านั้น
+> **🔒 Explicit Invocation Rule:** Skill นี้ถูกออกแบบให้ **ไม่เปิดทำงานอัตโนมัติ** ในระหว่างการสนทนาทั่วไป การปรึกษา feasibility หรือการพูดคุยทางเทคนิคทั่วไป เพื่อให้อิสระในการแลกเปลี่ยนไอเดียอย่างเป็นธรรมชาติ Skill จะทำงานก็ต่อเมื่อผู้ใช้เรียกใช้ผ่านคำสั่ง `/defense-of-the-code` (หรือคำสั่งย่อ `/dotc`, `/blueprint`, `/review`, `/review deep`) เท่านั้น
 
 ### 🗣️ Natural Language Intent Routing (สั่งงานด้วยภาษาพูด)
-สามารถเรียก `/defense-of-the-grid` ตามด้วยข้อความภาษาธรรมชาติเพื่อเลือกโหมดได้ทันที:
+สามารถเรียก `/defense-of-the-code` (หรือ `/dotc`) ตามด้วยข้อความภาษาธรรมชาติเพื่อเลือกโหมดได้ทันที:
 
 ```text
-/defense-of-the-grid ช่วยออกแบบฟีเจอร์คำนวณภาษีต่อจากที่คุยกันเมื่อกี้หน่อย      --> Mode A (Blueprint)
-/defense-of-the-grid รีวิวโค้ดที่เพิ่งแก้ใน commit ล่าสุดให้หน่อย                 --> Mode B (Standard Review)
-/defense-of-the-grid รีวิวละเอียดแบบเข้มๆ ขอ fresh eyes                         --> Mode B (Deep Review)
+/defense-of-the-code ช่วยออกแบบฟีเจอร์คำนวณภาษีต่อจากที่คุยกันเมื่อกี้หน่อย      --> Mode A (Blueprint)
+/defense-of-the-code รีวิวโค้ดที่เพิ่งแก้ใน commit ล่าสุดให้หน่อย                 --> Mode B (Standard Review)
+/defense-of-the-code รีวิวละเอียดแบบเข้มๆ ขอ fresh eyes                         --> Mode B (Deep Review)
+
+# หรือพิมพ์ย่อด้วย /dotc:
+/dotc ช่วยออกแบบฟีเจอร์...
+/dotc รีวิวโค้ดให้หน่อย
 ```
 
 ---
 
 ### 1. โหมดวางโครงสร้างสถาปัตยกรรม (Mode A: Architectural Blueprint)
-> เรียกด้วย: `/defense-of-the-grid ช่วยออกแบบ...`, `/defense-of-the-grid วางโครงสร้างต่อจากที่คุย` หรือพิมพ์ย่อ `/blueprint`
+> เรียกด้วย: `/defense-of-the-code ช่วยออกแบบ...`, `/dotc ช่วยออกแบบ...`, `/defense-of-the-code วางโครงสร้างต่อจากที่คุย` หรือพิมพ์ย่อ `/blueprint`
 
 * **Preserve Context & Layer On Prior Exploration:** หากในการสนทนาก่อนหน้ามีการวิเคราะห์ feasibility, payload API, ข้อจำกัด infra หรือ root-cause มาแล้ว Agent จะนำข้อมูลเชิงลึกเหล่านั้นมาสังเคราะห์ลงใน Blueprint ทันที โดยไม่เริ่มถามใหม่จากศูนย์
 * **Scale to Feature Size (YAGNI First):** ปรับขนาดตามงานจริง หากเป็นเพียงการเพิ่มเมธอดหรือ endpoint ย่อย จะระบุตำแหน่งไฟล์ในบรรทัดเดียว ไม่สร้างแกนโมดูลหรือเลเยอร์ปลอมขึ้นมาให้รก
@@ -223,14 +228,14 @@ Agent จะนำเสนอโครงสร้าง 3 ส่วนก่�
 > **Strict Read-Only Guard:** ระหว่างการรีวิว Agent จะอ่านโค้ดอย่างเดียวเท่านั้น และ **ไม่มีสิทธิ์แก้ไขไฟล์ในโปรเจกต์โดยพลการ** จนกว่าผู้ใช้จะยืนยันให้นำข้อเสนอแนะไปปรับใช้
 
 #### ⚡ แบบมาตรฐาน (Standard Review — In-Context Progressive Skill):
-> เรียกด้วย: `/defense-of-the-grid ช่วยรีวิวโค้ดให้หน่อย`, `/defense-of-the-grid เช็ค PR นี้ที` หรือพิมพ์ย่อ `/review`
+> เรียกด้วย: `/defense-of-the-code ช่วยรีวิวโค้ดให้หน่อย`, `/dotc รีวิวโค้ดให้หน่อย`, `/defense-of-the-code เช็ค PR นี้ที` หรือพิมพ์ย่อ `/review`
 
 * ทำงานรวดเร็วและคงบริบทการพูดคุยในห้องเดิมครบ 100%
 * **`ORACLE`** รัน [`scripts/preflight_scan.py`](./scripts/preflight_scan.py) และเลือกคัมภีร์ที่เกี่ยวข้อง (สูงสุด 3–4 ด้าน)
 * **Main Agent** โหลดเฉพาะไฟล์ `references/` ที่เกี่ยวข้องเข้ามาตรวจสอบ แล้วส่งผลผ่าน **`DOOM`** เพื่อตัดความเห็นขยะทิ้ง
 
 #### 🔬 แบบละเอียดลึกซึ้ง (Deep / Fresh-Eyes Review — Parallel Subagents):
-> เรียกด้วย: `/defense-of-the-grid รีวิวละเอียด`, `/defense-of-the-grid รีวิวแบบเข้มๆ ทุกจุด`, `/defense-of-the-grid ขอ fresh eyes` หรือพิมพ์ย่อ `/review deep`
+> เรียกด้วย: `/defense-of-the-code รีวิวละเอียด`, `/dotc รีวิวละเอียด`, `/defense-of-the-code รีวิวแบบเข้มๆ ทุกจุด`, `/defense-of-the-code ขอ fresh eyes` หรือพิมพ์ย่อ `/review deep`
 
 * แยก **Parallel Subagents (`invoke_subagent`)** ประจำแต่ละ Lens ในห้องทำงานอิสระ ป้องกัน Bias จากการเขียนโค้ดในเซสชันเดิม
 * ดัมป์ scoped diff ไปยัง scratch directory แล้วส่งให้แต่ละ Subagent ตรวจสอบเฉพาะบรรทัดที่เปลี่ยนแปลง
