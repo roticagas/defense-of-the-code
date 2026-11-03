@@ -1,6 +1,12 @@
 # THE ANCIENTS — Core Architecture & Engineering Laws
 
-These 7 principles define the architectural invariants of the codebase. Every review and blueprint must enforce these principles while rejecting speculative over-engineering (YAGNI).
+## Core Philosophy: The Middle Path (Proportional Engineering)
+True architectural soundness follows **The Middle Path**—balancing simplicity and structure so every component scales proportionally to the problem's essential complexity:
+- **Reject Naive Under-Engineering:** Resist hasty, fragile shortcuts, uncontrolled side effects, monolithic dumping grounds, and hidden temporal coupling masked as "simple code."
+- **Reject Speculative Over-Engineering:** Resist premature abstractions, hypothetical interfaces, extraneous configuration layers, and deep indirection that solve unmanifested future problems (YAGNI).
+- **The Pragmatic Golden Mean:** Build the leanest viable structure that guarantees mathematical correctness (acyclic DAG), clean isolation boundaries, and decoupled testability.
+
+These 7 principles define the architectural invariants of the codebase. Every review and blueprint must enforce these principles under the guidance of The Middle Path.
 
 ## Law 1: Orthogonal Decomposition (4-Axis + Core Partitioning)
 - **Avoid Monolithic Services:** Partition module responsibilities along orthogonal functional axes (**up to 4 Peripheral Axes + 1 optional `Core/Center` Coordinator**).
