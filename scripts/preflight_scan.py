@@ -86,6 +86,7 @@ def main() -> None:
     print(
         f"=== Preflight Scan on {len(targets)} file(s) [{mode_label} | ~{total_changed} changed line(s)] ==="
     )
+    scan_version_hazards(targets)
     for target in targets:
         print(f" * {target} [{format_line_ranges(changed_lines.get(target))}]")
         scan_file(target, changed_lines.get(target))
@@ -217,6 +218,46 @@ def format_line_ranges(line_nums: set[int] | None) -> str:
             start = prev = n
     ranges.append(f"L{start}-L{prev}" if start != prev else f"L{start}")
     return ", ".join(ranges)
+
+
+def scan_version_hazards(files: list[Path]) -> None:
+    legacy_files: list[str] = []
+    gate_files: list[str] = []
+
+    for p in files:
+        parts_lower = [part.lower() for part in p.parts]
+        name_lower = p.name.lower()
+        path_str = str(p).lower()
+
+        is_legacy = (
+            "legacy" in parts_lower
+            or any("legacy" in part for part in parts_lower)
+            or "/v1/" in path_str
+            or name_lower.startswith("legacy")
+        )
+        is_gate = (
+            any(
+                k in parts_lower or any(k in part for part in parts_lower)
+                for k in ("security", "auth", "filters", "middleware", "interceptors", "guards")
+            )
+            or name_lower in ("routes", "application.conf")
+            or "jwt" in name_lower
+        )
+
+        if is_legacy and len(legacy_files) < 3:
+            legacy_files.append(str(p))
+        if is_gate and len(gate_files) < 3:
+            gate_files.append(str(p))
+
+    if legacy_files and gate_files:
+        print(
+            "\n[CROSS-VERSION HAZARD SIGNAL] Detected edits touching BOTH legacy/v1 components "
+            f"({', '.join(legacy_files)}) AND shared gatekeeper/security components "
+            f"({', '.join(gate_files)}).\n"
+            " -> MANDATORY INVARIANT: Verify that shared gatekeepers/ActionBuilders do NOT leak modern "
+            "error envelopes (e.g. 401/403/500 ApiResponse) into legacy wire contracts. "
+            "Draft BREWMASTER & EARTHSHAKER with priority on Legacy Error Envelope Isolation.\n"
+        )
 
 
 def scan_file(path: Path, active_lines: set[int] | None) -> None:

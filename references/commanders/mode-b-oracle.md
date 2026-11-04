@@ -20,7 +20,7 @@ Select additional Squads (and pick only the relevant Heroes within each Squad) *
   - Captain **`ARC WARDEN`** (`arc-warden.md`): Subgraph State Isolation (Law 4) & explicit context injection.
   - **`MEDUSA`** (`medusa.md`): Immutability, unintended reference mutation hazards, and schema-first domain modeling.
   - **`FACELESS VOID`** (`faceless-void.md`): Domain calculation edge cases, `0`/negative/empty/`null`/`Option` boundaries, and "Parse, Don't Validate".
-  - **`BREWMASTER`** (`brewmaster.md`): Draft when modifying existing DTOs, API payloads, DB columns, or serialized state (Backward Compatibility).
+  - **`BREWMASTER`** (`brewmaster.md`): Draft when modifying existing DTOs, API payloads, DB columns, serialized state, or when modifying routes/controllers/shared security middleware affecting legacy or multi-version APIs (Dual-Stack Wire Isolation & Error Envelopes).
 
 - **👑 Squad 3: Fault & Concurrency (`../heroes/review-squads/squad-3-fault/`) — Draft IF async, I/O, DB transactions, retries, or resource handles are touched:**
   - Captain **`WRAITH KING`** (`wraith-king.md`): Explicit fault propagation, swallowed exception detection, and DB transaction atomicity.
