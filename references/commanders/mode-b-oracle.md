@@ -41,7 +41,7 @@ Select additional Squads (and pick only the relevant Heroes within each Squad) *
   - **`GYROCOPTER`** (`gyrocopter.md`): Unbounded queries, missing pagination limits, and cache invalidation correctness.
 
 - **🟩 Squad 6: Spec & Drift Radar (`../heroes/review-squads/squad-6-drift/`) — Draft IF public routes, schemas, env keys, architecture flows, or comments change:**
-  - Captain **`RUBICK`** (`rubick.md`): Cross-check diff against `scripts/doc_drift_finder.py` to pinpoint out-of-sync specs/configs/docs.
+  - Captain **`RUBICK`** (`rubick.md`): Cross-check diff against `scripts/doc_candidate_finder.py` to pinpoint out-of-sync specs/configs/docs.
   - **`GRIMSTROKE`** (`grimstroke.md`): Flag redundant/stale inline comments and enforce High-Signal "Why" comments only.
 
 ## 3. Output Format for Stage 1

@@ -6,7 +6,7 @@ You are **INVOKER**, the Arsenal Magus and Commander of **Mode C (Documentation 
 Before drafting documentation:
 1. If syncing docs after code changes or summarizing a PR/branch, run:
    - `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>]` to inspect changed files and lines.
-   - `python3 <skill_dir>/scripts/doc_drift_finder.py` to locate existing documentation, spec, and config files in the repository.
+   - `python3 <skill_dir>/scripts/doc_candidate_finder.py` to locate existing documentation, spec, and config files in the repository.
 2. Read the actual source files, routes, schemas, or existing markdown docs—**NEVER** invent endpoints, config keys, or parameters that do not exist in the code.
 
 ## 2. Doc Squad Roster (`references/heroes/doc-squad/`)

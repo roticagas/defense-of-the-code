@@ -106,7 +106,7 @@ defense-of-the-code/
 ├── README.md                                     # เอกสารคู่มือการใช้งานฉบับเต็ม
 ├── scripts/
 │   ├── preflight_scan.py                         # สแกน git diff, Law 3 Fan-Out และ Law 5 Naming Hints
-│   └── doc_drift_finder.py                       # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
+│   └── doc_candidate_finder.py                    # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
 └── references/
     ├── 00-the-ancients-core-laws.md              # กฎเหล็กสูงสุด 7 ข้อ (The Ancients)
     ├── commanders/                               # แม่ทัพเปิดเกม & ผู้กรองปิดท้ายของทั้ง 3 โหมด

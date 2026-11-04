@@ -79,7 +79,7 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
 - **🚀 Squad 5: Scale & Telemetry (`references/heroes/review-squads/squad-5-scale/`):**
   - Captain **`TINKER`** ([tinker.md](./references/heroes/review-squads/squad-5-scale/tinker.md)) | **`CLOCKWERK`** ([clockwerk.md](./references/heroes/review-squads/squad-5-scale/clockwerk.md)) | **`ALCHEMIST`** ([alchemist.md](./references/heroes/review-squads/squad-5-scale/alchemist.md)) | **`GYROCOPTER`** ([gyrocopter.md](./references/heroes/review-squads/squad-5-scale/gyrocopter.md))
 - **🟩 Squad 6: Spec & Drift Radar (`references/heroes/review-squads/squad-6-drift/`):**
-  - Captain **`RUBICK`** ([rubick.md](./references/heroes/review-squads/squad-6-drift/rubick.md)) *(also run `python3 <skill_dir>/scripts/doc_drift_finder.py`)* | **`GRIMSTROKE`** ([grimstroke.md](./references/heroes/review-squads/squad-6-drift/grimstroke.md))
+  - Captain **`RUBICK`** ([rubick.md](./references/heroes/review-squads/squad-6-drift/rubick.md)) *(also run `python3 <skill_dir>/scripts/doc_candidate_finder.py`)* | **`GRIMSTROKE`** ([grimstroke.md](./references/heroes/review-squads/squad-6-drift/grimstroke.md))
 
 **Execution Modes for Stage 2:**
 - **⚡ Default Mode (Standard Review — In-Context Progressive Skill):**
@@ -107,7 +107,7 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
 When triggered to generate, update, or synchronize technical documentation, diagrams, ADRs, or PR summaries:
 1. **Stage 1 — Commander `INVOKER`:**
    - Read [mode-c-invoker.md](./references/commanders/mode-c-invoker.md).
-   - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_drift_finder.py` when syncing changes) and draft only the required chroniclers from the **Doc Squad** (`references/heroes/doc-squad/`):
+   - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_candidate_finder.py` when syncing changes) and draft only the required chroniclers from the **Doc Squad** (`references/heroes/doc-squad/`):
      - **`KEEPER OF THE LIGHT`** ([keeper-of-the-light.md](./references/heroes/doc-squad/keeper-of-the-light.md)) — `ARCHITECTURE.md`, Mermaid Diagrams (DAG, Sequence, State) & Data Flows
      - **`WARLOCK`** ([warlock.md](./references/heroes/doc-squad/warlock.md)) — API Contracts (OpenAPI/Swagger), Request/Response Tables, Schemas & `.env.example`
      - **`CHEN`** ([chen.md](./references/heroes/doc-squad/chen.md)) — `README.md`, Onboarding Quickstart, Build/Test Commands & Troubleshooting Runbooks
