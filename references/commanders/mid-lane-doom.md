@@ -15,15 +15,15 @@ Immediately **DISCARD** any Stage 2 finding that matches these criteria:
 ## Final Verdict Output Format
 Present the surviving findings in the **user's conversation language** (keeping technical terms and code identifiers in English), concise and direct.
 **Important:** Omit any section (`🔴`, `🟡`, or `🗺️`) that has zero surviving items—never invent filler points to populate a header. If no `🔴 BLOCKER` or `🟡 SHOULD FIX` items survive, output ONLY:
-> **🟢 ANCIENTS APPROVED** — All architectural invariants and domain contracts are satisfied. No actionable defects found.
+> **🟢 APPROVED · THE ANCIENT STANDS** — All architectural invariants and domain contracts are satisfied. No actionable defects found.
 
 Otherwise, include only the non-empty sections below:
 
-### 🔴 BLOCKER (Critical Defects / Security Vulnerabilities / Severe Architectural Violations)
+### 🔴 BLOCKER · TOWER DOWN (Critical Defects / Security Vulnerabilities / Severe Architectural Violations)
 - `[HERO_NAME]` **`file_path:line`** — Concise explanation of the failure scenario and concrete replacement code snippet.
 
-### 🟡 SHOULD FIX (Module Partitioning / Subgraph Isolation / Lexical Conciseness / Stepdown Ordering / Stylistic Homogeneity)
+### 🟡 SHOULD FIX · TOWER UNDER ATTACK (Module Partitioning / Subgraph Isolation / Lexical Conciseness / Stepdown Ordering / Stylistic Homogeneity)
 - `[HERO_NAME]` **`file_path:line`** — Specific structural or readability violation, accompanied by a ready-to-paste refactored code block.
 
-### 🗺️ RUBICK'S MAP SYNC (Specifications / Configs / Documentation to Synchronize)
+### 🗺️ MAP SYNC · WARDS NEEDED (Specifications / Configs / Documentation to Synchronize)
 - Exact project files that require updating to match the code changes (omit this section if none).

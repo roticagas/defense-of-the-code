@@ -108,8 +108,8 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
 1. Read [mid-lane-doom.md](./references/commanders/mid-lane-doom.md).
 2. Filter all raw findings from Stage 2 through **every rule of DOOM's Silence Filter**.
 3. Present the final consolidated review in the user's conversation language (omitting any empty section):
-   - **`🟢 ANCIENTS APPROVED`** (if zero `BLOCKER` or `SHOULD FIX` items survive)
-   - 🔴 **BLOCKER** | 🟡 **SHOULD FIX** | 🗺️ **RUBICK'S MAP SYNC**
+   - 🟢 **APPROVED · THE ANCIENT STANDS** (if zero `BLOCKER` or `SHOULD FIX` items survive)
+   - 🔴 **BLOCKER · TOWER DOWN** | 🟡 **SHOULD FIX · TOWER UNDER ATTACK** | 🗺️ **MAP SYNC · WARDS NEEDED**
 
 ---
 
