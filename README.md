@@ -1,7 +1,7 @@
 # 🏰 Defense of the Code (`defense-of-the-code`)
 
 > **Multi-Commander & Squad Software Architecture, Code Review & Documentation Skill สำหรับ Google Antigravity**  
-> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แยกแม่ทัพและทีมฮีโร่ออกเป็น **3 โหมดหลัก (Plan / Review / Documentation)** โดยไม่มีฮีโร่ซ้ำกันเลย (รวม 37 ฮีโร่)
+> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แยกแม่ทัพและทีมฮีโร่ออกเป็น **3 โหมดหลัก (Plan / Review / Documentation)** โดยไม่มีฮีโร่ซ้ำกันเลย (รวม 33 ฮีโร่)
 
 ---
 
@@ -27,7 +27,7 @@ flowchart TD
     TITAN -->|"ดราฟต์ตามขนาดงาน"| PS["🧭 Plan Squad (5 Heroes)<br/>• Dark Seer (4-Axis & DAG)<br/>• Kunkka (Stepdown Skeleton)<br/>• Enigma (State Isolation)<br/>• Treant Protector (Brownfield Plan)<br/>• Tiny (Schema & Payload)"]
     PS --> AA["❄️ ANCIENT APPARITION<br/>(Cold Pragmatism & YAGNI Filter)"]
 
-    ORACLE -->|"ดราฟต์ 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (21 Heroes)<br/>1. Topology (Capt: Earthshaker + 4)<br/>2. State (Capt: Arc Warden + 3)<br/>3. Fault (Capt: Wraith King + 3)<br/>4. Security (Capt: Templar Assassin + 3)<br/>5. Scale (Capt: Tinker + 3)<br/>6. Drift (Capt: Rubick + 1)"]
+    ORACLE -->|"ดราฟต์ 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (23 Heroes)<br/>1. Topology (Capt: Earthshaker + 4)<br/>2. State (Capt: Arc Warden + 3)<br/>3. Fault (Capt: Wraith King + 3)<br/>4. Security (Capt: Templar Assassin + 3)<br/>5. Scale (Capt: Tinker + 3)<br/>6. Drift (Capt: Rubick + 1)"]
     RS --> DOOM["🔥 DOOM<br/>(Silence Filter & Verdict Arbiter)"]
 
     INVOKER -->|"ดราฟต์ตามชนิดเอกสาร"| DS["📜 Doc Squad (5 Heroes)<br/>• Keeper of the Light (Mermaid & Flow)<br/>• Warlock (API/Config Specs)<br/>• Chen (README & Runbook)<br/>• Void Spirit (ADR & Why)<br/>• Zeus (PR Summary & Changelog)"]
