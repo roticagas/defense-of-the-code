@@ -1,11 +1,11 @@
 # 🏰 Defense of the Code (`defense-of-the-code`)
 
-> **Multi-Commander & Squad Software Architecture, Code Review & Documentation Skill สำหรับ Google Antigravity**  
-> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แยกแม่ทัพและทีมฮีโร่ออกเป็น **3 โหมดหลัก (Plan / Review / Documentation)** โดยไม่มีฮีโร่ซ้ำกันเลย (รวม 33 ฮีโร่)
+> **3-Lane Multi-Commander & Squad Software Architecture, Code Review & Documentation Skill สำหรับ Google Antigravity**  
+> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **3-Lane Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แบ่งแผนที่ออกเป็น **3 เลนหลัก (🔨 Top Lane: Plan / 🔮 Mid Lane: Review / 📖 Bot Lane: Doc)** รวม **13 Squads, 46 ฮีโร่ไม่ซ้ำกัน**
 
 ---
 
-## 🎯 แนวคิดการออกแบบ (Symmetrical Multi-Commander & Squad Pipeline)
+## 🎯 แนวคิดการออกแบบ (Symmetrical 3-Lane Multi-Squad Pipeline)
 
 ปัญหาคลาสสิกของการใช้ AI ช่วยออกแบบระบบ รีวิวโค้ด หรือเขียนเอกสาร คือ:
 1. **ถ้ายัดทุกกฎใส่ Prompt เดียวตลอดเวลา:** Context บวม เปลือง Token และ AI โฟกัสหลุด
@@ -13,24 +13,24 @@
 3. **ถ้าปนบทบาทคนตรวจโค้ด (Read-only) กับคนเขียนเอกสาร (Writer):** คำสั่งในไฟล์เดียวกันตีกันเอง
 4. **ถ้าไม่มีตัวกรองขั้นสุดท้าย:** AI มักเค้นหาเรื่องจุกจิกมาติ (Nitpicking), แนะนำท่ายากเกินความจำเป็น (YAGNI), หรือเขียนเอกสารน้ำท่วมทุ่ง
 
-**`defense-of-the-code` (v2.0)** จึงจัดโครงสร้างแบบ **Symmetrical 3-Stage Squad Pipeline** ในทุกโหมด:
-> **แม่ทัพเปิดเกม (Mode Commander) $\rightarrow$ ทีมผู้เชี่ยวชาญเฉพาะทาง (`1 Hero = 1 File`) $\rightarrow$ ผู้กรองปิดท้าย (Final Filter)**
+**`defense-of-the-code` (v2.1)** จึงจัดโครงสร้างแบบ **Symmetrical 3-Stage Squad Pipeline** ในทั้ง **3 Lanes**:
+> **แม่ทัพประจำเลน (Lane Commander) $\rightarrow$ หน่วยรบผู้เชี่ยวชาญเฉพาะทาง (`13 Squads`, `1 Hero = 1 File`) $\rightarrow$ ผู้กรองปิดท้าย (Final Filter)**
 
 ```mermaid
 flowchart TD
     USER["📥 ผู้ใช้เรียก /dotc + คำสั่งภาษาธรรมชาติ"] --> ANCIENTS["🏛️ THE ANCIENTS<br/>(00-the-ancients-core-laws.md)"]
     
-    ANCIENTS -->|"🔨 Mode A: ออกแบบโครงสร้าง"| TITAN["ELDER TITAN<br/>(Plan Commander)"]
-    ANCIENTS -->|"🔮 Mode B: รีวิวโค้ด"| ORACLE["ORACLE<br/>(Review Triage Commander)"]
-    ANCIENTS -->|"📖 Mode C: สร้าง/ซิงก์เอกสาร"| INVOKER["INVOKER<br/>(Doc Commander)"]
+    ANCIENTS -->|"🔨 Top Lane: ออกแบบโครงสร้าง"| TITAN["ELDER TITAN<br/>(Top Lane Commander)"]
+    ANCIENTS -->|"🔮 Mid Lane: รีวิวโค้ด"| ORACLE["ORACLE<br/>(Mid Lane Triage Commander)"]
+    ANCIENTS -->|"📖 Bot Lane: สร้าง/ซิงก์เอกสาร"| INVOKER["INVOKER<br/>(Bot Lane Commander)"]
 
-    TITAN -->|"ดราฟต์ตามขนาดงาน"| PS["🧭 Plan Squad (5 Heroes)<br/>• Dark Seer (4-Axis & DAG)<br/>• Kunkka (Stepdown Skeleton)<br/>• Enigma (State Isolation)<br/>• Treant Protector (Brownfield Plan)<br/>• Tiny (Schema & Payload)"]
+    TITAN -->|"ดราฟต์ตามขนาดงาน"| PS["🧭 4 Plan Squads (10 Heroes)<br/>1. Topology & Skeleton (Capt: Dark Seer + 2)<br/>2. Domain, Data & Contracts (Capt: Tiny + 2)<br/>3. Resilience & Concurrency (Capt: Disruptor + 1)<br/>4. Security & Rollout (Capt: Viper + 1)"]
     PS --> AA["❄️ ANCIENT APPARITION<br/>(Cold Pragmatism & YAGNI Filter)"]
 
-    ORACLE -->|"ดราฟต์ 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (23 Heroes)<br/>1. Topology (Capt: Earthshaker + 4)<br/>2. State (Capt: Arc Warden + 3)<br/>3. Fault (Capt: Wraith King + 3)<br/>4. Security (Capt: Templar Assassin + 3)<br/>5. Scale (Capt: Tinker + 3)<br/>6. Drift (Capt: Rubick + 1)"]
+    ORACLE -->|"ดราฟต์ 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (23 Heroes)<br/>1. Topology & Style (Capt: Earthshaker + 4)<br/>2. State & Contract (Capt: Arc Warden + 3)<br/>3. Fault & Concurrency (Capt: Wraith King + 3)<br/>4. Security & Hygiene (Capt: Templar Assassin + 3)<br/>5. Scale & Telemetry (Capt: Tinker + 3)<br/>6. Spec & Drift Radar (Capt: Rubick + 1)"]
     RS --> DOOM["🔥 DOOM<br/>(Silence Filter & Verdict Arbiter)"]
 
-    INVOKER -->|"ดราฟต์ตามชนิดเอกสาร"| DS["📜 Doc Squad (5 Heroes)<br/>• Keeper of the Light (Mermaid & Flow)<br/>• Warlock (API/Config Specs)<br/>• Chen (README & Runbook)<br/>• Void Spirit (ADR & Why)<br/>• Zeus (PR Summary & Changelog)"]
+    INVOKER -->|"ดราฟต์ตามชนิดเอกสาร"| DS["📜 3 Doc Squads (7 Heroes)<br/>1. Architecture & Decisions (Capt: Keeper of the Light + 1)<br/>2. Contracts & Recipes (Capt: Warlock + 1)<br/>3. Operations & Release (Capt: Chen + 2)"]
     DS --> SILENCER["🤫 SILENCER<br/>(Global Silence Anti-Bloat Filter)"]
 ```
 
@@ -41,7 +41,7 @@ flowchart TD
 รายละเอียดฉบับเต็มอยู่ใน [`references/00-the-ancients-core-laws.md`](./references/00-the-ancients-core-laws.md):
 
 1. **🧭 Law 1 — Orthogonal Decomposition (4-Axis + Core & Brownfield Constructor Guard):** แยกส่วนรับผิดชอบออกเป็นแกนหน้าที่ที่ตั้งฉากกัน (ไม่เกิน 4 แกนรอบข้าง + 1 แกนกลาง) และเมื่อต่อเติมระบบเดิม (เช่น Guice `@Inject()` ใน Scala Play) ให้เพิ่มเมธอดใน Collaborator เดิมในแกนที่ตรงกันเพื่อไม่ให้ Constructor เปลี่ยนจน Unit Test (`*Spec`) พังทั้งระบบ
-2. **🕸️ Law 2 — Acyclic Call Topology & Dominator Enforcement (Strict DAG):** ห้ามเกิด Circular Dependency (`A -> B -> A`) และห้ามลัดวงจรข้าม Dominator Gatekeeper
+2. **🕸️ Law 2 — Acyclic Call Topology & Dominator Enforcement (Strict DAG & Envelope Adaptability):** ห้ามเกิด Circular Dependency (`A -> B -> A`), ห้ามลัดวงจรข้าม Dominator Gatekeeper, และหาก Dominator ดูแลหลาย API Version ต้องแยกการตรวจสิทธิ์ออกจากการจัด Format Error (ห้ามทำ Modern Error Envelope รั่วไหลใส่ Legacy Route)
 3. **🪨 Law 3 — Leaf-Node Pure Utilities (`Fan-Out = 0` Invariant):** ฟังก์ชันใน `util/` หรือ `common/` ต้องไร้สถานะ 100% ทุกชั้นเรียกใช้ได้อิสระ (`Unrestricted Fan-In`) แต่ห้าม Import หรือเรียก Service, Controller หรือ Repository เด็ดขาด (`Out-Degree = 0`)
 4. **🧪 Law 4 — Subgraph State Isolation & Explicit Context Injection:** ทุกคอมโพเนนต์ต้องรับ State Context เข้ามาอย่างชัดเจนที่อินเทอร์เฟซขาเข้า เพื่อให้ตัดโหนดที่ $N$ ออกมาเขียน Unit Test หรือรันแยกเดี่ยวได้โดยไม่ต้องรันขั้นตอนที่ `1..N-1`
 5. **✂️ Law 5 — Lexical Conciseness (~2–3 Lexemes) & Idiomatic Casing Hierarchy:** ตั้งชื่อให้กระชับภายใน ~2–3 คำหลัก (ใช้เป็นตัวตรวจจับกลิ่น SRP) และยึดลำดับตัวอักษรตาม **(1) สไตล์เดิมของไฟล์นั้น $\rightarrow$ (2) มาตรฐานของภาษา $\rightarrow$ (3) `snake_case`**
@@ -50,30 +50,29 @@ flowchart TD
 
 ---
 
-## ⚔️ ทำเนียบแม่ทัพและทีมฮีโร่ทั้ง 3 โหมด (`1 Hero = 1 File`)
+## ⚔️ ทำเนียบแม่ทัพและทีมฮีโร่ทั้ง 3 Lanes (`13 Squads`, `46 Heroes`, `1 Hero = 1 File`)
 
-### 🔨 Mode A: Architectural Blueprint (ออกแบบและวางแผนก่อนเขียนโค้ด)
-- **แม่ทัพเปิดเกม:** 🔨 **`ELDER TITAN`** ([`mode-a-elder-titan.md`](./references/commanders/mode-a-elder-titan.md))
-- **ผู้กรองแผนปิดท้าย:** ❄️ **`ANCIENT APPARITION`** ([`mode-a-ancient-apparition.md`](./references/commanders/mode-a-ancient-apparition.md))
+### 🔨 Top Lane: Architectural Blueprint (ออกแบบและวางแผนก่อนเขียนโค้ด — 4 Plan Squads, 10 Heroes)
+- **แม่ทัพเปิดเลน (Stage 1):** 🔨 **`ELDER TITAN`** ([`top-lane-elder-titan.md`](./references/commanders/top-lane-elder-titan.md))
+- **ผู้กรองแผนปิดท้าย (Stage 3):** ❄️ **`ANCIENT APPARITION`** ([`top-lane-ancient-apparition.md`](./references/commanders/top-lane-ancient-apparition.md))
 
-| ฮีโร่ (`plan-squad/`) | บทบาทในการวางแผน | เอกสารอ้างอิง |
+| Plan Squad (`plan-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
-| 🌀 **DARK SEER** | วางผัง 4-Axis Partitioning, กราฟ DAG และการแยก Pure Leaf Utilities (`Fan-Out = 0`) | [`dark-seer.md`](./references/heroes/plan-squad/dark-seer.md) |
-| ⚓ **KUNKKA** | ร่างโครง Linear Stepdown Skeleton (`1 -> 2 -> 3`) และการตั้งชื่อกระชับ ~2–3 คำ | [`kunkka.md`](./references/heroes/plan-squad/kunkka.md) |
-| 🌌 **ENIGMA** | กำหนดสัญญา Subgraph State Isolation และการออกแบบให้ทำ Unit Test แยกส่วนได้ | [`enigma.md`](./references/heroes/plan-squad/enigma.md) |
-| 🌳 **TREANT PROTECTOR** | วางแผนผ่าตัดโค้ดเก่า (Brownfield Surgical Plan) ป้องกัน Constructor และ `*Spec` พัง | [`treant-protector.md`](./references/heroes/plan-squad/treant-protector.md) |
-| 🪨 **TINY** | ออกแบบ Schema-First Data Model, DTO/`case class` และความสมมาตรของข้อมูลข้ามเลเยอร์ | [`tiny.md`](./references/heroes/plan-squad/tiny.md) |
+| **1. Topology & Skeleton** (`squad-1-topology/`) | 🌀 **DARK SEER** *(4-Axis, DAG & Leaf Utilities)* | • ⚓ **KUNKKA** *(Linear Stepdown Skeleton & ~2–3 Lexemes)*<br>• 🌳 **TREANT PROTECTOR** *(Brownfield Surgical Plan & `*Spec` Guard)* |
+| **2. Domain, Data & Contracts** (`squad-2-domain/`) | 🪨 **TINY** *(Schema-First & Field Symmetry)* | • 🌌 **ENIGMA** *(Subgraph State Isolation & Unit-Test Contract)*<br>• 🐻 **LONE DRUID** *(Dual-Stack Wire Contracts & Error Envelopes)* |
+| **3. Resilience & Concurrency** (`squad-3-resilience/`) | ⛈️ **DISRUPTOR** *(Failure Modes, Timeouts & Retries)* | • 🐎 **CHAOS KNIGHT** *(Multi-Instance Safety, Idempotency & Locking)* |
+| **4. Security & Rollout** (`squad-4-rollout/`) | 🧪 **VIPER** *(AuthN/AuthZ Scope Matrix & PII Redaction)* | • 🕳️ **UNDERLORD** *(Expand-Contract DB Migration & Rollout Sequence)* |
 
 ---
 
-### 🔮 Mode B: Progressive Code Review (ตรวจโค้ด 3 ด่าน — Read-Only)
-- **แม่ทัพคัดกรอง (Stage 1):** 🔮 **`ORACLE`** ([`mode-b-oracle.md`](./references/commanders/mode-b-oracle.md)) — รัน `preflight_scan.py` และดราฟต์ **3–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
-- **ผู้ตัดสินปิดท้าย (Stage 3):** 🔥 **`DOOM`** ([`mode-b-doom.md`](./references/commanders/mode-b-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง
+### 🔮 Mid Lane: Progressive Code Review (ตรวจโค้ด 3 ด่าน Read-Only — 6 Review Squads, 23 Heroes)
+- **แม่ทัพคัดกรอง (Stage 1):** 🔮 **`ORACLE`** ([`mid-lane-oracle.md`](./references/commanders/mid-lane-oracle.md)) — รัน `preflight_scan.py` และดราฟต์ **3–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
+- **ผู้ตัดสินปิดท้าย (Stage 3):** 🔥 **`DOOM`** ([`mid-lane-doom.md`](./references/commanders/mid-lane-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง
 
-| Squad (1 Squad = 1 Subagent ในโหมด Deep) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
+| Review Squad (1 Squad = 1 Subagent ในโหมด Deep) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
-| **1. Topology & Style** (`squad-1-topology/`) | ⛰️ **EARTHSHAKER** *(4-Axis & DAG)* | • 🪚 **TIMBERSAW** *(Leaf Utility `Fan-Out = 0`)*<br>• 🦏 **MAGNUS** *(Stepdown & Symmetry)*<br>• 🗡️ **SVEN** *(~2–3 Lexeme Naming & Casing)*<br>• 🌊 **MORPHLING** *(Brownfield Guard & Style)* |
-| **2. State & Contract** (`squad-2-state/`) | ⚡ **ARC WARDEN** *(State Isolation)* | • 🐍 **MEDUSA** *(Immutability & Domain Model)*<br>• ⏳ **FACELESS VOID** *(Boundary & Null/Option Safety)*<br>• 🍺 **BREWMASTER** *(Backward Compatibility)* |
+| **1. Topology & Style** (`squad-1-topology/`) | ⛰️ **EARTHSHAKER** *(4-Axis, DAG & Polymorphic Gate)* | • 🪚 **TIMBERSAW** *(Leaf Utility `Fan-Out = 0`)*<br>• 🦏 **MAGNUS** *(Stepdown & Symmetry)*<br>• 🗡️ **SVEN** *(~2–3 Lexeme Naming & Casing)*<br>• 🌊 **MORPHLING** *(Brownfield Guard & Style)* |
+| **2. State & Contract** (`squad-2-state/`) | ⚡ **ARC WARDEN** *(State Isolation)* | • 🐍 **MEDUSA** *(Immutability & Domain Model)*<br>• ⏳ **FACELESS VOID** *(Boundary & Null/Option Safety)*<br>• 🍺 **BREWMASTER** *(Backward Compatibility & Legacy Error Envelope)* |
 | **3. Fault & Concurrency** (`squad-3-fault/`) | 👑 **WRAITH KING** *(Fault & Atomicity)* | • 🪲 **WEAVER** *(Race Conditions, Async & Idempotency)*<br>• 🛡️ **ABADDON** *(Timeouts & Backpressure)*<br>• 🔥 **PHOENIX** *(Resource Lifecycle & Leak Prevention)* |
 | **4. Security & Hygiene** (`squad-4-security/`) | 🌸 **TEMPLAR ASSASSIN** *(Ingress & Injection)* | • 🎯 **BOUNTY HUNTER** *(AuthN/AuthZ & IDOR)*<br>• 👹 **SHADOW FIEND** *(Secrets & PII Sink Masking)*<br>• 🦂 **NYX ASSASSIN** *(SSRF & Deserialization)* |
 | **5. Scale & Telemetry** (`squad-5-scale/`) | 🚀 **TINKER** *(N+1 & Query Scale)* | • ⚙️ **CLOCKWERK** *(10s Triage Logs & Trace ID)*<br>• 🧪 **ALCHEMIST** *(Memory Footprint & Streaming)*<br>• 🚁 **GYROCOPTER** *(Pagination Caps & Cache Hygiene)* |
@@ -81,17 +80,15 @@ flowchart TD
 
 ---
 
-### 📖 Mode C: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค)
-- **แม่ทัพเปิดเกม:** 📖 **`INVOKER`** ([`mode-c-invoker.md`](./references/commanders/mode-c-invoker.md))
-- **ผู้ตัดน้ำท่วมทุ่งปิดท้าย:** 🤫 **`SILENCER`** ([`mode-c-silencer.md`](./references/commanders/mode-c-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid
+### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 3 Doc Squads, 7 Heroes)
+- **แม่ทัพเปิดเลน (Stage 1):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md))
+- **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid
 
-| ฮีโร่ (`doc-squad/`) | ชนิดเอกสารที่รับผิดชอบ | เอกสารอ้างอิง |
+| Doc Squad (`doc-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
-| 💡 **KEEPER OF THE LIGHT** | **`ARCHITECTURE.md` & Mermaid Diagrams:** วาดแผนผังระบบ (DAG, Sequence, State Machine) และสรุปขอบเขตโมดูล | [`keeper-of-the-light.md`](./references/heroes/doc-squad/keeper-of-the-light.md) |
-| 📕 **WARLOCK** | **API Contracts & Config Specs:** เขียนและอัปเดต OpenAPI/Swagger, ตาราง Request/Response/Error และ `.env.example` | [`warlock.md`](./references/heroes/doc-squad/warlock.md) |
-| 🦌 **CHEN** | **`README.md` & Operational Runbooks:** เขียนคู่มือ Quickstart, คำสั่ง Build/Run/Test และตาราง Troubleshooting | [`chen.md`](./references/heroes/doc-squad/chen.md) |
-| 🟣 **VOID SPIRIT** | **ADR & "Why" Rationales:** เขียน Architecture Decision Records, สรุป Trade-off และ High-Signal *"Why"* Comments | [`void-spirit.md`](./references/heroes/doc-squad/void-spirit.md) |
-| ⚡ **ZEUS** | **PR Summary, `CHANGELOG.md` & Migration Guide:** สรุปสิ่งที่เปลี่ยนจาก `git diff`/Branch สำหรับเปิด PR และ Release Notes | [`zeus.md`](./references/heroes/doc-squad/zeus.md) |
+| **1. Architecture & Decisions** (`squad-1-architecture/`) | 💡 **KEEPER OF THE LIGHT** *(`ARCHITECTURE.md` & Mermaid Diagrams)* | • 🟣 **VOID SPIRIT** *(ADRs, RFC Rationales & High-Signal "Why" Comments)* |
+| **2. Contracts & Recipes** (`squad-2-contracts/`) | 📕 **WARLOCK** *(API Contracts, Schemas & `.env.example`)* | • 🐍 **SHADOW SHAMAN** *(Consumer Cookbooks, Bruno/Postman & `cURL` Recipes)* |
+| **3. Operations & Release** (`squad-3-operations/`) | 🦌 **CHEN** *(`README.md` & Developer Onboarding)* | • 🛡️ **OMNIKNIGHT** *(Operational Runbooks, Alert Triage & Incident SOPs)*<br>• ⚡ **ZEUS** *(PR Summaries, `CHANGELOG.md` & Migration Guides)* |
 
 ---
 
@@ -99,33 +96,40 @@ flowchart TD
 
 ```text
 defense-of-the-code/
-├── SKILL.md                                      # ไฟล์คำสั่งหลักและ Intent Router (Mode A / B / C)
+├── SKILL.md                                      # ไฟล์คำสั่งหลักและ 3-Lane Intent Router (Top / Mid / Bot Lane)
 ├── plugin.json                                   # Plugin Manifest สำหรับ Antigravity
 ├── install.sh                                    # สคริปต์ติดตั้งและอัปเดตอัตโนมัติ
 ├── uninstall.sh                                  # สคริปต์ถอนการติดตั้ง
 ├── README.md                                     # เอกสารคู่มือการใช้งานฉบับเต็ม
 ├── scripts/
-│   ├── preflight_scan.py                         # สแกน git diff, Law 3 Fan-Out และ Law 5 Naming Hints
-│   └── doc_candidate_finder.py                    # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
+│   ├── preflight_scan.py                         # สแกน git diff, Cross-Version Hazards, Law 3 & Law 5 Hints
+│   └── doc_candidate_finder.py                   # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
 └── references/
     ├── 00-the-ancients-core-laws.md              # กฎเหล็กสูงสุด 7 ข้อ (The Ancients)
-    ├── commanders/                               # แม่ทัพเปิดเกม & ผู้กรองปิดท้ายของทั้ง 3 โหมด
-    │   ├── mode-a-elder-titan.md
-    │   ├── mode-a-ancient-apparition.md
-    │   ├── mode-b-oracle.md
-    │   ├── mode-b-doom.md
-    │   ├── mode-c-invoker.md
-    │   └── mode-c-silencer.md
-    └── heroes/                                   # คลังฮีโร่แยกไฟล์เดี่ยว (1 Hero = 1 File)
-        ├── plan-squad/                           # 🔨 5 ฮีโร่สายวางแผน (Mode A)
-        ├── review-squads/                        # 🔮 6 ทีม 21 ฮีโร่สายตรวจโค้ด (Mode B)
-        │   ├── squad-1-topology/
-        │   ├── squad-2-state/
-        │   ├── squad-3-fault/
-        │   ├── squad-4-security/
-        │   ├── squad-5-scale/
-        │   └── squad-6-drift/
-        └── doc-squad/                            # 📖 5 ฮีโร่สายเขียนเอกสาร (Mode C)
+    ├── commanders/                               # แม่ทัพเปิดเลน & ผู้กรองปิดท้ายของทั้ง 3 Lanes (6 Heroes)
+    │   ├── top-lane-elder-titan.md
+    │   ├── top-lane-ancient-apparition.md
+    │   ├── mid-lane-oracle.md
+    │   ├── mid-lane-doom.md
+    │   ├── bot-lane-invoker.md
+    │   └── bot-lane-silencer.md
+    └── heroes/                                   # คลังฮีโร่ 13 Squads แยกไฟล์เดี่ยว (40 Squad Heroes)
+        ├── plan-squads/                          # 🔨 Top Lane: 4 Plan Squads (10 Heroes)
+        │   ├── squad-1-topology/                 #    Dark Seer, Kunkka, Treant Protector
+        │   ├── squad-2-domain/                   #    Tiny, Enigma, Lone Druid
+        │   ├── squad-3-resilience/               #    Disruptor, Chaos Knight
+        │   └── squad-4-rollout/                  #    Viper, Underlord
+        ├── review-squads/                        # 🔮 Mid Lane: 6 Review Squads (23 Heroes)
+        │   ├── squad-1-topology/                 #    Earthshaker, Timbersaw, Magnus, Sven, Morphling
+        │   ├── squad-2-state/                    #    Arc Warden, Medusa, Faceless Void, Brewmaster
+        │   ├── squad-3-fault/                    #    Wraith King, Weaver, Abaddon, Phoenix
+        │   ├── squad-4-security/                 #    Templar Assassin, Bounty Hunter, Shadow Fiend, Nyx Assassin
+        │   ├── squad-5-scale/                    #    Tinker, Clockwerk, Alchemist, Gyrocopter
+        │   └── squad-6-drift/                    #    Rubick, Grimstroke
+        └── doc-squads/                           # 📖 Bot Lane: 3 Doc Squads (7 Heroes)
+            ├── squad-1-architecture/             #    Keeper of the Light, Void Spirit
+            ├── squad-2-contracts/                #    Warlock, Shadow Shaman
+            └── squad-3-operations/               #    Chen, Omniknight, Zeus
 ```
 
 ---
@@ -135,19 +139,19 @@ defense-of-the-code/
 สามารถเรียก `/defense-of-the-code` (หรือพิมพ์ย่อ `/dotc`) ตามด้วยคำสั่งภาษาธรรมชาติได้ทันที:
 
 ```text
-# 🔨 Mode A: ออกแบบและวางแผนโครงสร้างโค้ด (ELDER TITAN -> Plan Squad -> ANCIENT APPARITION)
+# 🔨 Top Lane: ออกแบบและวางแผนโครงสร้างโค้ด (ELDER TITAN -> 4 Plan Squads -> ANCIENT APPARITION)
 /dotc ช่วยออกแบบฟีเจอร์คำนวณภาษีต่อจากที่คุยกันเมื่อกี้หน่อย
 /blueprint
 
-# 🔮 Mode B: รีวิวโค้ด (ORACLE -> Review Squads -> DOOM)
+# 🔮 Mid Lane: รีวิวโค้ด (ORACLE -> 6 Review Squads -> DOOM)
 /dotc รีวิวโค้ดที่เพิ่งแก้ให้หน่อย                        (⚡ Standard In-Context)
 /dotc รีวิวละเอียดแบบเข้มๆ ขอ fresh eyes                 (🔬 Deep Parallel Squad Subagents)
 /review
 /review deep
 
-# 📖 Mode C: สร้างและอัปเดตเอกสาร (INVOKER -> Doc Squad -> SILENCER)
+# 📖 Bot Lane: สร้างและอัปเดตเอกสาร (INVOKER -> 3 Doc Squads -> SILENCER)
 /dotc ช่วยวาด Mermaid diagram สรุป architecture ของโมดูลนี้ให้หน่อย
+/dotc ช่วยเขียน Runbook สำหรับ triage error กับขั้นตอน rotate key
 /dotc ช่วยสรุป PR description จาก branch นี้ให้ที
-/dotc อัปเดตเอกสาร API กับ README ตามโค้ดที่เพิ่งแก้
 /doc
 ```
