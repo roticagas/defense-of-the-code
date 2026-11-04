@@ -1,6 +1,6 @@
 # 🏰 Defense of the Code (`defense-of-the-code`)
 
-> **3-Lane Multi-Commander & Squad Software Architecture, Code Review & Documentation Skill สำหรับ Google Antigravity**  
+> **3-Lane Multi-Commander & Squad Software Architecture, Code Review & Documentation Skill สำหรับ Google Antigravity และ Claude Code**  
 > ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **3-Lane Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แบ่งแผนที่ออกเป็น **3 เลนหลัก (🔨 Top Lane: Plan / 🔮 Mid Lane: Review / 📖 Bot Lane: Doc)** รวม **13 Squads, 46 ฮีโร่ไม่ซ้ำกัน**
 
 ---
@@ -98,9 +98,11 @@ flowchart TD
 defense-of-the-code/
 ├── SKILL.md                                      # ไฟล์คำสั่งหลักและ 3-Lane Intent Router (Top / Mid / Bot Lane)
 ├── plugin.json                                   # Plugin Manifest สำหรับ Antigravity
-├── install.sh                                    # สคริปต์ติดตั้งและอัปเดตอัตโนมัติ
+├── install.sh                                    # สคริปต์ติดตั้งและอัปเดตอัตโนมัติ (Antigravity / `--claude`)
 ├── uninstall.sh                                  # สคริปต์ถอนการติดตั้ง
 ├── README.md                                     # เอกสารคู่มือการใช้งานฉบับเต็ม
+├── templates/
+│   └── claude-dotc-alias.md                      # แม่แบบ alias skill `/dotc` สำหรับ Claude Code (install.sh สร้างให้)
 ├── scripts/
 │   ├── preflight_scan.py                         # สแกน git diff, Cross-Version Hazards, Law 3 & Law 5 Hints
 │   └── doc_candidate_finder.py                   # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
@@ -134,6 +136,26 @@ defense-of-the-code/
 
 ---
 
+## 📦 การติดตั้ง (Installation)
+
+| แพลตฟอร์ม | ติดตั้งทุกโปรเจกต์ (Global) | ติดตั้งเฉพาะโปรเจกต์ (Workspace) |
+| :--- | :--- | :--- |
+| **Google Antigravity** | `./install.sh` $\rightarrow$ `~/.gemini/config/skills/` | `./install.sh --workspace [DIR]` $\rightarrow$ `[DIR]/.agents/skills/` |
+| **Claude Code** | `./install.sh --claude` $\rightarrow$ `~/.claude/skills/` | `./install.sh --claude --workspace [DIR]` $\rightarrow$ `[DIR]/.claude/skills/` |
+
+ติดตั้งจาก GitHub โดยไม่ต้อง clone:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-code/main/install.sh | bash -s -- --claude
+```
+
+- รันจาก repo ที่ clone ไว้จะสร้างเป็น **symlink** (แก้ไฟล์ใน repo แล้วมีผลทันที) ส่วนรันผ่าน `curl` จะ `git clone` ลงปลายทาง
+- **Claude Code:** สร้าง alias skill `/dotc` ให้อัตโนมัติ (ถ้ามี skill ชื่อ `dotc` ของคนอื่นอยู่แล้วจะข้าม ไม่เขียนทับ) และเปิด session ใหม่เพื่อให้โหลด skill
+- `--plugin` ใช้ได้เฉพาะ Antigravity
+- ถอนการติดตั้งด้วย `./uninstall.sh` พร้อม flag ชุดเดียวกัน (เช่น `./uninstall.sh --claude`)
+
+---
+
 ## 💡 วิธีเรียกใช้งาน (Usage)
 
 สามารถเรียก `/defense-of-the-code` (หรือพิมพ์ย่อ `/dotc`) ตามด้วยคำสั่งภาษาธรรมชาติได้ทันที:
@@ -155,3 +177,5 @@ defense-of-the-code/
 /dotc ช่วยสรุป PR description จาก branch นี้ให้ที
 /doc
 ```
+
+> **Claude Code:** ใช้ได้เฉพาะ `/defense-of-the-code` และ `/dotc` ตามด้วยภาษาธรรมชาติ — `/blueprint`, `/review`, `/doc` เป็นคำสั่งของ Antigravity เท่านั้น (ระบบจะแยก Lane จากข้อความที่พิมพ์ตามหลังแทน)

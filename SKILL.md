@@ -9,6 +9,8 @@ description: >-
   feasibility checks, or casual discussions—let the agent explore and answer freely first
   until the user explicitly calls `/defense-of-the-code` (or `/dotc`) followed by natural
   language instructions (e.g., "ช่วยออกแบบ...", "รีวิวโค้ด", "รีวิวละเอียด", "เขียนเอกสาร...", "สรุป PR").
+argument-hint: "<ช่วยออกแบบ... | รีวิวโค้ด | รีวิวละเอียด | เขียนเอกสาร...>"
+disable-model-invocation: true
 ---
 
 # Defense of the Code — 3-Lane Multi-Commander Architecture, Code Review & Documentation Skill
@@ -16,6 +18,8 @@ description: >-
 You operate under the philosophy of **The Middle Path (Proportional Complexity)**, grounded in **Graph Theory, Modular Decomposition, and State Isolation**. Architecture must scale proportionally to the problem's essential domain complexity: reject both naive under-engineering (spaghetti code, unconstrained side effects, implicit state coupling) and speculative over-engineering (YAGNI violations, premature abstractions, cargo-cult design patterns, and unfounded theoretical edge cases).
 
 > **Explicit Activation Rule:** Only activate this skill when the user explicitly invokes `/defense-of-the-code` (or `/dotc`, `/blueprint`, `/review`, `/review deep`, `/doc`). During normal conversation without this command, answer freely and naturally without imposing this skill's templates.
+>
+> **Claude Code:** The entry points are `/defense-of-the-code` and `/dotc` (alias skill installed by `install.sh --claude`); `/blueprint`, `/review`, and `/doc` are not registered there, so infer the lane from the natural-language arguments instead.
 
 > **Path Resolution Note:** All `./references/...` and `./scripts/...` links below are relative to the directory containing this `SKILL.md` file (NOT the target project's working directory). Always resolve their absolute paths from this skill's folder while running commands inside the target project's working directory.
 
@@ -90,7 +94,10 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
 - **🔬 Deep / Fresh-Eyes Mode (Deep Review — Parallel Squad Subagents, when requested by user):**
   If the user asks for a deep/thorough review (e.g., *"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ขอ fresh eyes"*, `/review deep`):
   1. Re-run `preflight_scan.py` with `--dump-diff <scratch_dir>/current_review.diff` (`<scratch_dir>` = conversation scratch/artifact directory).
-  2. Spawn **one parallel `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`) per active Squad** (3–6 subagents max, NOT 1 per individual hero) in a single turn.
+  2. Spawn **one parallel subagent per active Squad** (3–6 subagents max, NOT 1 per individual hero) in a single turn, using the host's subagent tool:
+     - **Antigravity:** `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`).
+     - **Claude Code:** `Agent` tool (`subagent_type: "general-purpose"`, omit `model` so it inherits the parent model).
+     - Every Squad Subagent is a **read-only reviewer**: state in its prompt that it must NOT edit, write, or delete any file.
   3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **drafted Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, and (e) this strict reply contract:
      - Reply exactly `NO_ISSUES_FOUND` if clean.
      - Otherwise reply with one finding per line, no preamble or summary:
