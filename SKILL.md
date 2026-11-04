@@ -57,7 +57,7 @@ When triggered to design, plan, or structure a feature before writing code:
 2. **Stage 2 · Teamfight — Plan Squad Synthesis:**
    - Read the drafted Plan Squad hero files in parallel and construct the blueprint.
 3. **Stage 3 · Deny — Filter `ANCIENT APPARITION`:**
-   - Read [top-lane-ancient-apparition.md](./references/commanders/top-lane-ancient-apparition.md), purge any speculative over-engineering, verify DAG/State Isolation/Wire Envelope invariants, present the 3-part blueprint, and wait for user confirmation before generating full implementation code.
+   - Read [top-lane-ancient-apparition.md](./references/commanders/top-lane-ancient-apparition.md), purge any speculative over-engineering, verify DAG/State Isolation/Wire Envelope invariants, present the 3-part blueprint (plus `❄️ SHATTERED` listing purged over-engineering, only if any), and wait for user confirmation before generating full implementation code.
 
 ---
 
@@ -127,4 +127,4 @@ When triggered to generate, update, or synchronize technical documentation, diag
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
    - Read the drafted Doc Squad hero files in parallel and compose or surgically update the target documentation.
 3. **Stage 3 · Deny — Filter `SILENCER`:**
-   - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, and verify 100% accuracy against the codebase.
+   - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, and verify 100% accuracy against the codebase. Append `🤫 SILENCED` listing unverified claims removed (only if any).

@@ -26,5 +26,6 @@ Present the validated blueprint in the user's conversation language (keeping cod
   File/class/schema skeleton with the `public` orchestrator at the top and `private` helpers ordered in `1 -> 2 -> 3` execution sequence using concise `~2–3` lexeme identifiers. Method bodies are stubs, not full implementation — only data-class/schema field lists and wire response envelopes show real content.
 - **🧪 3. State Isolation, Resilience & Rollout Contract (`ENIGMA` / `DISRUPTOR` / `CHAOS KNIGHT` / `VIPER` / `UNDERLORD`):**
   Explicit state context and mockable boundaries to test Node $N$ in isolation, plus any applicable failure/timeout policies, concurrency/idempotency guards, auth scopes, and rollout steps (omit sub-bullets that were not drafted).
+- **❄️ SHATTERED (Purged Over-Engineering):** One line per element removed by checklist item 1 or refactored by item 2 — `<element> — <reason>` (e.g., `PaymentStrategy interface — single implementation, no second provider planned`). Omit this section entirely if nothing was purged; never invent filler.
 
 Wait for user confirmation before writing full implementation code.

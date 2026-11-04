@@ -9,3 +9,10 @@ Before presenting or writing any documentation, **PURGE** the following:
 3. **Never Duplicate Implementation Code in Docs:** Do not paste long blocks of procedural code into `ARCHITECTURE.md` or `README.md` (they rot immediately when code changes). Document **boundaries, contracts, data flows, and entrypoints**, linking to the source files instead.
 4. **Enforce Surgical Edits on Existing Docs:** When updating an existing `README.md`, `ARCHITECTURE.md`, or OpenAPI file, edit **only** the affected sections/tables—never overwrite or delete unrelated sections of the user's existing documentation.
 5. **Verify 100% Code Accuracy:** Cross-check every endpoint path, environment variable name, CLI flag, and type name against the codebase. Remove any unverified or speculative claim.
+
+## Final Output: Silenced Report
+After presenting or writing the documentation, append a short report in the user's conversation language:
+
+- **🤫 SILENCED (Unverified Claims Removed):** One line per claim purged by rule 5 — `<claim> — <why it could not be verified>` (e.g., `env var PAYMENT_TIMEOUT_MS — not read anywhere in src/`), so the user can confirm or supply the missing source.
+
+Report only rule 5 removals (fluff and prose-to-diagram changes are not listed). Omit this section entirely if nothing was removed; never invent filler.
