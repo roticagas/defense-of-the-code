@@ -14,7 +14,7 @@ DOC_KEYWORDS = {
 }
 IGNORE_DIRS = {
     ".git", "node_modules", "venv", ".venv", "dist", "build", "target",
-    ".idea", ".vscode", ".agents", ".agent", "_agents", "_agent",
+    ".idea", ".vscode", ".agents", ".agent", "_agents", "_agent", ".claude",
 }
 
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# 🏰 Defense of the Code — Uninstaller for Google Antigravity
+# 🏰 Defense of the Code — Uninstaller for Google Antigravity & Claude Code
 #
 # Usage:
-#   ./uninstall.sh [--global] [--workspace [DIR]] [--plugin]
+#   ./uninstall.sh [--global] [--workspace [DIR]] [--plugin] [--claude]
 # ==============================================================================
 
 set -euo pipefail
@@ -16,6 +16,9 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 NAME="defense-of-the-code"
+ALIAS_NAME="dotc"
+ALIAS_MARKER="short alias of the **\`defense-of-the-code\`** skill"
+PLATFORM="antigravity"
 MODE="global_skill"
 WORKSPACE_DIR="$(pwd)"
 
@@ -38,13 +41,20 @@ while [[ $# -gt 0 ]]; do
         shift
       fi
       ;;
+    --claude)
+      PLATFORM="claude"
+      shift
+      ;;
     -h|--help)
       echo "Usage: uninstall.sh [OPTIONS]"
       echo ""
       echo "Options:"
-      echo "  --global             Remove global skill (~/.gemini/config/skills/) [Default]"
-      echo "  --workspace [DIR]    Remove workspace skill ([DIR]/.agents/skills/)"
-      echo "  --plugin             Remove global plugin (~/.gemini/config/plugins/)"
+      echo "  --global             Remove global skill [Default]"
+      echo "                         Antigravity: ~/.gemini/config/skills/   Claude Code: ~/.claude/skills/"
+      echo "  --workspace [DIR]    Remove workspace skill"
+      echo "                         Antigravity: [DIR]/.agents/skills/      Claude Code: [DIR]/.claude/skills/"
+      echo "  --plugin             Remove global plugin (~/.gemini/config/plugins/, Antigravity only)"
+      echo "  --claude             Target Claude Code instead of Antigravity (also removes the /dotc alias skill)"
       echo "  -h, --help           Show this help message"
       exit 0
       ;;
@@ -55,7 +65,18 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [ "$MODE" = "global_skill" ]; then
+if [ "$PLATFORM" = "claude" ] && [ "$MODE" = "global_plugin" ]; then
+  echo -e "${RED}❌ Error: --plugin is Antigravity-only. Use --claude (global) or --claude --workspace [DIR].${NC}"
+  exit 1
+fi
+
+if [ "$PLATFORM" = "claude" ]; then
+  if [ "$MODE" = "workspace_skill" ]; then
+    TARGET="${WORKSPACE_DIR}/.claude/skills/${NAME}"
+  else
+    TARGET="${HOME}/.claude/skills/${NAME}"
+  fi
+elif [ "$MODE" = "global_skill" ]; then
   TARGET="${HOME}/.gemini/config/skills/${NAME}"
 elif [ "$MODE" = "global_plugin" ]; then
   TARGET="${HOME}/.gemini/config/plugins/${NAME}"
@@ -76,4 +97,13 @@ elif [ -d "${TARGET}" ]; then
   echo -e "${GREEN}✓ Successfully removed directory.${NC}"
 else
   echo -e "${YELLOW}ℹ Target '${TARGET}' not found. Nothing to remove.${NC}"
+fi
+
+# Remove the generated /dotc alias only if it is ours (never another skill named dotc)
+if [ "$PLATFORM" = "claude" ]; then
+  ALIAS_DIR="$(dirname "${TARGET}")/${ALIAS_NAME}"
+  if [ -f "${ALIAS_DIR}/SKILL.md" ] && grep -qF "${ALIAS_MARKER}" "${ALIAS_DIR}/SKILL.md"; then
+    rm -rf "${ALIAS_DIR}"
+    echo -e "${GREEN}✓ Successfully removed /dotc alias skill.${NC}"
+  fi
 fi

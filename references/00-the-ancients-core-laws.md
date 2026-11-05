@@ -16,6 +16,7 @@ These 7 principles define the architectural invariants of the codebase. Every re
 ## Law 2: Acyclic Call Topology & Dominator Enforcement (Strict DAG)
 - **Directed Acyclic Graph (DAG):** The dependency and call graph across modules must remain strictly acyclic. Circular dependencies (`A -> B -> A`) are forbidden.
 - **Dominator Vertex Enforcement:** Higher-level modules must never bypass intermediate control layers (Dominator vertices) to invoke lower-level modules directly. Routing all cross-layer transitions through designated gatekeepers preserves a single choke point for policy enforcement, instrumentation, and test doubles.
+- **Dominator Envelope Adaptability Invariant:** When a single Dominator gatekeeper enforces policy across heterogeneous ingress routes (e.g. legacy v1 callers alongside modern v2 callers), policy enforcement must decouple from wire serialization. Gatekeepers must adapt error responses to each route's established contract, preventing modernized error envelopes from leaking to legacy consumers.
 
 ## Law 3: Leaf-Node Pure Utilities (`Fan-Out = 0` Invariant)
 - **Stateless Leaf Modules:** Pure, deterministic helper functions belong in the leaf utility layer (`util/`, `common/`).
