@@ -179,3 +179,10 @@ curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-code/main/
 ```
 
 > **Claude Code:** ใช้ได้เฉพาะ `/defense-of-the-code` และ `/dotc` ตามด้วยภาษาธรรมชาติ — `/blueprint`, `/review`, `/doc` เป็นคำสั่งของ Antigravity เท่านั้น (ระบบจะแยก Lane จากข้อความที่พิมพ์ตามหลังแทน)
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
