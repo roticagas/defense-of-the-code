@@ -37,4 +37,4 @@ Select **only** the Squads and Heroes needed for this task:
    - **Blueprint Scope:** [Surgical Edit | Standard Feature | Multi-Axis Architecture]
    - **Active Plan Squads & Heroes:** [List each active Plan Squad and the specific Heroes assembled within it]
 2. Synthesize the blueprint using the assembled heroes' rules.
-3. Pass the draft through **`ANCIENT APPARITION`** (`./top-lane-ancient-apparition.md`) before presenting it to the user.
+3. Pass the draft through **`ANCIENT APPARITION`** (`./plan-ancient-apparition.md`) before presenting it to the user.

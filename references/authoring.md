@@ -22,5 +22,5 @@ A hero's rules are grouped by **when they run**, so a Commander loads a hero for
 Heroes not yet converted keep their numbered rule list, and every rule in it applies whenever the hero is assembled.
 
 ## 3. Heroes & Squads
-- **One source for each roster:** a lane's heroes, their files and when to assemble them are listed only in that lane's commander file (`top-lane-elder-titan.md` §2, `mid-lane-oracle.md` §2, `bot-lane-invoker.md` §2). `SKILL.md` names the squads' folder and points there; do not copy the roster back into it.
+- **One source for each roster:** a lane's heroes, their files and when to assemble them are listed only in that lane's commander file (`plan-elder-titan.md` §2, `review-oracle.md` §2, `doc-invoker.md` §2). `SKILL.md` names the squads' folder and points there; do not copy the roster back into it.
 - **Keep the totals in sync:** a new or retired hero changes the counts in `SKILL.md` (frontmatter and *The 3 Lanes*), `README.md` and `plugin.json` (48 heroes across 14 squads, counting the 6 commanders).

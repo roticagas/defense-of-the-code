@@ -73,12 +73,12 @@ A converted hero's rules are grouped by **when they run**: the 🟢 **Passive** 
 ### 🔨 Top Lane: Architectural Blueprint (`ELDER TITAN` $\rightarrow$ `4 Plan Squads` $\rightarrow$ `ANCIENT APPARITION`)
 When triggered to design, plan, or structure a feature before writing code:
 1. **Stage 1 · Assemble — Commander `ELDER TITAN`:**
-   - Read [top-lane-elder-titan.md](./references/commanders/top-lane-elder-titan.md).
+   - Read [plan-elder-titan.md](./references/commanders/plan-elder-titan.md).
    - Preserve concrete technical findings from earlier turns in the conversation, calibrate the blueprint scale to the feature size (YAGNI first), and assemble only the required squads and heroes from the **4 Plan Squads** (`references/heroes/plan-squads/`); ELDER TITAN §2 lists every hero, its file and when to assemble it.
 2. **Stage 2 · Teamfight — Plan Squad Synthesis:**
    - Read the assembled Plan Squad hero files in parallel and construct the blueprint.
 3. **Stage 3 · Deny — Filter `ANCIENT APPARITION`:**
-   - Read [top-lane-ancient-apparition.md](./references/commanders/top-lane-ancient-apparition.md), purge any speculative over-engineering, verify DAG/State Isolation/Wire Envelope invariants, present the 3-part blueprint (plus `❄️ SHATTERED` listing purged over-engineering, only if any), and wait for user confirmation before generating full implementation code.
+   - Read [plan-ancient-apparition.md](./references/commanders/plan-ancient-apparition.md), purge any speculative over-engineering, verify DAG/State Isolation/Wire Envelope invariants, present the 3-part blueprint (plus `❄️ SHATTERED` listing purged over-engineering, only if any), and wait for user confirmation before generating full implementation code.
 
 ---
 
@@ -90,7 +90,7 @@ When triggered to review code, a PR, a branch, specific files, or `git diff`, ex
 1. Run [preflight_scan.py](./scripts/preflight_scan.py) from the target repository root (automatically falls back to `HEAD~1..HEAD` if working tree is clean, or pass `--base <branch>` when reviewing a feature branch against `main`/`develop`):
    `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [target_files...]`
    - If the preflight scan cannot run, state the reason in `Preflight Signals: unavailable — <reason>` and gather the diff manually (`git diff HEAD` $\rightarrow$ `git diff --cached` $\rightarrow$ `git show HEAD` or target files).
-2. Read [mid-lane-oracle.md](./references/commanders/mid-lane-oracle.md).
+2. Read [review-oracle.md](./references/commanders/review-oracle.md).
 3. Select **only the necessary Review Squads (2–4 Squads: the baseline pair plus at most 2 more)** and assemble **only the relevant Heroes within each Squad** based on the diff signals.
 4. Output the 4-line **ORACLE Routing Manifest** (`Purpose`, `Affected Zones`, `Preflight Signals`, `Assembled Squads & Heroes`).
 
@@ -114,7 +114,7 @@ Load **ONLY** the hero files `ORACLE` assembled from the **6 Review Squads** (`r
   4. Wait for all Squad Subagents, then feed every returned finding line verbatim into Stage 3. If a subagent fails or returns malformed output, run that Squad in-context (Default Mode).
 
 #### Stage 3 · Deny — Filter `DOOM` (Lead Filter & Verdict Arbiter)
-1. Read [mid-lane-doom.md](./references/commanders/mid-lane-doom.md).
+1. Read [review-doom.md](./references/commanders/review-doom.md).
 2. Filter all raw findings from Stage 2 through **every rule of DOOM's Silence Filter**, then pass the survivors through its **Verification Gate**: re-read each cited line, back it with a trace or a read-only repro, and label it `CONFIRMED` or `PLAUSIBLE`.
 3. Present the final consolidated review in the user's conversation language (omitting any empty section):
    - 🟢 **APPROVED · THE ANCIENT STANDS** (if zero `BLOCKER` or `SHOULD FIX` items survive)
@@ -125,11 +125,11 @@ Load **ONLY** the hero files `ORACLE` assembled from the **6 Review Squads** (`r
 ### 📖 Bot Lane: Documentation & Knowledge Sync (`INVOKER` $\rightarrow$ `4 Doc Squads` $\rightarrow$ `SILENCER`)
 When triggered to generate, update, or synchronize technical documentation, diagrams, ADRs, runbooks, or PR summaries:
 1. **Stage 1 · Assemble — Commander `INVOKER`:**
-   - Read [bot-lane-invoker.md](./references/commanders/bot-lane-invoker.md).
+   - Read [doc-invoker.md](./references/commanders/doc-invoker.md).
    - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_candidate_finder.py` when syncing changes) and assemble only the required squads and chroniclers from the **4 Doc Squads** (`references/heroes/doc-squads/`); INVOKER §2 lists every hero, its file and when to assemble it. Doc Squad 4 (`CRYSTAL MAIDEN`, `ENCHANTRESS`) is assembled for every prose document.
    - Name the **Audience** for every document (who reads it, and whether they can open the repository) before any hero writes; for an existing document, list content the audience cannot use in the manifest.
    - For multi-section documents, buy the item **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) and fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
    - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation; `CRYSTAL MAIDEN` then polishes the wording and `ENCHANTRESS` formats the full draft last.
 3. **Stage 3 · Deny — Filter `SILENCER`:**
-   - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, verify 100% accuracy against the codebase, purge content the audience cannot use (internal paths and class names for readers without repository access), keep each fact in one place, and replace secrets and personal data with fake placeholders. Append `🤫 SILENCED` listing unverified claims removed and `🔒 MASKED` listing values replaced (each only if any).
+   - Read [doc-silencer.md](./references/commanders/doc-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, verify 100% accuracy against the codebase, purge content the audience cannot use (internal paths and class names for readers without repository access), keep each fact in one place, and replace secrets and personal data with fake placeholders. Append `🤫 SILENCED` listing unverified claims removed and `🔒 MASKED` listing values replaced (each only if any).
