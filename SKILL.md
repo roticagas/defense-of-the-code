@@ -124,6 +124,7 @@ When triggered to generate, update, or synchronize technical documentation, diag
        - Captain **`WARLOCK`** ([warlock.md](./references/heroes/doc-squads/squad-2-contracts/warlock.md)) | **`SHADOW SHAMAN`** ([shadow-shaman.md](./references/heroes/doc-squads/squad-2-contracts/shadow-shaman.md))
      - **🛠️ Doc Squad 3: Operations & Release (`references/heroes/doc-squads/squad-3-operations/`):**
        - Captain **`CHEN`** ([chen.md](./references/heroes/doc-squads/squad-3-operations/chen.md)) | **`OMNIKNIGHT`** ([omniknight.md](./references/heroes/doc-squads/squad-3-operations/omniknight.md)) | **`ZEUS`** ([zeus.md](./references/heroes/doc-squads/squad-3-operations/zeus.md))
+   - For multi-section documents, fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
    - Read the drafted Doc Squad hero files in parallel and compose or surgically update the target documentation.
 3. **Stage 3 · Deny — Filter `SILENCER`:**
