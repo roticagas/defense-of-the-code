@@ -256,7 +256,7 @@ def scan_version_hazards(files: list[Path]) -> None:
             f"({', '.join(gate_files)}).\n"
             " -> MANDATORY INVARIANT: Verify that shared gatekeepers/ActionBuilders do NOT leak modern "
             "error envelopes (e.g. 401/403/500 ApiResponse) into legacy wire contracts. "
-            "Draft BREWMASTER & EARTHSHAKER with priority on Legacy Error Envelope Isolation.\n"
+            "Assemble BREWMASTER & EARTHSHAKER with priority on Legacy Error Envelope Isolation.\n"
         )
 
 
