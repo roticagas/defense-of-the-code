@@ -146,7 +146,7 @@ Load **ONLY** the hero files assembled by `ORACLE` inside the active Squads:
 
 #### Stage 3 · Deny — Filter `DOOM` (Lead Filter & Verdict Arbiter)
 1. Read [mid-lane-doom.md](./references/commanders/mid-lane-doom.md).
-2. Filter all raw findings from Stage 2 through **every rule of DOOM's Silence Filter**.
+2. Filter all raw findings from Stage 2 through **every rule of DOOM's Silence Filter**, then pass the survivors through its **Verification Gate**: re-read each cited line, back it with a trace or a read-only repro, and label it `CONFIRMED` or `PLAUSIBLE`.
 3. Present the final consolidated review in the user's conversation language (omitting any empty section):
    - 🟢 **APPROVED · THE ANCIENT STANDS** (if zero `BLOCKER` or `SHOULD FIX` items survive)
    - 🔴 **BLOCKER · TOWER DOWN** | 🟡 **SHOULD FIX · TOWER UNDER ATTACK** | 🗺️ **MAP SYNC · WARDS NEEDED**

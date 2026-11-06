@@ -15,6 +15,17 @@ Immediately **DISCARD** any Stage 2 finding that matches these criteria:
 
 **Purpose Check (`GEM OF TRUE SIGHT`):** If the change does not do what its **Purpose** says, add a `🔴 BLOCKER` credited to `[GEM OF TRUE SIGHT]` naming the gap.
 
+## Verification Gate (After Pruning)
+Stage 2 heroes judge the diff against a checklist; DOOM checks that each surviving failure is real before presenting it. This applies to Default and Deep Mode alike: DOOM verifies subagent findings itself.
+1. **Re-read the cited lines:** open `file_path:line` (or the commit, for a history finding) and confirm the code says what the finding claims. If it does not, discard the finding. A `MAP SYNC` item only needs this step: the file exists and still states the old fact.
+2. **Gather evidence, cheapest first:**
+   - **Trace:** quote the changed line and name the concrete path from an input or caller to the failure. For a structural finding, name the caller, test or law clause it breaks.
+   - **Repro:** when the failure is runtime behavior and a short read-only command shows it (a script run on a fixture in the scratch directory, an existing test, a `git` query), run it and keep the command and its output. Never create, edit or delete files in the target project to reproduce (Strict Read-Only Guard).
+3. **Label each `BLOCKER` and `SHOULD FIX`:**
+   - **`CONFIRMED`:** a repro showed the failure, or the trace reaches it with no unchecked assumption.
+   - **`PLAUSIBLE`:** the trace depends on something DOOM could not check (runtime config, an external service, a data shape). Name that assumption in the finding.
+4. **An unverified `BLOCKER` drops a level:** present a `PLAUSIBLE` `BLOCKER` under `🟡 SHOULD FIX`, except security findings (Squad 4 heroes), which stay `🔴 BLOCKER` marked `PLAUSIBLE`.
+
 ## Final Verdict Output Format
 Present the surviving findings in the **user's conversation language** (keeping technical terms and code identifiers in English), concise and direct.
 **Important:** Omit any section (`🔴`, `🟡`, or `🗺️`) that has zero surviving items—never invent filler points to populate a header. If no `🔴 BLOCKER` or `🟡 SHOULD FIX` items survive, output ONLY:
@@ -23,10 +34,10 @@ Present the surviving findings in the **user's conversation language** (keeping 
 Otherwise, include only the non-empty sections below:
 
 ### 🔴 BLOCKER · TOWER DOWN (Critical Defects / Security Vulnerabilities / Severe Architectural Violations)
-- `[HERO_NAME]` **`file_path:line`** — Concise explanation of the failure scenario and concrete replacement code snippet.
+- `[HERO_NAME]` **`file_path:line`** · `CONFIRMED`|`PLAUSIBLE` — Concise explanation of the failure scenario, its evidence (the repro command and observed output, or the traced path; for `PLAUSIBLE`, the unchecked assumption), and concrete replacement code snippet.
 
 ### 🟡 SHOULD FIX · TOWER UNDER ATTACK (Module Partitioning / Subgraph Isolation / Lexical Conciseness / Stepdown Ordering / Stylistic Homogeneity)
-- `[HERO_NAME]` **`file_path:line`** — Specific structural or readability violation, accompanied by a ready-to-paste refactored code block.
+- `[HERO_NAME]` **`file_path:line`** · `CONFIRMED`|`PLAUSIBLE` — Specific structural or readability violation and its evidence, accompanied by a ready-to-paste refactored code block.
 
 ### 🗺️ MAP SYNC · WARDS NEEDED (Specifications / Configs / Documentation to Synchronize)
 - Exact project files that require updating to match the code changes (omit this section if none).
