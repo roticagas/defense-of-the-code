@@ -25,7 +25,7 @@ You operate under the philosophy of **The Middle Path (Proportional Complexity)*
 
 ## Core Reference (Mandatory Baseline)
 Before pushing any lane, read and internalize the 7 architectural laws in:
-- [00-the-ancients-core-laws.md](./references/00-the-ancients-core-laws.md) (**THE ANCIENTS — Core Architecture & Engineering Laws**)
+- [00-ancient-laws.md](./references/00-ancient-laws.md) (**THE ANCIENTS — Core Architecture & Engineering Laws**)
 
 ---
 
@@ -107,7 +107,7 @@ Load **ONLY** the hero files `ORACLE` assembled from the **6 Review Squads** (`r
      - **Antigravity:** `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`).
      - **Claude Code:** `Agent` tool (`subagent_type: "general-purpose"`, omit `model` so it inherits the parent model).
      - Every Squad Subagent is a **read-only reviewer**: state in its prompt that it must NOT edit, write, or delete any file.
-  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary** that includes the manifest's **Purpose** line, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed) plus the diff range the preflight scan reported (e.g., `main...HEAD`, `HEAD~1..HEAD`), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, except a hero Ultimate that reads beyond the diff (e.g., `SHADOW FIEND`'s history sweep), and (e) this strict reply contract:
+  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary** that includes the manifest's **Purpose** line, (b) the absolute path to `00-ancient-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed) plus the diff range the preflight scan reported (e.g., `main...HEAD`, `HEAD~1..HEAD`), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, except a hero Ultimate that reads beyond the diff (e.g., `SHADOW FIEND`'s history sweep), and (e) this strict reply contract:
      - Reply exactly `NO_ISSUES_FOUND` if clean.
      - Otherwise reply with one finding per line, no preamble or summary:
        `[HERO_NAME] | <BLOCKER|SHOULD FIX|MAP SYNC> | <file_path>:<line> (or <commit>:<file_path> for a history finding) | <law or check violated> | <failure scenario> | <suggested fix (inline snippet or 1-line description)>`
