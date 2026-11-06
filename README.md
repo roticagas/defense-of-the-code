@@ -68,8 +68,8 @@ flowchart TD
 ---
 
 ### 🔮 Mid Lane: Progressive Code Review (ตรวจโค้ด 3 ด่าน Read-Only — 6 Review Squads, 23 Heroes)
-- **แม่ทัพคัดกรอง (Stage 1 · Assemble):** 🔮 **`ORACLE`** ([`mid-lane-oracle.md`](./references/commanders/mid-lane-oracle.md)) — รัน `preflight_scan.py` และรวมพล **3–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
-- **ผู้ตัดสินปิดท้าย (Stage 3 · Deny):** 🔥 **`DOOM`** ([`mid-lane-doom.md`](./references/commanders/mid-lane-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง
+- **แม่ทัพคัดกรอง (Stage 1 · Assemble):** 🔮 **`ORACLE`** ([`mid-lane-oracle.md`](./references/commanders/mid-lane-oracle.md)) — รัน `preflight_scan.py` และรวมพล **2–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
+- **ผู้ตัดสินปิดท้าย (Stage 3 · Deny):** 🔥 **`DOOM`** ([`mid-lane-doom.md`](./references/commanders/mid-lane-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง แล้วผ่าน **Verification Gate**: ทุก finding ต้องมีหลักฐาน (trace หรือ read-only repro) และติดป้าย `CONFIRMED` / `PLAUSIBLE`
 
 | Review Squad (1 Squad = 1 Subagent ในโหมด Deep) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
