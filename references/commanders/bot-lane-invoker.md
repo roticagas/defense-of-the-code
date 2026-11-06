@@ -10,7 +10,7 @@ Before drafting documentation:
 2. Read the actual source files, routes, schemas, or existing markdown docs—**NEVER** invent endpoints, config keys, or parameters that do not exist in the code.
 
 ## 2. Bot Lane Multi-Squad Roster (`references/heroes/doc-squads/`)
-Select **only** the Doc Squads and Heroes matching the user's documentation goal (usually 1 to 2 Squads, 1 to 3 Heroes):
+Select **only** the Doc Squads and Heroes matching the user's documentation goal (usually 1 to 2 authoring Squads, 1 to 3 Heroes, plus Squad 4 for prose documents):
 
 - **🏛️ Doc Squad 1: Architecture & Decisions (`../heroes/doc-squads/squad-1-architecture/`):**
   - Captain **`KEEPER OF THE LIGHT`** (`keeper-of-the-light.md`) — Assemble when creating or updating `ARCHITECTURE.md`, module boundary maps, visual **Mermaid Diagrams** (DAG, Sequence, State Machine), or end-to-end data flows.
@@ -25,20 +25,27 @@ Select **only** the Doc Squads and Heroes matching the user's documentation goal
   - **`OMNIKNIGHT`** (`omniknight.md`) — Assemble when writing **Operational Runbooks**, production alert triage tables (`Symptom -> Root Cause -> Actionable Fix`), key rotation playbooks, or incident rollback SOPs.
   - **`ZEUS`** (`zeus.md`) — Assemble when generating **Pull Request Descriptions**, `CHANGELOG.md` entries, Release Notes, or Breaking Change / Rollout & Migration Guides from a branch or `git diff`.
 
-## 3. Document Outline (Multi-Section Documents Only)
-The heroes author sections in parallel and none of them owns the whole document, so INVOKER fixes the skeleton before any hero writes. Apply this step to any document with a table of contents or 3+ top-level sections (specs, handbooks, multi-chapter API docs). Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
-1. **Body vs. Appendix:** Material readers look up from several chapters rather than read in sequence (schema/object dictionaries, code lists, error catalogs, legacy or out-of-scope endpoints) moves to an appendix, and the body chapters link to it.
-2. **Reader-Journey Order:** Order body chapters by the caller's actual sequence (e.g., Authentication & Standards → Endpoint Summary → each Action), not by implementation history or version.
-3. **Uniform Chapter Shape:** Chapters of the same kind share one sub-heading set (e.g., every endpoint chapter: `Overview` → `Request Definition` → `Response Definition`), and their titles follow one convention (all include `METHOD /path`, or none do).
-4. **One Grouping Axis:** Group chapters by a single axis throughout (by function *or* by API version, never both). If the same title prefix repeats on 3+ chapters (e.g., `API Specification: ...`), promote it to one parent chapter and nest the rest beneath it.
-5. **Coverage Matches Code:** Any endpoint summary or index lists exactly the routes found in code; endpoints intentionally left out are named in a one-line scope note.
+- **💎 Doc Squad 4: Language & Presentation (`../heroes/doc-squads/squad-4-polish/`):**
+  - Captain **`CRYSTAL MAIDEN`** (`crystal-maiden.md`) — Assemble for every document people read as prose (skip machine-readable outputs such as OpenAPI YAML or `.env.example`); she polishes wording on the full draft after the authoring heroes finish.
+  - **`ENCHANTRESS`** (`enchantress.md`) — Assemble with `CRYSTAL MAIDEN`; she formats the full draft (headings, numbering, tables, code blocks) after the wording polish.
 
-**Existing documents:** When updating or syncing a document you did not author in this run, audit its outline against rules 1–5 and list each deviation in the manifest's **Outline** line (`<section> — <rule> — <proposed move>`). Do not restructure an existing document unless the user asks; edit only the affected sections (SILENCER rule 4).
+## 3. Purpose & Audience (Every Document)
+Buy **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](../items/gem-of-true-sight.md)) and state what the audience will do with the document.
 
-## 4. Execution Flow
-1. Output the **INVOKER Assembly Manifest** (2 lines, plus a 3rd when §3 applies):
+Before any hero writes, name who reads the document and what they can open besides it (this repository, internal docs, or nothing). Every hero writes for that reader only.
+- **Default by type:** README / onboarding → repo developers; runbook → on-call operators; PR / `CHANGELOG.md` → reviewers; ADR / `ARCHITECTURE.md` → team engineers. API specs and deliverables: decide from the user's words or the location (`deliverable/`, `client/`, a partner name → external); ask only if neither decides it (SKILL.md Lane Routing rule 2).
+- **No repository access:** the document stands alone—no source or internal doc paths, no class/method names, no internal call-flow diagrams; describe observable behavior instead.
+- **Existing documents:** list each mismatch in the manifest's **Audience** line (`<section> — <unusable content> — <fix>`); fix it in sections this run edits, or everywhere when the user asked for a review.
+
+## 4. Document Outline (Multi-Section Documents Only)
+For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
+
+## 5. Execution Flow
+1. Output the **INVOKER Assembly Manifest** (4 lines, plus a 5th when §4 applies):
+   - **Purpose:** [What the audience will do with the document (integrate, decide, operate, approve)]
    - **Target Deliverables:** [Files or sections to generate/update, or chat output if requested inline]
+   - **Audience:** [Reader — what they can open besides this document (e.g., `partner integrators — no repository access`). Existing document: add the §3 mismatches found, or `no mismatches`]
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes assembled within it]
-   - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the §3 deviations found, or `no deviations`]
-2. Load only the assembled heroes' reference files and compose the documentation within the outline.
+   - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the deviations from Aghanim's Scepter rules, or `no deviations`]
+2. Load only the assembled heroes' reference files and compose the documentation within the outline; when Squad 4 is assembled, `CRYSTAL MAIDEN` polishes the wording and then `ENCHANTRESS` formats the full draft last.
 3. Pass the drafted documentation through **`SILENCER`** (`./bot-lane-silencer.md`) to strip all fluff before presenting or writing the final output.

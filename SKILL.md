@@ -2,7 +2,7 @@
 name: defense-of-the-code
 description: >-
   Explicitly invoked software architecture blueprint, progressive code review, and
-  technical documentation skill powered by a 46-hero 3-Lane Multi-Commander & Squad Roster
+  technical documentation skill powered by a 48-hero 3-Lane Multi-Commander & Squad Roster
   (Top Lane: Plan, Mid Lane: Review, Bot Lane: Doc — 1 Hero = 1 File). Activate ONLY when
   the user explicitly invokes `/defense-of-the-code` (or explicit `/dotc`, `/blueprint`,
   `/review`, `/review deep`, `/doc` commands). Do NOT auto-activate on general questions,
@@ -31,7 +31,7 @@ Before pushing any lane, read and internalize the 7 architectural laws in:
 
 ## The 3 Lanes (Natural Language Intent Routing)
 
-Every lane follows a symmetrical 3-stage pipeline: **Stage 1 · Assemble — Lane Commander (Router) $\rightarrow$ Stage 2 · Teamfight — Specialist Multi-Squads (`1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — Final Filter (Arbiter)**, with **zero hero overlap** across all 3 lanes (46 unique heroes across 13 squads).
+Every lane follows a symmetrical 3-stage pipeline: **Stage 1 · Assemble — Lane Commander (Router) $\rightarrow$ Stage 2 · Teamfight — Specialist Multi-Squads (`1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — Final Filter (Arbiter)**, with **zero hero overlap** across all 3 lanes (48 unique heroes across 14 squads).
 
 When the user invokes `/defense-of-the-code <natural language request>` (or `/dotc <natural language request>`), infer the lane from their conversational phrasing:
 - **🔨 Top Lane — Plan / Blueprint Intent** (e.g., *"ช่วยออกแบบหน่อย"*, *"วางแผนโค้ดต่อจากที่คุยกัน"*, *"ออกแบบโครงสร้าง"*, `/blueprint`) $\rightarrow$ Led by **`ELDER TITAN`**.
@@ -46,6 +46,22 @@ When the user invokes `/defense-of-the-code <natural language request>` (or `/do
    - **If the user cannot be asked** (non-interactive or headless run): run the recommended option and state the assumed lane in the first line of the output.
 3. **Never ask about what has a default:** Mid Lane Standard vs. Deep (Standard is the default), or which squads to assemble (the Commander decides).
 4. **An unambiguous request runs immediately** — no confirmation step. An explicit lane command (`/blueprint`, `/review`, `/review deep`, `/doc`; Antigravity/Gemini only) fixes the lane directly and skips this routing; on Claude Code only `/defense-of-the-code` and `/dotc` exist, so rules 1–3 always apply to the text that follows them.
+
+#### Purpose First (all lanes)
+Before assembling any squad, every Lane Commander buys the shared item **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)): state what the work is for as the manifest's first line, inferred from the conversation, PR or commits, and ask one question only when nothing states it. Each lane's Stage 3 filter judges the output against that purpose.
+
+#### Items (`references/items/`, `1 Item = 1 File`)
+Commanders and heroes belong to one lane; an **item** is a procedure a Lane Commander buys and carries.
+1. **When to make an item:** only for a procedure that (a) a lane needs for some tasks but not all, or (b) two or more lanes share. A rule one lane uses on every run stays in that commander's file; a specialist pass that writes content or findings is a hero, not an item.
+2. **Buying condition:** an item file's first line names who may buy it and when (e.g., *bought by `INVOKER` only for multi-section documents*). Read an item file only when its condition holds for the current task.
+3. **6 inventory slots:** a Lane Commander carries at most 6 items. To add a 7th, merge or retire one first.
+4. **Output goes in the manifest:** an item fills a line of the commander's manifest (`Purpose`, `Outline`) or a rule its Stage 3 filter applies. It never adds a stage.
+5. **Not counted as heroes:** items sit outside the hero and squad totals and the zero-hero-overlap rule, so one item may serve several lanes.
+
+| Item | Bought by | Condition |
+| :--- | :--- | :--- |
+| 💠 **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | Every task, at Stage 1 |
+| 🔱 **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) | `INVOKER` | Documents with a table of contents or 3+ top-level sections |
 
 ---
 
@@ -79,7 +95,7 @@ When triggered to review code, a PR, a branch, specific files, or `git diff`, ex
    - If the preflight scan cannot run, state the reason in `Preflight Signals: unavailable — <reason>` and gather the diff manually (`git diff HEAD` $\rightarrow$ `git diff --cached` $\rightarrow$ `git show HEAD` or target files).
 2. Read [mid-lane-oracle.md](./references/commanders/mid-lane-oracle.md).
 3. Select **only the necessary Review Squads (max 3–4 Squads)** and assemble **only the relevant Heroes within each Squad** based on the diff signals.
-4. Output the 3-line **ORACLE Routing Manifest** (`Affected Zones`, `Preflight Signals`, `Assembled Squads & Heroes`).
+4. Output the 4-line **ORACLE Routing Manifest** (`Purpose`, `Affected Zones`, `Preflight Signals`, `Assembled Squads & Heroes`).
 
 #### Stage 2 · Teamfight — Review Squad Inspection (`1 Hero = 1 File`, Grouped by Squad)
 Load **ONLY** the hero files assembled by `ORACLE` inside the active Squads:
@@ -106,7 +122,7 @@ Load **ONLY** the hero files assembled by `ORACLE` inside the active Squads:
      - **Antigravity:** `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`).
      - **Claude Code:** `Agent` tool (`subagent_type: "general-purpose"`, omit `model` so it inherits the parent model).
      - Every Squad Subagent is a **read-only reviewer**: state in its prompt that it must NOT edit, write, or delete any file.
-  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, and (e) this strict reply contract:
+  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary** that includes the manifest's **Purpose** line, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, and (e) this strict reply contract:
      - Reply exactly `NO_ISSUES_FOUND` if clean.
      - Otherwise reply with one finding per line, no preamble or summary:
        `[HERO_NAME] | <BLOCKER|SHOULD FIX|MAP SYNC> | <file_path>:<line> | <law or check violated> | <failure scenario> | <suggested fix (inline snippet or 1-line description)>`
@@ -121,19 +137,22 @@ Load **ONLY** the hero files assembled by `ORACLE` inside the active Squads:
 
 ---
 
-### 📖 Bot Lane: Documentation & Knowledge Sync (`INVOKER` $\rightarrow$ `3 Doc Squads` $\rightarrow$ `SILENCER`)
+### 📖 Bot Lane: Documentation & Knowledge Sync (`INVOKER` $\rightarrow$ `4 Doc Squads` $\rightarrow$ `SILENCER`)
 When triggered to generate, update, or synchronize technical documentation, diagrams, ADRs, runbooks, or PR summaries:
 1. **Stage 1 · Assemble — Commander `INVOKER`:**
    - Read [bot-lane-invoker.md](./references/commanders/bot-lane-invoker.md).
-   - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_candidate_finder.py` when syncing changes) and assemble only the required squads and chroniclers from the **3 Doc Squads** (`references/heroes/doc-squads/`):
+   - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_candidate_finder.py` when syncing changes) and assemble only the required squads and chroniclers from the **4 Doc Squads** (`references/heroes/doc-squads/`):
      - **🏛️ Doc Squad 1: Architecture & Decisions (`references/heroes/doc-squads/squad-1-architecture/`):**
        - Captain **`KEEPER OF THE LIGHT`** ([keeper-of-the-light.md](./references/heroes/doc-squads/squad-1-architecture/keeper-of-the-light.md)) | **`VOID SPIRIT`** ([void-spirit.md](./references/heroes/doc-squads/squad-1-architecture/void-spirit.md))
      - **📜 Doc Squad 2: Contracts & Recipes (`references/heroes/doc-squads/squad-2-contracts/`):**
        - Captain **`WARLOCK`** ([warlock.md](./references/heroes/doc-squads/squad-2-contracts/warlock.md)) | **`SHADOW SHAMAN`** ([shadow-shaman.md](./references/heroes/doc-squads/squad-2-contracts/shadow-shaman.md))
      - **🛠️ Doc Squad 3: Operations & Release (`references/heroes/doc-squads/squad-3-operations/`):**
        - Captain **`CHEN`** ([chen.md](./references/heroes/doc-squads/squad-3-operations/chen.md)) | **`OMNIKNIGHT`** ([omniknight.md](./references/heroes/doc-squads/squad-3-operations/omniknight.md)) | **`ZEUS`** ([zeus.md](./references/heroes/doc-squads/squad-3-operations/zeus.md))
-   - For multi-section documents, fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
+     - **💎 Doc Squad 4: Language & Presentation (`references/heroes/doc-squads/squad-4-polish/`):** assembled for every prose document
+       - Captain **`CRYSTAL MAIDEN`** ([crystal-maiden.md](./references/heroes/doc-squads/squad-4-polish/crystal-maiden.md)) | **`ENCHANTRESS`** ([enchantress.md](./references/heroes/doc-squads/squad-4-polish/enchantress.md))
+   - Name the **Audience** for every document (who reads it, and whether they can open the repository) before any hero writes; for an existing document, list content the audience cannot use in the manifest.
+   - For multi-section documents, buy the item **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) and fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
-   - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation.
+   - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation; `CRYSTAL MAIDEN` then polishes the wording and `ENCHANTRESS` formats the full draft last.
 3. **Stage 3 · Deny — Filter `SILENCER`:**
-   - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, and verify 100% accuracy against the codebase. Append `🤫 SILENCED` listing unverified claims removed (only if any).
+   - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, verify 100% accuracy against the codebase, purge content the audience cannot use (internal paths and class names for readers without repository access), keep each fact in one place, and replace secrets and personal data with fake placeholders. Append `🤫 SILENCED` listing unverified claims removed and `🔒 MASKED` listing values replaced (each only if any).
