@@ -29,7 +29,9 @@ Select **only** the Doc Squads and Heroes matching the user's documentation goal
   - Captain **`CRYSTAL MAIDEN`** (`crystal-maiden.md`) — Assemble for every document people read as prose (skip machine-readable outputs such as OpenAPI YAML or `.env.example`); she polishes wording on the full draft after the authoring heroes finish.
   - **`ENCHANTRESS`** (`enchantress.md`) — Assemble with `CRYSTAL MAIDEN`; she formats the full draft (headings, numbering, tables, code blocks) after the wording polish.
 
-## 3. Audience (Every Document)
+## 3. Purpose & Audience (Every Document)
+Buy **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](../items/gem-of-true-sight.md)) and state what the audience will do with the document.
+
 Before any hero writes, name who reads the document and what they can open besides it (this repository, internal docs, or nothing). Every hero writes for that reader only.
 - **Default by type:** README / onboarding → repo developers; runbook → on-call operators; PR / `CHANGELOG.md` → reviewers; ADR / `ARCHITECTURE.md` → team engineers. API specs and deliverables: decide from the user's words or the location (`deliverable/`, `client/`, a partner name → external); ask only if neither decides it (SKILL.md Lane Routing rule 2).
 - **No repository access:** the document stands alone—no source or internal doc paths, no class/method names, no internal call-flow diagrams; describe observable behavior instead.
@@ -39,7 +41,8 @@ Before any hero writes, name who reads the document and what they can open besid
 For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
 
 ## 5. Execution Flow
-1. Output the **INVOKER Assembly Manifest** (3 lines, plus a 4th when §4 applies):
+1. Output the **INVOKER Assembly Manifest** (4 lines, plus a 5th when §4 applies):
+   - **Purpose:** [What the audience will do with the document (integrate, decide, operate, approve)]
    - **Target Deliverables:** [Files or sections to generate/update, or chat output if requested inline]
    - **Audience:** [Reader — what they can open besides this document (e.g., `partner integrators — no repository access`). Existing document: add the §3 mismatches found, or `no mismatches`]
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes assembled within it]

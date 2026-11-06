@@ -16,6 +16,8 @@
 **`defense-of-the-code` (v2.1)** จึงจัดโครงสร้างแบบ **Symmetrical 3-Stage Squad Pipeline** ในทั้ง **3 Lanes**:
 > **Stage 1 · Assemble — แม่ทัพประจำเลน (Lane Commander) $\rightarrow$ Stage 2 · Teamfight — หน่วยรบผู้เชี่ยวชาญเฉพาะทาง (`14 Squads`, `1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — ผู้กรองปิดท้าย (Final Filter)**
 
+> **🔭 Purpose First:** ก่อนเริ่มงานทุกเลน แม่ทัพจะซื้อไอเทม 💠 **`GEM OF TRUE SIGHT`** ([`gem-of-true-sight.md`](./references/items/gem-of-true-sight.md)) เพื่อระบุให้ชัดว่างานนี้ทำไปเพื่ออะไร (ดึงจากบทสนทนา, PR หรือ commit ก่อน ถามกลับเฉพาะเมื่อไม่มีที่ไหนบอก) เพราะถามคำถามเดียวตอนเริ่ม ใช้แรงน้อยกว่าต้องรื้อแผน รีวิว หรือเอกสารทีหลัง และผู้กรองปิดท้ายจะตัดสิ่งที่ไม่ตอบจุดประสงค์นั้นทิ้ง
+
 ```mermaid
 flowchart TD
     USER["📥 ผู้ใช้เรียก /dotc + คำสั่งภาษาธรรมชาติ"] --> ANCIENTS["🏛️ THE ANCIENTS<br/>(00-the-ancients-core-laws.md)"]
@@ -117,6 +119,7 @@ defense-of-the-code/
     │   ├── bot-lane-invoker.md
     │   └── bot-lane-silencer.md
     ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาใช้เฉพาะงานที่ต้องการ
+    │   ├── gem-of-true-sight.md                  #    ทุกเลน: ถามจุดประสงค์ก่อนเริ่มงาน (Purpose First)
     │   └── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
     └── heroes/                                   # คลังฮีโร่ 14 Squads แยกไฟล์เดี่ยว (42 Squad Heroes)
         ├── plan-squads/                          # 🔨 Top Lane: 4 Plan Squads (10 Heroes)
