@@ -82,7 +82,7 @@ flowchart TD
 
 ### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 4 Doc Squads, 8 Heroes)
 - **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
-- **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) และให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว
+- **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) ให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว และแทน secret/ข้อมูลส่วนตัว (token, เลขบัตร, อีเมล, hostname ภายใน) ด้วยค่าตัวอย่างปลอม
 
 | Doc Squad (`doc-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
