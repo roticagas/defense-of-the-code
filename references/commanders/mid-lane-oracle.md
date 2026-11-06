@@ -50,4 +50,4 @@ Output a concise **ORACLE Routing Manifest** before executing Stage 2:
 - **Purpose:** [What the change is meant to do, from the conversation, PR description or commit messages]
 - **Affected Zones:** [e.g., Flow Orchestrator, Egress Gateway, Leaf Utility]
 - **Preflight Signals:** [Summary from `preflight_scan.py`]
-- **Assembled Squads & Heroes:** [List each active Squad and the specific Heroes assembled within it]
+- **Assembled Squads & Heroes:** [List each active Squad and the specific Heroes assembled within it; for a Hero Kit hero, add the abilities its triggers fire, e.g. `SHADOW FIEND (Passive + Active 2)`]

@@ -64,6 +64,17 @@ Commanders and heroes belong to one lane; an **item** is a procedure a Lane Comm
 | 🔱 **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) | `INVOKER` | Documents with a table of contents or 3+ top-level sections |
 | 🧥 **`GLIMMER CAPE`** ([glimmer-cape.md](./references/items/glimmer-cape.md)) | `ELDER TITAN` → `VIPER`, `ORACLE` → `SHADOW FIEND`, `SILENCER` | When VIPER or SHADOW FIEND is assembled; every document SILENCER filters |
 
+#### Hero Kit (Pilot: `CRYSTAL MAIDEN`, `ENCHANTRESS`, `SHADOW FIEND`)
+A hero's rules are grouped by **when they run**, so a Commander loads a hero for exactly the abilities the task triggers:
+1. **🟢 Passive (exactly 1):** applies every time the hero is assembled.
+2. **🔵 Active (1–3):** each names its trigger signal in the input (a diff pattern, a document feature) and runs only when that signal is present.
+3. **🟣 Ultimate (0–1):** the hero's costliest move (runs a script, reads beyond the diff or the edited sections, or touches the whole document). It names its trigger and never runs otherwise.
+4. **No filler:** never invent an ability to fill a slot; a hero without a real costly move has no Ultimate.
+5. **Manifest:** the Commander lists each hero with the abilities it triggered, e.g. `SHADOW FIEND (Passive + Active 2)`.
+6. **Shared → item:** when the same Passive appears on two or more heroes, move it into an item.
+
+Heroes not yet converted keep their numbered rule list, and every rule in it applies whenever the hero is assembled.
+
 ---
 
 ### 🔨 Top Lane: Architectural Blueprint (`ELDER TITAN` $\rightarrow$ `4 Plan Squads` $\rightarrow$ `ANCIENT APPARITION`)
