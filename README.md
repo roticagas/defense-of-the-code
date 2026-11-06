@@ -1,7 +1,7 @@
 # 🏰 Defense of the Code (`defense-of-the-code`)
 
 > **3-Lane Multi-Commander & Squad Software Architecture, Code Review & Documentation Skill สำหรับ Google Antigravity และ Claude Code**  
-> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **3-Lane Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แบ่งแผนที่ออกเป็น **3 เลนหลัก (🔨 Top Lane: Plan / 🔮 Mid Lane: Review / 📖 Bot Lane: Doc)** รวม **13 Squads, 46 ฮีโร่ไม่ซ้ำกัน**
+> ดำเนินการภายใต้ปรัชญา **ทางสายกลาง (The Middle Path — Proportional Complexity)** ผสานหลัก **ทฤษฎีกราฟ การแยกส่วนโมดูลเชิงตั้งฉาก และการตัดตอนสถานะ (Graph Topology, Orthogonal Decomposition & State Isolation)** เข้ากับระบบ **3-Lane Multi-Commander & Squad Progressive Disclosure (`1 Hero = 1 File`)** ที่แบ่งแผนที่ออกเป็น **3 เลนหลัก (🔨 Top Lane: Plan / 🔮 Mid Lane: Review / 📖 Bot Lane: Doc)** รวม **14 Squads, 47 ฮีโร่ไม่ซ้ำกัน**
 
 ---
 
@@ -14,7 +14,7 @@
 4. **ถ้าไม่มีตัวกรองขั้นสุดท้าย:** AI มักเค้นหาเรื่องจุกจิกมาติ (Nitpicking), แนะนำท่ายากเกินความจำเป็น (YAGNI), หรือเขียนเอกสารน้ำท่วมทุ่ง
 
 **`defense-of-the-code` (v2.1)** จึงจัดโครงสร้างแบบ **Symmetrical 3-Stage Squad Pipeline** ในทั้ง **3 Lanes**:
-> **Stage 1 · Assemble — แม่ทัพประจำเลน (Lane Commander) $\rightarrow$ Stage 2 · Teamfight — หน่วยรบผู้เชี่ยวชาญเฉพาะทาง (`13 Squads`, `1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — ผู้กรองปิดท้าย (Final Filter)**
+> **Stage 1 · Assemble — แม่ทัพประจำเลน (Lane Commander) $\rightarrow$ Stage 2 · Teamfight — หน่วยรบผู้เชี่ยวชาญเฉพาะทาง (`14 Squads`, `1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — ผู้กรองปิดท้าย (Final Filter)**
 
 ```mermaid
 flowchart TD
@@ -30,7 +30,7 @@ flowchart TD
     ORACLE -->|"รวมพล 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (23 Heroes)<br/>1. Topology & Style (Capt: Earthshaker + 4)<br/>2. State & Contract (Capt: Arc Warden + 3)<br/>3. Fault & Concurrency (Capt: Wraith King + 3)<br/>4. Security & Hygiene (Capt: Templar Assassin + 3)<br/>5. Scale & Telemetry (Capt: Tinker + 3)<br/>6. Spec & Drift Radar (Capt: Rubick + 1)"]
     RS --> DOOM["🔥 DOOM<br/>(Silence Filter & Verdict Arbiter)"]
 
-    INVOKER -->|"รวมพลตามชนิดเอกสาร"| DS["📜 3 Doc Squads (7 Heroes)<br/>1. Architecture & Decisions (Capt: Keeper of the Light + 1)<br/>2. Contracts & Recipes (Capt: Warlock + 1)<br/>3. Operations & Release (Capt: Chen + 2)"]
+    INVOKER -->|"รวมพลตามชนิดเอกสาร"| DS["📜 4 Doc Squads (8 Heroes)<br/>1. Architecture & Decisions (Capt: Keeper of the Light + 1)<br/>2. Contracts & Recipes (Capt: Warlock + 1)<br/>3. Operations & Release (Capt: Chen + 2)<br/>4. Language & Clarity (Capt: Crystal Maiden)"]
     DS --> SILENCER["🤫 SILENCER<br/>(Global Silence Anti-Bloat Filter)"]
 ```
 
@@ -50,7 +50,7 @@ flowchart TD
 
 ---
 
-## ⚔️ ทำเนียบแม่ทัพและทีมฮีโร่ทั้ง 3 Lanes (`13 Squads`, `46 Heroes`, `1 Hero = 1 File`)
+## ⚔️ ทำเนียบแม่ทัพและทีมฮีโร่ทั้ง 3 Lanes (`14 Squads`, `47 Heroes`, `1 Hero = 1 File`)
 
 ### 🔨 Top Lane: Architectural Blueprint (ออกแบบและวางแผนก่อนเขียนโค้ด — 4 Plan Squads, 10 Heroes)
 - **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 🔨 **`ELDER TITAN`** ([`top-lane-elder-titan.md`](./references/commanders/top-lane-elder-titan.md))
@@ -80,7 +80,7 @@ flowchart TD
 
 ---
 
-### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 3 Doc Squads, 7 Heroes)
+### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 4 Doc Squads, 8 Heroes)
 - **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
 - **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) และให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว
 
@@ -89,6 +89,7 @@ flowchart TD
 | **1. Architecture & Decisions** (`squad-1-architecture/`) | 💡 **KEEPER OF THE LIGHT** *(`ARCHITECTURE.md` & Mermaid Diagrams)* | • 🟣 **VOID SPIRIT** *(ADRs, RFC Rationales & High-Signal "Why" Comments)* |
 | **2. Contracts & Recipes** (`squad-2-contracts/`) | 📕 **WARLOCK** *(API Contracts, Schemas & `.env.example`)* | • 🐍 **SHADOW SHAMAN** *(Consumer Cookbooks, Bruno/Postman & `cURL` Recipes)* |
 | **3. Operations & Release** (`squad-3-operations/`) | 🦌 **CHEN** *(`README.md` & Developer Onboarding)* | • 🛡️ **OMNIKNIGHT** *(Operational Runbooks, Alert Triage & Incident SOPs)*<br>• ⚡ **ZEUS** *(PR Summaries, `CHANGELOG.md` & Migration Guides)* |
+| **4. Language & Clarity** (`squad-4-language/`) | 💎 **CRYSTAL MAIDEN** *(Wording Polish: One Term per Concept, Language Mix & Meaning Lock)* | — |
 
 ---
 
@@ -117,7 +118,7 @@ defense-of-the-code/
     │   └── bot-lane-silencer.md
     ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาใช้เฉพาะงานที่ต้องการ
     │   └── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
-    └── heroes/                                   # คลังฮีโร่ 13 Squads แยกไฟล์เดี่ยว (40 Squad Heroes)
+    └── heroes/                                   # คลังฮีโร่ 14 Squads แยกไฟล์เดี่ยว (41 Squad Heroes)
         ├── plan-squads/                          # 🔨 Top Lane: 4 Plan Squads (10 Heroes)
         │   ├── squad-1-topology/                 #    Dark Seer, Kunkka, Treant Protector
         │   ├── squad-2-domain/                   #    Tiny, Enigma, Lone Druid
@@ -130,10 +131,11 @@ defense-of-the-code/
         │   ├── squad-4-security/                 #    Templar Assassin, Bounty Hunter, Shadow Fiend, Nyx Assassin
         │   ├── squad-5-scale/                    #    Tinker, Clockwerk, Alchemist, Gyrocopter
         │   └── squad-6-drift/                    #    Rubick, Grimstroke
-        └── doc-squads/                           # 📖 Bot Lane: 3 Doc Squads (7 Heroes)
+        └── doc-squads/                           # 📖 Bot Lane: 4 Doc Squads (8 Heroes)
             ├── squad-1-architecture/             #    Keeper of the Light, Void Spirit
             ├── squad-2-contracts/                #    Warlock, Shadow Shaman
-            └── squad-3-operations/               #    Chen, Omniknight, Zeus
+            ├── squad-3-operations/               #    Chen, Omniknight, Zeus
+            └── squad-4-language/                 #    Crystal Maiden
 ```
 
 ---
@@ -173,7 +175,7 @@ curl -fsSL https://raw.githubusercontent.com/roticagas/defense-of-the-code/main/
 /review
 /review deep
 
-# 📖 Bot Lane: สร้างและอัปเดตเอกสาร (INVOKER -> 3 Doc Squads -> SILENCER)
+# 📖 Bot Lane: สร้างและอัปเดตเอกสาร (INVOKER -> 4 Doc Squads -> SILENCER)
 /dotc ช่วยวาด Mermaid diagram สรุป architecture ของโมดูลนี้ให้หน่อย
 /dotc ช่วยเขียน Runbook สำหรับ triage error กับขั้นตอน rotate key
 /dotc ช่วยสรุป PR description จาก branch นี้ให้ที

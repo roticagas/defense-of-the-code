@@ -173,7 +173,7 @@ fi
 echo -e "  ${BOLD}/dotc ช่วยออกแบบ...${NC}                  (🔨 Top Lane: Architectural Blueprint — Elder Titan & 4 Plan Squads)"
 echo -e "  ${BOLD}/dotc รีวิวโค้ดให้หน่อย${NC}              (🔮 Mid Lane: Standard Review — Oracle & 6 Review Squads)"
 echo -e "  ${BOLD}/dotc รีวิวละเอียด ขอ fresh eyes${NC}      (🔮 Mid Lane: Deep Review via Parallel Squad Subagents)"
-echo -e "  ${BOLD}/dotc เขียนเอกสาร / สรุป PR นี้ให้ที${NC}   (📖 Bot Lane: Documentation & Sync — Invoker & 3 Doc Squads)"
+echo -e "  ${BOLD}/dotc เขียนเอกสาร / สรุป PR นี้ให้ที${NC}   (📖 Bot Lane: Documentation & Sync — Invoker & 4 Doc Squads)"
 if [ "$PLATFORM" = "claude" ]; then
   echo -e "  ${CYAN}(หรือใช้คำสั่งเต็ม: ${BOLD}/defense-of-the-code${CYAN} — Claude Code ไม่มี /blueprint, /review, /doc)${NC}"
 else
