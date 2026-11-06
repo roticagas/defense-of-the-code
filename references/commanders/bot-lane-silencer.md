@@ -14,7 +14,7 @@ Before presenting or writing any documentation, **PURGE** the following:
 8. **No Secrets or Personal Data:** Buy **`GLIMMER CAPE`** ([glimmer-cape.md](../items/glimmer-cape.md)). Scan every example, table and code block for its catalog values (secrets, personal and financial data, and internal infrastructure the audience should not see) and replace each with the catalog's placeholder. Apply this rule last of all, after rule 9 and after every hero has written.
 9. **Every Section Earns Its Place:** For each section, answer what the reader does with it, against the manifest's **Purpose** line (`GEM OF TRUE SIGHT`). No answer at all → delete it. Unsure → keep it and ask the user in the `❓ QUESTIONED` report instead of deleting.
 
-**After purging:** if any rule removed a whole section, renumber the headings after it and update every cross-reference to them (ENCHANTRESS rule 1).
+**After purging:** if any rule removed a whole section, renumber the headings after it and update every cross-reference to them (ENCHANTRESS Active 1 — Enchant).
 
 ## Final Output: Silenced Report
 After presenting or writing the documentation, append a short report in the user's conversation language:

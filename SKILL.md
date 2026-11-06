@@ -40,7 +40,11 @@ When the user invokes `/defense-of-the-code <natural language request>` (or `/do
 - **📖 Bot Lane — Documentation & Sync Intent** (e.g., *"เขียน doc"*, *"อัปเดตเอกสารตามโค้ด"*, *"สรุป PR"*, *"วาด diagram"*, *"เขียน ADR"*, *"ตรวจ/รีวิวเอกสาร (โครงสร้าง, หัวข้อ, สารบัญ)"*, `/doc`) $\rightarrow$ Led by **`INVOKER`**.
 
 #### Lane Routing (when phrasing alone is not enough)
-1. **Target decides first:** a `.md` / `docs/` / spec file, or a request about a document's structure, headings or table of contents $\rightarrow$ Bot Lane (a verb like *"รีวิว"* or *"ตรวจ"* does not move it to Mid Lane); source files, a diff or a PR $\rightarrow$ Mid Lane; *"ออกแบบ/วางแผน"* before code exists $\rightarrow$ Top Lane.
+1. **Target decides first:**
+   - A diff, PR, branch or source files to review $\rightarrow$ Mid Lane, even when every changed file is `.md` (ORACLE has a spec-only baseline for that). Writing about a PR (*"สรุป PR"*) stays Bot Lane.
+   - Agent instruction files (`SKILL.md`, `AGENTS.md`, `CLAUDE.md`, a skill's `references/`) are the agent's code $\rightarrow$ Mid Lane.
+   - Any other standalone document (`.md`, `docs/`, spec) or a request about a document's structure, headings or table of contents $\rightarrow$ Bot Lane (a verb like *"รีวิว"* or *"ตรวจ"* does not move it to Mid Lane).
+   - *"ออกแบบ/วางแผน"* before code exists $\rightarrow$ Top Lane.
 2. **Ask only if two or more lanes still fit** (e.g., *"เช็คว่า doc ตรงกับโค้ดไหม"* — document structure vs. code drift). Ask **one** question with 2–3 options, recommended option first, each stating what it does and which lane runs it. Do not start any lane until answered.
    - **How to ask (platform-neutral):** write the question as plain text with numbered options in the user's language and wait for the reply; if the host offers a structured question tool (e.g., `AskUserQuestion` in Claude Code), it may be used instead. Never depend on a tool that only one platform provides.
    - **If the user cannot be asked** (non-interactive or headless run): run the recommended option and state the assumed lane in the first line of the output.
@@ -106,7 +110,7 @@ When triggered to review code, a PR, a branch, specific files, or `git diff`, ex
    `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [target_files...]`
    - If the preflight scan cannot run, state the reason in `Preflight Signals: unavailable — <reason>` and gather the diff manually (`git diff HEAD` $\rightarrow$ `git diff --cached` $\rightarrow$ `git show HEAD` or target files).
 2. Read [mid-lane-oracle.md](./references/commanders/mid-lane-oracle.md).
-3. Select **only the necessary Review Squads (max 3–4 Squads)** and assemble **only the relevant Heroes within each Squad** based on the diff signals.
+3. Select **only the necessary Review Squads (2–4 Squads: the baseline pair plus at most 2 more)** and assemble **only the relevant Heroes within each Squad** based on the diff signals.
 4. Output the 4-line **ORACLE Routing Manifest** (`Purpose`, `Affected Zones`, `Preflight Signals`, `Assembled Squads & Heroes`).
 
 #### Stage 2 · Teamfight — Review Squad Inspection (`1 Hero = 1 File`, Grouped by Squad)
@@ -130,14 +134,14 @@ Load **ONLY** the hero files assembled by `ORACLE` inside the active Squads:
 - **🔬 Deep / Fresh-Eyes Mode (Deep Review — Parallel Squad Subagents, when requested by user):**
   If the user asks for a deep/thorough review (e.g., *"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ขอ fresh eyes"*, `/review deep`):
   1. Re-run `preflight_scan.py` with `--dump-diff <scratch_dir>/current_review.diff` (`<scratch_dir>` = conversation scratch/artifact directory).
-  2. Spawn **one parallel subagent per active Squad** (3–6 subagents max, NOT 1 per individual hero) in a single turn, using the host's subagent tool:
+  2. Spawn **one parallel subagent per active Squad** (2–4 subagents, matching the Squad cap; NOT 1 per individual hero) in a single turn, using the host's subagent tool:
      - **Antigravity:** `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`).
      - **Claude Code:** `Agent` tool (`subagent_type: "general-purpose"`, omit `model` so it inherits the parent model).
      - Every Squad Subagent is a **read-only reviewer**: state in its prompt that it must NOT edit, write, or delete any file.
-  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary** that includes the manifest's **Purpose** line, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, and (e) this strict reply contract:
+  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary** that includes the manifest's **Purpose** line, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed) plus the diff range the preflight scan reported (e.g., `main...HEAD`, `HEAD~1..HEAD`), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, except a hero Ultimate that reads beyond the diff (e.g., `SHADOW FIEND`'s history sweep), and (e) this strict reply contract:
      - Reply exactly `NO_ISSUES_FOUND` if clean.
      - Otherwise reply with one finding per line, no preamble or summary:
-       `[HERO_NAME] | <BLOCKER|SHOULD FIX|MAP SYNC> | <file_path>:<line> | <law or check violated> | <failure scenario> | <suggested fix (inline snippet or 1-line description)>`
+       `[HERO_NAME] | <BLOCKER|SHOULD FIX|MAP SYNC> | <file_path>:<line> (or <commit>:<file_path> for a history finding) | <law or check violated> | <failure scenario> | <suggested fix (inline snippet or 1-line description)>`
   4. Wait for all Squad Subagents, then feed every returned finding line verbatim into Stage 3. If a subagent fails or returns malformed output, run that Squad in-context (Default Mode).
 
 #### Stage 3 · Deny — Filter `DOOM` (Lead Filter & Verdict Arbiter)

@@ -94,6 +94,11 @@ def main() -> None:
 
 def collect_changed_targets(base_ref: str | None = None) -> tuple[list[Path], dict[Path, set[int] | None], str, str]:
     if base_ref:
+        if not run_git(["merge-base", base_ref, "HEAD"]).strip():
+            sys.exit(
+                f"Error: no merge base between '{base_ref}' and HEAD. "
+                f"Check the ref exists locally (e.g. origin/{base_ref}) and the clone is not shallow."
+            )
         diff_ref = f"{base_ref}...HEAD"
         mode_label = f"branch diff ({diff_ref})"
         tracked_out = run_git(["diff", "--name-only", diff_ref])
@@ -140,8 +145,9 @@ def collect_changed_targets(base_ref: str | None = None) -> tuple[list[Path], di
 
 def run_git(args: list[str]) -> str:
     try:
+        # quotePath=false keeps non-ASCII (e.g. Thai) file names unescaped so Path() can find them.
         return subprocess.check_output(
-            ["git", *args], text=True, stderr=subprocess.DEVNULL
+            ["git", "-c", "core.quotePath=false", *args], text=True, stderr=subprocess.DEVNULL
         )
     except Exception:
         return ""
