@@ -32,7 +32,7 @@ Select additional Squads (and pick only the relevant Heroes within each Squad) *
 - **🗡️ Squad 4: Security & Hygiene (`../heroes/review-squads/squad-4-security/`) — Assemble IF controllers, auth, raw queries, secrets/PII, or external URLs are touched:**
   - Captain **`TEMPLAR ASSASSIN`** (`templar-assassin.md`): Ingress schema/range validation and SQL/command/template injection defense.
   - **`BOUNTY HUNTER`** (`bounty-hunter.md`): AuthN/AuthZ enforcement, resource ownership (IDOR), and tenant isolation.
-  - **`SHADOW FIEND`** (`shadow-fiend.md`): Hardcoded secrets, sensitive memory residency, and PII/credential redaction in logs/sinks.
+  - **`SHADOW FIEND`** (`shadow-fiend.md`): Hardcoded secrets, sensitive memory residency, and PII/credential redaction in logs/sinks. When assembling SHADOW FIEND, buy **`GLIMMER CAPE`** ([glimmer-cape.md](../items/glimmer-cape.md)) and hand it to SHADOW FIEND.
   - **`NYX ASSASSIN`** (`nyx-assassin.md`): SSRF, unsafe deserialization, and untrusted outbound/webhook pitfalls.
 
 - **🚀 Squad 5: Scale & Telemetry (`../heroes/review-squads/squad-5-scale/`) — Assemble IF DB queries, loops, large collections, caching, or layer boundaries are touched:**

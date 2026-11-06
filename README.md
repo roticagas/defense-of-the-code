@@ -97,7 +97,7 @@ flowchart TD
 
 ## 🎒 ไอเทม (Items — `1 Item = 1 File`)
 
-แม่ทัพและฮีโร่ผูกกับเลนเดียว ส่วน **ไอเทม** คือขั้นตอนที่แม่ทัพซื้อมาถือ ใช้เฉพาะงานที่ต้องการ หรือแชร์ข้ามเลนได้
+แม่ทัพและฮีโร่ผูกกับเลนเดียว ส่วน **ไอเทม** คือขั้นตอนที่แม่ทัพซื้อมาใช้เอง หรือส่งต่อให้ฮีโร่ที่เรียกมา ใช้เฉพาะงานที่ต้องการ หรือแชร์ข้ามเลนได้
 
 **กติกาไอเทม**
 1. **ทำเป็นไอเทมเมื่อ:** (ก) เลนนั้นใช้แค่บางงาน หรือ (ข) ใช้ร่วมกันตั้งแต่ 2 เลนขึ้นไป ถ้าเลนเดียวใช้ทุกครั้ง ให้เขียนไว้ในไฟล์แม่ทัพ ถ้าเป็นงานผู้เชี่ยวชาญที่เขียนเนื้อหาหรือหา finding ให้เป็นฮีโร่
@@ -110,6 +110,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | 💠 **`GEM OF TRUE SIGHT`** ([`gem-of-true-sight.md`](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | ทุกงาน ตอนเริ่ม Stage 1 |
 | 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) | `INVOKER` | เอกสารที่มีสารบัญหรือหัวข้อหลัก 3 หัวข้อขึ้นไป |
+| 🧥 **`GLIMMER CAPE`** ([`glimmer-cape.md`](./references/items/glimmer-cape.md)) | `ELDER TITAN` → `VIPER`, `ORACLE` → `SHADOW FIEND`, `SILENCER` | เมื่อเรียก VIPER หรือ SHADOW FIEND และทุกเอกสารที่ SILENCER กรอง |
 
 ---
 
@@ -137,6 +138,7 @@ defense-of-the-code/
     │   ├── bot-lane-invoker.md
     │   └── bot-lane-silencer.md
     ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาถือ (ใช้เฉพาะงาน / แชร์ข้ามเลน)
+    │   ├── glimmer-cape.md                       #    ทุกเลน: นิยามข้อมูลอ่อนไหวและวิธีปิดบัง (PII & Secrets)
     │   ├── gem-of-true-sight.md                  #    ทุกเลน: ถามจุดประสงค์ก่อนเริ่มงาน (Purpose First)
     │   └── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
     └── heroes/                                   # คลังฮีโร่ 14 Squads แยกไฟล์เดี่ยว (42 Squad Heroes)
