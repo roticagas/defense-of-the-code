@@ -48,4 +48,4 @@ For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes assembled within it; for a Hero Kit hero, add the abilities its triggers fire, e.g. `ENCHANTRESS (Passive + Active 2 + Ultimate)`]
    - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the deviations from Aghanim's Scepter rules, or `no deviations`]
 2. Load only the assembled heroes' reference files and compose the documentation within the outline; when Squad 4 is assembled, `CRYSTAL MAIDEN` polishes the wording and then `ENCHANTRESS` formats the full draft last.
-3. Pass the drafted documentation through **`SILENCER`** (`./bot-lane-silencer.md`) to strip all fluff before presenting or writing the final output.
+3. Pass the drafted documentation through **`SILENCER`** (`./doc-silencer.md`) to strip all fluff before presenting or writing the final output.

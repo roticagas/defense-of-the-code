@@ -20,7 +20,7 @@
 
 ```mermaid
 flowchart TD
-    USER["📥 ผู้ใช้เรียก /dotc + คำสั่งภาษาธรรมชาติ"] --> ANCIENTS["🏛️ THE ANCIENTS<br/>(00-the-ancients-core-laws.md)"]
+    USER["📥 ผู้ใช้เรียก /dotc + คำสั่งภาษาธรรมชาติ"] --> ANCIENTS["🏛️ THE ANCIENTS<br/>(00-ancient-laws.md)"]
     
     ANCIENTS -->|"🔨 Top Lane: ออกแบบโครงสร้าง"| TITAN["ELDER TITAN<br/>(Top Lane Commander)"]
     ANCIENTS -->|"🔮 Mid Lane: รีวิวโค้ด"| ORACLE["ORACLE<br/>(Mid Lane Triage Commander)"]
@@ -40,7 +40,7 @@ flowchart TD
 
 ## 📜 THE ANCIENTS — 7 หลักการสถาปัตยกรรมและวิศวกรรมซอฟต์แวร์
 
-รายละเอียดฉบับเต็มอยู่ใน [`references/00-the-ancients-core-laws.md`](./references/00-the-ancients-core-laws.md):
+รายละเอียดฉบับเต็มอยู่ใน [`references/00-ancient-laws.md`](./references/00-ancient-laws.md):
 
 1. **🧭 Law 1 — Orthogonal Decomposition (4-Axis + Core & Brownfield Constructor Guard):** แยกส่วนรับผิดชอบออกเป็นแกนหน้าที่ที่ตั้งฉากกัน (ไม่เกิน 4 แกนรอบข้าง + 1 แกนกลาง) และเมื่อต่อเติมระบบเดิม (เช่น Guice `@Inject()` ใน Scala Play) ให้เพิ่มเมธอดใน Collaborator เดิมในแกนที่ตรงกันเพื่อไม่ให้ Constructor เปลี่ยนจน Unit Test (`*Spec`) พังทั้งระบบ
 2. **🕸️ Law 2 — Acyclic Call Topology & Dominator Enforcement (Strict DAG & Envelope Adaptability):** ห้ามเกิด Circular Dependency (`A -> B -> A`), ห้ามลัดวงจรข้าม Dominator Gatekeeper, และหาก Dominator ดูแลหลาย API Version ต้องแยกการตรวจสิทธิ์ออกจากการจัด Format Error (ห้ามทำ Modern Error Envelope รั่วไหลใส่ Legacy Route)
@@ -55,8 +55,8 @@ flowchart TD
 ## ⚔️ ทำเนียบแม่ทัพและทีมฮีโร่ทั้ง 3 Lanes (`14 Squads`, `48 Heroes`, `1 Hero = 1 File`)
 
 ### 🔨 Top Lane: Architectural Blueprint (ออกแบบและวางแผนก่อนเขียนโค้ด — 4 Plan Squads, 10 Heroes)
-- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 🔨 **`ELDER TITAN`** ([`top-lane-elder-titan.md`](./references/commanders/top-lane-elder-titan.md))
-- **ผู้กรองแผนปิดท้าย (Stage 3 · Deny):** ❄️ **`ANCIENT APPARITION`** ([`top-lane-ancient-apparition.md`](./references/commanders/top-lane-ancient-apparition.md))
+- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 🔨 **`ELDER TITAN`** ([`plan-elder-titan.md`](./references/commanders/plan-elder-titan.md))
+- **ผู้กรองแผนปิดท้าย (Stage 3 · Deny):** ❄️ **`ANCIENT APPARITION`** ([`plan-ancient-apparition.md`](./references/commanders/plan-ancient-apparition.md))
 
 | Plan Squad (`plan-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
@@ -68,8 +68,8 @@ flowchart TD
 ---
 
 ### 🔮 Mid Lane: Progressive Code Review (ตรวจโค้ด 3 ด่าน Read-Only — 6 Review Squads, 23 Heroes)
-- **แม่ทัพคัดกรอง (Stage 1 · Assemble):** 🔮 **`ORACLE`** ([`mid-lane-oracle.md`](./references/commanders/mid-lane-oracle.md)) — รัน `preflight_scan.py` และรวมพล **2–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
-- **ผู้ตัดสินปิดท้าย (Stage 3 · Deny):** 🔥 **`DOOM`** ([`mid-lane-doom.md`](./references/commanders/mid-lane-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง แล้วผ่าน **Verification Gate**: ทุก finding ต้องมีหลักฐาน (trace หรือ read-only repro) และติดป้าย `CONFIRMED` / `PLAUSIBLE`
+- **แม่ทัพคัดกรอง (Stage 1 · Assemble):** 🔮 **`ORACLE`** ([`review-oracle.md`](./references/commanders/review-oracle.md)) — รัน `preflight_scan.py` และรวมพล **2–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
+- **ผู้ตัดสินปิดท้าย (Stage 3 · Deny):** 🔥 **`DOOM`** ([`review-doom.md`](./references/commanders/review-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง แล้วผ่าน **Verification Gate**: ทุก finding ต้องมีหลักฐาน (trace หรือ read-only repro) และติดป้าย `CONFIRMED` / `PLAUSIBLE`
 
 | Review Squad (1 Squad = 1 Subagent ในโหมด Deep) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
@@ -83,8 +83,8 @@ flowchart TD
 ---
 
 ### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 4 Doc Squads, 9 Heroes)
-- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
-- **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) ให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว และแทน secret/ข้อมูลส่วนตัว (token, เลขบัตร, อีเมล, hostname ภายใน) ด้วยค่าตัวอย่างปลอม
+- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`doc-invoker.md`](./references/commanders/doc-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
+- **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`doc-silencer.md`](./references/commanders/doc-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) ให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว และแทน secret/ข้อมูลส่วนตัว (token, เลขบัตร, อีเมล, hostname ภายใน) ด้วยค่าตัวอย่างปลอม
 
 | Doc Squad (`doc-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
 | :--- | :--- | :--- |
@@ -146,14 +146,15 @@ defense-of-the-code/
 │   ├── preflight_scan.py                         # สแกน git diff, Cross-Version Hazards, Law 3 & Law 5 Hints
 │   └── doc_candidate_finder.py                   # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
 └── references/
-    ├── 00-the-ancients-core-laws.md              # กฎเหล็กสูงสุด 7 ข้อ (The Ancients)
+    ├── 00-ancient-laws.md                        # กฎเหล็กสูงสุด 7 ข้อ (The Ancients)
+    ├── authoring.md                              # กฎสำหรับแก้ตัว skill เอง (เพิ่ม hero, item, Hero Kit) ไม่ถูกโหลดตอนใช้งานปกติ
     ├── commanders/                               # แม่ทัพเปิดเลน & ผู้กรองปิดท้ายของทั้ง 3 Lanes (6 Heroes)
-    │   ├── top-lane-elder-titan.md
-    │   ├── top-lane-ancient-apparition.md
-    │   ├── mid-lane-oracle.md
-    │   ├── mid-lane-doom.md
-    │   ├── bot-lane-invoker.md
-    │   └── bot-lane-silencer.md
+    │   ├── plan-elder-titan.md
+    │   ├── plan-ancient-apparition.md
+    │   ├── review-oracle.md
+    │   ├── review-doom.md
+    │   ├── doc-invoker.md
+    │   └── doc-silencer.md
     ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาถือ (ใช้เฉพาะงาน / แชร์ข้ามเลน)
     │   ├── glimmer-cape.md                       #    ทุกเลน: นิยามข้อมูลอ่อนไหวและวิธีปิดบัง (PII & Secrets)
     │   ├── gem-of-true-sight.md                  #    ทุกเลน: ถามจุดประสงค์ก่อนเริ่มงาน (Purpose First)
