@@ -32,7 +32,7 @@ Select additional Squads (and pick only the relevant Heroes within each Squad) *
 - **🗡️ Squad 4: Security & Hygiene (`../heroes/review-squads/squad-4-security/`) — Assemble IF controllers, auth, raw queries, secrets/PII, or external URLs are touched:**
   - Captain **`TEMPLAR ASSASSIN`** (`templar-assassin.md`): Ingress schema/range validation and SQL/command/template injection defense.
   - **`BOUNTY HUNTER`** (`bounty-hunter.md`): AuthN/AuthZ enforcement, resource ownership (IDOR), and tenant isolation.
-  - **`SHADOW FIEND`** (`shadow-fiend.md`): Hardcoded secrets, sensitive memory residency, and PII/credential redaction in logs/sinks.
+  - **`SHADOW FIEND`** (`shadow-fiend.md`): Hardcoded secrets, sensitive memory residency, and PII/credential redaction in logs/sinks. When assembling SHADOW FIEND, buy **`GLIMMER CAPE`** ([glimmer-cape.md](../items/glimmer-cape.md)) and hand it to SHADOW FIEND.
   - **`NYX ASSASSIN`** (`nyx-assassin.md`): SSRF, unsafe deserialization, and untrusted outbound/webhook pitfalls.
 
 - **🚀 Squad 5: Scale & Telemetry (`../heroes/review-squads/squad-5-scale/`) — Assemble IF DB queries, loops, large collections, caching, or layer boundaries are touched:**
@@ -50,4 +50,4 @@ Output a concise **ORACLE Routing Manifest** before executing Stage 2:
 - **Purpose:** [What the change is meant to do, from the conversation, PR description or commit messages]
 - **Affected Zones:** [e.g., Flow Orchestrator, Egress Gateway, Leaf Utility]
 - **Preflight Signals:** [Summary from `preflight_scan.py`]
-- **Assembled Squads & Heroes:** [List each active Squad and the specific Heroes assembled within it]
+- **Assembled Squads & Heroes:** [List each active Squad and the specific Heroes assembled within it; for a Hero Kit hero, add the abilities its triggers fire, e.g. `SHADOW FIEND (Passive + Active 2)`]

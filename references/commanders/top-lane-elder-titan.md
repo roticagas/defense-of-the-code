@@ -28,7 +28,7 @@ Select **only** the Squads and Heroes needed for this task:
   - **`CHAOS KNIGHT`** (`chaos-knight.md`) — Multi-instance horizontal scale safety, idempotency keys, and optimistic/pessimistic locking strategies.
 
 - **🗡️ Plan Squad 4: Security & Rollout (`../heroes/plan-squads/squad-4-rollout/`) — Assemble IF auth, tokens, PII, DB migrations, or multi-service deployments are involved:**
-  - Captain **`VIPER`** (`viper.md`) — Ingress AuthN/AuthZ scope matrix, token/key lifecycle design, and PII/secret redaction in logs and error responses.
+  - Captain **`VIPER`** (`viper.md`) — Ingress AuthN/AuthZ scope matrix, token/key lifecycle design, and PII/secret redaction in logs and error responses. When assembling VIPER, buy **`GLIMMER CAPE`** ([glimmer-cape.md](../items/glimmer-cape.md)) and hand it to VIPER.
   - **`UNDERLORD`** (`underlord.md`) — Zero-downtime Expand-Contract DB migrations, K8s config/mount compatibility, and cross-service rollout sequencing.
 
 ## 3. Execution Flow
