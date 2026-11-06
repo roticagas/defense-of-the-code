@@ -2,7 +2,7 @@
 name: defense-of-the-code
 description: >-
   Explicitly invoked software architecture blueprint, progressive code review, and
-  technical documentation skill powered by a 47-hero 3-Lane Multi-Commander & Squad Roster
+  technical documentation skill powered by a 48-hero 3-Lane Multi-Commander & Squad Roster
   (Top Lane: Plan, Mid Lane: Review, Bot Lane: Doc — 1 Hero = 1 File). Activate ONLY when
   the user explicitly invokes `/defense-of-the-code` (or explicit `/dotc`, `/blueprint`,
   `/review`, `/review deep`, `/doc` commands). Do NOT auto-activate on general questions,
@@ -31,7 +31,7 @@ Before pushing any lane, read and internalize the 7 architectural laws in:
 
 ## The 3 Lanes (Natural Language Intent Routing)
 
-Every lane follows a symmetrical 3-stage pipeline: **Stage 1 · Assemble — Lane Commander (Router) $\rightarrow$ Stage 2 · Teamfight — Specialist Multi-Squads (`1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — Final Filter (Arbiter)**, with **zero hero overlap** across all 3 lanes (47 unique heroes across 14 squads).
+Every lane follows a symmetrical 3-stage pipeline: **Stage 1 · Assemble — Lane Commander (Router) $\rightarrow$ Stage 2 · Teamfight — Specialist Multi-Squads (`1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — Final Filter (Arbiter)**, with **zero hero overlap** across all 3 lanes (48 unique heroes across 14 squads).
 
 When the user invokes `/defense-of-the-code <natural language request>` (or `/dotc <natural language request>`), infer the lane from their conversational phrasing:
 - **🔨 Top Lane — Plan / Blueprint Intent** (e.g., *"ช่วยออกแบบหน่อย"*, *"วางแผนโค้ดต่อจากที่คุยกัน"*, *"ออกแบบโครงสร้าง"*, `/blueprint`) $\rightarrow$ Led by **`ELDER TITAN`**.
@@ -132,11 +132,11 @@ When triggered to generate, update, or synchronize technical documentation, diag
        - Captain **`WARLOCK`** ([warlock.md](./references/heroes/doc-squads/squad-2-contracts/warlock.md)) | **`SHADOW SHAMAN`** ([shadow-shaman.md](./references/heroes/doc-squads/squad-2-contracts/shadow-shaman.md))
      - **🛠️ Doc Squad 3: Operations & Release (`references/heroes/doc-squads/squad-3-operations/`):**
        - Captain **`CHEN`** ([chen.md](./references/heroes/doc-squads/squad-3-operations/chen.md)) | **`OMNIKNIGHT`** ([omniknight.md](./references/heroes/doc-squads/squad-3-operations/omniknight.md)) | **`ZEUS`** ([zeus.md](./references/heroes/doc-squads/squad-3-operations/zeus.md))
-     - **💎 Doc Squad 4: Language & Clarity (`references/heroes/doc-squads/squad-4-language/`):**
-       - Captain **`CRYSTAL MAIDEN`** ([crystal-maiden.md](./references/heroes/doc-squads/squad-4-language/crystal-maiden.md)) — assembled for every prose document
+     - **💎 Doc Squad 4: Language & Presentation (`references/heroes/doc-squads/squad-4-polish/`):** assembled for every prose document
+       - Captain **`CRYSTAL MAIDEN`** ([crystal-maiden.md](./references/heroes/doc-squads/squad-4-polish/crystal-maiden.md)) | **`ENCHANTRESS`** ([enchantress.md](./references/heroes/doc-squads/squad-4-polish/enchantress.md))
    - Name the **Audience** for every document (who reads it, and whether they can open the repository) before any hero writes; for an existing document, list content the audience cannot use in the manifest.
    - For multi-section documents, buy the item **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) and fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
-   - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation; `CRYSTAL MAIDEN` polishes the wording of the full draft last.
+   - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation; `CRYSTAL MAIDEN` then polishes the wording and `ENCHANTRESS` formats the full draft last.
 3. **Stage 3 · Deny — Filter `SILENCER`:**
    - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, verify 100% accuracy against the codebase, purge content the audience cannot use (internal paths and class names for readers without repository access), keep each fact in one place, and replace secrets and personal data with fake placeholders. Append `🤫 SILENCED` listing unverified claims removed and `🔒 MASKED` listing values replaced (each only if any).

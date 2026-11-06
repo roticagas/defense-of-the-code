@@ -25,8 +25,9 @@ Select **only** the Doc Squads and Heroes matching the user's documentation goal
   - **`OMNIKNIGHT`** (`omniknight.md`) — Assemble when writing **Operational Runbooks**, production alert triage tables (`Symptom -> Root Cause -> Actionable Fix`), key rotation playbooks, or incident rollback SOPs.
   - **`ZEUS`** (`zeus.md`) — Assemble when generating **Pull Request Descriptions**, `CHANGELOG.md` entries, Release Notes, or Breaking Change / Rollout & Migration Guides from a branch or `git diff`.
 
-- **💎 Doc Squad 4: Language & Clarity (`../heroes/doc-squads/squad-4-language/`):**
+- **💎 Doc Squad 4: Language & Presentation (`../heroes/doc-squads/squad-4-polish/`):**
   - Captain **`CRYSTAL MAIDEN`** (`crystal-maiden.md`) — Assemble for every document people read as prose (skip machine-readable outputs such as OpenAPI YAML or `.env.example`); she polishes wording on the full draft after the authoring heroes finish.
+  - **`ENCHANTRESS`** (`enchantress.md`) — Assemble with `CRYSTAL MAIDEN`; she formats the full draft (headings, numbering, tables, code blocks) after the wording polish.
 
 ## 3. Audience (Every Document)
 Before any hero writes, name who reads the document and what they can open besides it (this repository, internal docs, or nothing). Every hero writes for that reader only.
@@ -43,5 +44,5 @@ For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM
    - **Audience:** [Reader — what they can open besides this document (e.g., `partner integrators — no repository access`). Existing document: add the §3 mismatches found, or `no mismatches`]
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes assembled within it]
    - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the deviations from Aghanim's Scepter rules, or `no deviations`]
-2. Load only the assembled heroes' reference files and compose the documentation within the outline; when `CRYSTAL MAIDEN` is assembled, she polishes the full draft last.
+2. Load only the assembled heroes' reference files and compose the documentation within the outline; when Squad 4 is assembled, `CRYSTAL MAIDEN` polishes the wording and then `ENCHANTRESS` formats the full draft last.
 3. Pass the drafted documentation through **`SILENCER`** (`./bot-lane-silencer.md`) to strip all fluff before presenting or writing the final output.

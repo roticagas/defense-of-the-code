@@ -13,6 +13,8 @@ Before presenting or writing any documentation, **PURGE** the following:
 7. **One Fact, One Place:** When two sections state the same rule, constraint or table, keep it in the section where the reader looks it up (e.g., the endpoint's Error Responses table) and delete the other copy—do not keep both joined by a cross-reference.
 8. **No Secrets or Personal Data:** Scan every example, table and code block for real tokens, JWTs, passwords and API keys; real national or tax IDs, names, emails and phone numbers; and internal hostnames or IPs the audience should not see. Replace each with an obviously fake placeholder of the same shape (`<JWT>`, `0000000000000`, `user@example.com`, `api.example.com`). Run this rule last, after every hero has written.
 
+**After purging:** if any rule removed a whole section, renumber the headings after it and update every cross-reference to them (ENCHANTRESS rule 1).
+
 ## Final Output: Silenced Report
 After presenting or writing the documentation, append a short report in the user's conversation language:
 
