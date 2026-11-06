@@ -24,12 +24,14 @@ def find_candidate_docs(root: Path) -> list[Path]:
         dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS]
         for fname in filenames:
             fpath = Path(dirpath) / fname
+            rel_path = fpath.relative_to(root)
             lower_name = fname.lower()
+            # Match keywords on the repo-relative path only: a root like ~/Documents/ must not match "doc".
             if lower_name.startswith(".env") or (
                 fpath.suffix.lower() in DOC_EXTENSIONS
-                and any(k in str(fpath).lower() for k in DOC_KEYWORDS)
+                and any(k in str(rel_path).lower() for k in DOC_KEYWORDS)
             ):
-                candidates.append(fpath.relative_to(root))
+                candidates.append(rel_path)
     return sorted(candidates)
 
 
