@@ -50,6 +50,19 @@ When the user invokes `/defense-of-the-code <natural language request>` (or `/do
 #### Purpose First (all lanes)
 Before assembling any squad, every Lane Commander buys the shared item **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)): state what the work is for as the manifest's first line, inferred from the conversation, PR or commits, and ask one question only when nothing states it. Each lane's Stage 3 filter judges the output against that purpose.
 
+#### Items (`references/items/`, `1 Item = 1 File`)
+Commanders and heroes belong to one lane; an **item** is a procedure a Lane Commander buys and carries.
+1. **When to make an item:** only for a procedure that (a) a lane needs for some tasks but not all, or (b) two or more lanes share. A rule one lane uses on every run stays in that commander's file; a specialist pass that writes content or findings is a hero, not an item.
+2. **Buying condition:** an item file's first line names who may buy it and when (e.g., *bought by `INVOKER` only for multi-section documents*). Read an item file only when its condition holds for the current task.
+3. **6 inventory slots:** a Lane Commander carries at most 6 items. To add a 7th, merge or retire one first.
+4. **Output goes in the manifest:** an item fills a line of the commander's manifest (`Purpose`, `Outline`) or a rule its Stage 3 filter applies. It never adds a stage.
+5. **Not counted as heroes:** items sit outside the hero and squad totals and the zero-hero-overlap rule, so one item may serve several lanes.
+
+| Item | Bought by | Condition |
+| :--- | :--- | :--- |
+| 💠 **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | Every task, at Stage 1 |
+| 🔱 **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) | `INVOKER` | Documents with a table of contents or 3+ top-level sections |
+
 ---
 
 ### 🔨 Top Lane: Architectural Blueprint (`ELDER TITAN` $\rightarrow$ `4 Plan Squads` $\rightarrow$ `ANCIENT APPARITION`)
