@@ -36,5 +36,5 @@ Select **only** the Squads and Heroes needed for this task:
    - **Purpose:** [Problem solved, for whom, and the outcome that shows it is solved]
    - **Blueprint Scope:** [Surgical Edit | Standard Feature | Multi-Axis Architecture]
    - **Active Plan Squads & Heroes:** [List each active Plan Squad and the specific Heroes assembled within it]
-2. Synthesize the blueprint using the assembled heroes' rules.
-3. Pass the draft through **`ANCIENT APPARITION`** (`./plan-ancient-apparition.md`) before presenting it to the user.
+2. **Stage 2 · Teamfight:** read the assembled heroes' files in parallel and synthesize the blueprint using their rules.
+3. **Stage 3 · Deny:** pass the draft through **`ANCIENT APPARITION`** (`./plan-ancient-apparition.md`) before presenting it to the user.
