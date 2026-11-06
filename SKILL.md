@@ -31,7 +31,7 @@ Before pushing any lane, read and internalize the 7 architectural laws in:
 
 ## The 3 Lanes (Natural Language Intent Routing)
 
-Every lane follows a symmetrical 3-stage pipeline: **Stage 1 · Draft — Lane Commander (Router) $\rightarrow$ Stage 2 · Teamfight — Specialist Multi-Squads (`1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — Final Filter (Arbiter)**, with **zero hero overlap** across all 3 lanes (46 unique heroes across 13 squads).
+Every lane follows a symmetrical 3-stage pipeline: **Stage 1 · Assemble — Lane Commander (Router) $\rightarrow$ Stage 2 · Teamfight — Specialist Multi-Squads (`1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — Final Filter (Arbiter)**, with **zero hero overlap** across all 3 lanes (46 unique heroes across 13 squads).
 
 When the user invokes `/defense-of-the-code <natural language request>` (or `/dotc <natural language request>`), infer the lane from their conversational phrasing:
 - **🔨 Top Lane — Plan / Blueprint Intent** (e.g., *"ช่วยออกแบบหน่อย"*, *"วางแผนโค้ดต่อจากที่คุยกัน"*, *"ออกแบบโครงสร้าง"*, `/blueprint`) $\rightarrow$ Led by **`ELDER TITAN`**.
@@ -44,16 +44,16 @@ When the user invokes `/defense-of-the-code <natural language request>` (or `/do
 2. **Ask only if two or more lanes still fit** (e.g., *"เช็คว่า doc ตรงกับโค้ดไหม"* — document structure vs. code drift). Ask **one** question with 2–3 options, recommended option first, each stating what it does and which lane runs it. Do not start any lane until answered.
    - **How to ask (platform-neutral):** write the question as plain text with numbered options in the user's language and wait for the reply; if the host offers a structured question tool (e.g., `AskUserQuestion` in Claude Code), it may be used instead. Never depend on a tool that only one platform provides.
    - **If the user cannot be asked** (non-interactive or headless run): run the recommended option and state the assumed lane in the first line of the output.
-3. **Never ask about what has a default:** Mid Lane Standard vs. Deep (Standard is the default), or which squads to draft (the Commander decides).
+3. **Never ask about what has a default:** Mid Lane Standard vs. Deep (Standard is the default), or which squads to assemble (the Commander decides).
 4. **An unambiguous request runs immediately** — no confirmation step. An explicit lane command (`/blueprint`, `/review`, `/review deep`, `/doc`; Antigravity/Gemini only) fixes the lane directly and skips this routing; on Claude Code only `/defense-of-the-code` and `/dotc` exist, so rules 1–3 always apply to the text that follows them.
 
 ---
 
 ### 🔨 Top Lane: Architectural Blueprint (`ELDER TITAN` $\rightarrow$ `4 Plan Squads` $\rightarrow$ `ANCIENT APPARITION`)
 When triggered to design, plan, or structure a feature before writing code:
-1. **Stage 1 · Draft — Commander `ELDER TITAN`:**
+1. **Stage 1 · Assemble — Commander `ELDER TITAN`:**
    - Read [top-lane-elder-titan.md](./references/commanders/top-lane-elder-titan.md).
-   - Preserve concrete technical findings from earlier turns in the conversation, calibrate the blueprint scale to the feature size (YAGNI first), and draft only the required squads and heroes from the **4 Plan Squads** (`references/heroes/plan-squads/`):
+   - Preserve concrete technical findings from earlier turns in the conversation, calibrate the blueprint scale to the feature size (YAGNI first), and assemble only the required squads and heroes from the **4 Plan Squads** (`references/heroes/plan-squads/`):
      - **🪨 Plan Squad 1: Topology & Skeleton (`references/heroes/plan-squads/squad-1-topology/`):**
        - Captain **`DARK SEER`** ([dark-seer.md](./references/heroes/plan-squads/squad-1-topology/dark-seer.md)) | **`KUNKKA`** ([kunkka.md](./references/heroes/plan-squads/squad-1-topology/kunkka.md)) | **`TREANT PROTECTOR`** ([treant-protector.md](./references/heroes/plan-squads/squad-1-topology/treant-protector.md))
      - **⚡ Plan Squad 2: Domain, Data & Contracts (`references/heroes/plan-squads/squad-2-domain/`):**
@@ -63,7 +63,7 @@ When triggered to design, plan, or structure a feature before writing code:
      - **🗡️ Plan Squad 4: Security & Rollout (`references/heroes/plan-squads/squad-4-rollout/`):**
        - Captain **`VIPER`** ([viper.md](./references/heroes/plan-squads/squad-4-rollout/viper.md)) | **`UNDERLORD`** ([underlord.md](./references/heroes/plan-squads/squad-4-rollout/underlord.md))
 2. **Stage 2 · Teamfight — Plan Squad Synthesis:**
-   - Read the drafted Plan Squad hero files in parallel and construct the blueprint.
+   - Read the assembled Plan Squad hero files in parallel and construct the blueprint.
 3. **Stage 3 · Deny — Filter `ANCIENT APPARITION`:**
    - Read [top-lane-ancient-apparition.md](./references/commanders/top-lane-ancient-apparition.md), purge any speculative over-engineering, verify DAG/State Isolation/Wire Envelope invariants, present the 3-part blueprint (plus `❄️ SHATTERED` listing purged over-engineering, only if any), and wait for user confirmation before generating full implementation code.
 
@@ -73,16 +73,16 @@ When triggered to design, plan, or structure a feature before writing code:
 When triggered to review code, a PR, a branch, specific files, or `git diff`, execute these 3 stages sequentially.
 > **Strict Read-Only Guard:** During code review, NEVER modify or overwrite any target project files automatically. Present `DOOM`'s verdict and wait for the user to explicitly specify which findings to apply.
 
-#### Stage 1 · Draft — Commander `ORACLE` (Triage & Squad Router)
+#### Stage 1 · Assemble — Commander `ORACLE` (Triage & Squad Router)
 1. Run [preflight_scan.py](./scripts/preflight_scan.py) from the target repository root (automatically falls back to `HEAD~1..HEAD` if working tree is clean, or pass `--base <branch>` when reviewing a feature branch against `main`/`develop`):
    `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [target_files...]`
    - If the preflight scan cannot run, state the reason in `Preflight Signals: unavailable — <reason>` and gather the diff manually (`git diff HEAD` $\rightarrow$ `git diff --cached` $\rightarrow$ `git show HEAD` or target files).
 2. Read [mid-lane-oracle.md](./references/commanders/mid-lane-oracle.md).
-3. Select **only the necessary Review Squads (max 3–4 Squads)** and draft **only the relevant Heroes within each Squad** based on the diff signals.
-4. Output the 3-line **ORACLE Routing Manifest** (`Affected Zones`, `Preflight Signals`, `Drafted Squads & Heroes`).
+3. Select **only the necessary Review Squads (max 3–4 Squads)** and assemble **only the relevant Heroes within each Squad** based on the diff signals.
+4. Output the 3-line **ORACLE Routing Manifest** (`Affected Zones`, `Preflight Signals`, `Assembled Squads & Heroes`).
 
 #### Stage 2 · Teamfight — Review Squad Inspection (`1 Hero = 1 File`, Grouped by Squad)
-Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
+Load **ONLY** the hero files assembled by `ORACLE` inside the active Squads:
 - **🪨 Squad 1: Topology & Style (`references/heroes/review-squads/squad-1-topology/`):**
   - Captain **`EARTHSHAKER`** ([earthshaker.md](./references/heroes/review-squads/squad-1-topology/earthshaker.md)) | **`TIMBERSAW`** ([timbersaw.md](./references/heroes/review-squads/squad-1-topology/timbersaw.md)) | **`MAGNUS`** ([magnus.md](./references/heroes/review-squads/squad-1-topology/magnus.md)) | **`SVEN`** ([sven.md](./references/heroes/review-squads/squad-1-topology/sven.md)) | **`MORPHLING`** ([morphling.md](./references/heroes/review-squads/squad-1-topology/morphling.md))
 - **⚡ Squad 2: State & Contract (`references/heroes/review-squads/squad-2-state/`):**
@@ -98,7 +98,7 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
 
 **Execution Modes for Stage 2:**
 - **⚡ Default Mode (Standard Review — In-Context Progressive Skill):**
-  Read the drafted hero files in parallel directly in the main agent and evaluate the changed code through each drafted Hero's checklist while preserving full conversation context.
+  Read the assembled hero files in parallel directly in the main agent and evaluate the changed code through each assembled Hero's checklist while preserving full conversation context.
 - **🔬 Deep / Fresh-Eyes Mode (Deep Review — Parallel Squad Subagents, when requested by user):**
   If the user asks for a deep/thorough review (e.g., *"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ขอ fresh eyes"*, `/review deep`):
   1. Re-run `preflight_scan.py` with `--dump-diff <scratch_dir>/current_review.diff` (`<scratch_dir>` = conversation scratch/artifact directory).
@@ -106,7 +106,7 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
      - **Antigravity:** `invoke_subagent` (`TypeName: "research"`, `Model: "inherit"`).
      - **Claude Code:** `Agent` tool (`subagent_type: "general-purpose"`, omit `model` so it inherits the parent model).
      - Every Squad Subagent is a **read-only reviewer**: state in its prompt that it must NOT edit, write, or delete any file.
-  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **drafted Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, and (e) this strict reply contract:
+  3. Pass each Squad Subagent: (a) a 1–2 sentence **Conversation Context Summary**, (b) the absolute path to `00-the-ancients-core-laws.md` plus the absolute paths of the **assembled Hero files in its Squad**, (c) the path to `<scratch_dir>/current_review.diff` (or changed file paths if diff dump failed), (d) the instruction to report only findings on changed lines credited to the specific Hero in its Squad, and (e) this strict reply contract:
      - Reply exactly `NO_ISSUES_FOUND` if clean.
      - Otherwise reply with one finding per line, no preamble or summary:
        `[HERO_NAME] | <BLOCKER|SHOULD FIX|MAP SYNC> | <file_path>:<line> | <law or check violated> | <failure scenario> | <suggested fix (inline snippet or 1-line description)>`
@@ -123,9 +123,9 @@ Load **ONLY** the hero files drafted by `ORACLE` inside the active Squads:
 
 ### 📖 Bot Lane: Documentation & Knowledge Sync (`INVOKER` $\rightarrow$ `3 Doc Squads` $\rightarrow$ `SILENCER`)
 When triggered to generate, update, or synchronize technical documentation, diagrams, ADRs, runbooks, or PR summaries:
-1. **Stage 1 · Draft — Commander `INVOKER`:**
+1. **Stage 1 · Assemble — Commander `INVOKER`:**
    - Read [bot-lane-invoker.md](./references/commanders/bot-lane-invoker.md).
-   - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_candidate_finder.py` when syncing changes) and draft only the required squads and chroniclers from the **3 Doc Squads** (`references/heroes/doc-squads/`):
+   - Ground the task in actual code/diffs (running `preflight_scan.py` and `doc_candidate_finder.py` when syncing changes) and assemble only the required squads and chroniclers from the **3 Doc Squads** (`references/heroes/doc-squads/`):
      - **🏛️ Doc Squad 1: Architecture & Decisions (`references/heroes/doc-squads/squad-1-architecture/`):**
        - Captain **`KEEPER OF THE LIGHT`** ([keeper-of-the-light.md](./references/heroes/doc-squads/squad-1-architecture/keeper-of-the-light.md)) | **`VOID SPIRIT`** ([void-spirit.md](./references/heroes/doc-squads/squad-1-architecture/void-spirit.md))
      - **📜 Doc Squad 2: Contracts & Recipes (`references/heroes/doc-squads/squad-2-contracts/`):**
@@ -134,6 +134,6 @@ When triggered to generate, update, or synchronize technical documentation, diag
        - Captain **`CHEN`** ([chen.md](./references/heroes/doc-squads/squad-3-operations/chen.md)) | **`OMNIKNIGHT`** ([omniknight.md](./references/heroes/doc-squads/squad-3-operations/omniknight.md)) | **`ZEUS`** ([zeus.md](./references/heroes/doc-squads/squad-3-operations/zeus.md))
    - For multi-section documents, fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
-   - Read the drafted Doc Squad hero files in parallel and compose or surgically update the target documentation.
+   - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation.
 3. **Stage 3 · Deny — Filter `SILENCER`:**
    - Read [bot-lane-silencer.md](./references/commanders/bot-lane-silencer.md) and apply **Global Silence** to strip generic AI fluff, replace walls of text with Mermaid diagrams or Markdown tables, and verify 100% accuracy against the codebase. Append `🤫 SILENCED` listing unverified claims removed (only if any).

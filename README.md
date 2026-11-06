@@ -14,7 +14,7 @@
 4. **ถ้าไม่มีตัวกรองขั้นสุดท้าย:** AI มักเค้นหาเรื่องจุกจิกมาติ (Nitpicking), แนะนำท่ายากเกินความจำเป็น (YAGNI), หรือเขียนเอกสารน้ำท่วมทุ่ง
 
 **`defense-of-the-code` (v2.1)** จึงจัดโครงสร้างแบบ **Symmetrical 3-Stage Squad Pipeline** ในทั้ง **3 Lanes**:
-> **Stage 1 · Draft — แม่ทัพประจำเลน (Lane Commander) $\rightarrow$ Stage 2 · Teamfight — หน่วยรบผู้เชี่ยวชาญเฉพาะทาง (`13 Squads`, `1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — ผู้กรองปิดท้าย (Final Filter)**
+> **Stage 1 · Assemble — แม่ทัพประจำเลน (Lane Commander) $\rightarrow$ Stage 2 · Teamfight — หน่วยรบผู้เชี่ยวชาญเฉพาะทาง (`13 Squads`, `1 Hero = 1 File`) $\rightarrow$ Stage 3 · Deny — ผู้กรองปิดท้าย (Final Filter)**
 
 ```mermaid
 flowchart TD
@@ -24,13 +24,13 @@ flowchart TD
     ANCIENTS -->|"🔮 Mid Lane: รีวิวโค้ด"| ORACLE["ORACLE<br/>(Mid Lane Triage Commander)"]
     ANCIENTS -->|"📖 Bot Lane: สร้าง/ซิงก์เอกสาร"| INVOKER["INVOKER<br/>(Bot Lane Commander)"]
 
-    TITAN -->|"ดราฟต์ตามขนาดงาน"| PS["🧭 4 Plan Squads (10 Heroes)<br/>1. Topology & Skeleton (Capt: Dark Seer + 2)<br/>2. Domain, Data & Contracts (Capt: Tiny + 2)<br/>3. Resilience & Concurrency (Capt: Disruptor + 1)<br/>4. Security & Rollout (Capt: Viper + 1)"]
+    TITAN -->|"รวมพลตามขนาดงาน"| PS["🧭 4 Plan Squads (10 Heroes)<br/>1. Topology & Skeleton (Capt: Dark Seer + 2)<br/>2. Domain, Data & Contracts (Capt: Tiny + 2)<br/>3. Resilience & Concurrency (Capt: Disruptor + 1)<br/>4. Security & Rollout (Capt: Viper + 1)"]
     PS --> AA["❄️ ANCIENT APPARITION<br/>(Cold Pragmatism & YAGNI Filter)"]
 
-    ORACLE -->|"ดราฟต์ 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (23 Heroes)<br/>1. Topology & Style (Capt: Earthshaker + 4)<br/>2. State & Contract (Capt: Arc Warden + 3)<br/>3. Fault & Concurrency (Capt: Wraith King + 3)<br/>4. Security & Hygiene (Capt: Templar Assassin + 3)<br/>5. Scale & Telemetry (Capt: Tinker + 3)<br/>6. Spec & Drift Radar (Capt: Rubick + 1)"]
+    ORACLE -->|"รวมพล 3-4 Squads<br/>(1 Squad = 1 Subagent ในโหมด Deep)"| RS["⚔️ 6 Review Squads (23 Heroes)<br/>1. Topology & Style (Capt: Earthshaker + 4)<br/>2. State & Contract (Capt: Arc Warden + 3)<br/>3. Fault & Concurrency (Capt: Wraith King + 3)<br/>4. Security & Hygiene (Capt: Templar Assassin + 3)<br/>5. Scale & Telemetry (Capt: Tinker + 3)<br/>6. Spec & Drift Radar (Capt: Rubick + 1)"]
     RS --> DOOM["🔥 DOOM<br/>(Silence Filter & Verdict Arbiter)"]
 
-    INVOKER -->|"ดราฟต์ตามชนิดเอกสาร"| DS["📜 3 Doc Squads (7 Heroes)<br/>1. Architecture & Decisions (Capt: Keeper of the Light + 1)<br/>2. Contracts & Recipes (Capt: Warlock + 1)<br/>3. Operations & Release (Capt: Chen + 2)"]
+    INVOKER -->|"รวมพลตามชนิดเอกสาร"| DS["📜 3 Doc Squads (7 Heroes)<br/>1. Architecture & Decisions (Capt: Keeper of the Light + 1)<br/>2. Contracts & Recipes (Capt: Warlock + 1)<br/>3. Operations & Release (Capt: Chen + 2)"]
     DS --> SILENCER["🤫 SILENCER<br/>(Global Silence Anti-Bloat Filter)"]
 ```
 
@@ -53,7 +53,7 @@ flowchart TD
 ## ⚔️ ทำเนียบแม่ทัพและทีมฮีโร่ทั้ง 3 Lanes (`13 Squads`, `46 Heroes`, `1 Hero = 1 File`)
 
 ### 🔨 Top Lane: Architectural Blueprint (ออกแบบและวางแผนก่อนเขียนโค้ด — 4 Plan Squads, 10 Heroes)
-- **แม่ทัพเปิดเลน (Stage 1 · Draft):** 🔨 **`ELDER TITAN`** ([`top-lane-elder-titan.md`](./references/commanders/top-lane-elder-titan.md))
+- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 🔨 **`ELDER TITAN`** ([`top-lane-elder-titan.md`](./references/commanders/top-lane-elder-titan.md))
 - **ผู้กรองแผนปิดท้าย (Stage 3 · Deny):** ❄️ **`ANCIENT APPARITION`** ([`top-lane-ancient-apparition.md`](./references/commanders/top-lane-ancient-apparition.md))
 
 | Plan Squad (`plan-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
@@ -66,7 +66,7 @@ flowchart TD
 ---
 
 ### 🔮 Mid Lane: Progressive Code Review (ตรวจโค้ด 3 ด่าน Read-Only — 6 Review Squads, 23 Heroes)
-- **แม่ทัพคัดกรอง (Stage 1 · Draft):** 🔮 **`ORACLE`** ([`mid-lane-oracle.md`](./references/commanders/mid-lane-oracle.md)) — รัน `preflight_scan.py` และดราฟต์ **3–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
+- **แม่ทัพคัดกรอง (Stage 1 · Assemble):** 🔮 **`ORACLE`** ([`mid-lane-oracle.md`](./references/commanders/mid-lane-oracle.md)) — รัน `preflight_scan.py` และรวมพล **3–4 Squads** (พร้อมคัดเฉพาะฮีโร่ที่เกี่ยวข้องในแต่ละทีม)
 - **ผู้ตัดสินปิดท้าย (Stage 3 · Deny):** 🔥 **`DOOM`** ([`mid-lane-doom.md`](./references/commanders/mid-lane-doom.md)) — ตัด Nitpick, YAGNI และ High-Churn Brownfield Demands ทิ้ง
 
 | Review Squad (1 Squad = 1 Subagent ในโหมด Deep) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
@@ -81,7 +81,7 @@ flowchart TD
 ---
 
 ### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 3 Doc Squads, 7 Heroes)
-- **แม่ทัพเปิดเลน (Stage 1 · Draft):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — วางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
+- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — วางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
 - **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid
 
 | Doc Squad (`doc-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
