@@ -147,6 +147,7 @@ defense-of-the-code/
 │   └── doc_candidate_finder.py                   # กวาดหาไฟล์ Spec/Doc/Config ในโปรเจกต์
 └── references/
     ├── 00-the-ancients-core-laws.md              # กฎเหล็กสูงสุด 7 ข้อ (The Ancients)
+    ├── authoring.md                              # กฎสำหรับแก้ตัว skill เอง (เพิ่ม hero, item, Hero Kit) ไม่ถูกโหลดตอนใช้งานปกติ
     ├── commanders/                               # แม่ทัพเปิดเลน & ผู้กรองปิดท้ายของทั้ง 3 Lanes (6 Heroes)
     │   ├── top-lane-elder-titan.md
     │   ├── top-lane-ancient-apparition.md
