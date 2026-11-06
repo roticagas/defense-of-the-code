@@ -81,7 +81,7 @@ flowchart TD
 ---
 
 ### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 3 Doc Squads, 7 Heroes)
-- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้ววางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
+- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`bot-lane-invoker.md`](./references/commanders/bot-lane-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
 - **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`bot-lane-silencer.md`](./references/commanders/bot-lane-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) และให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว
 
 | Doc Squad (`doc-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
@@ -115,6 +115,8 @@ defense-of-the-code/
     │   ├── mid-lane-doom.md
     │   ├── bot-lane-invoker.md
     │   └── bot-lane-silencer.md
+    ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาใช้เฉพาะงานที่ต้องการ
+    │   └── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
     └── heroes/                                   # คลังฮีโร่ 13 Squads แยกไฟล์เดี่ยว (40 Squad Heroes)
         ├── plan-squads/                          # 🔨 Top Lane: 4 Plan Squads (10 Heroes)
         │   ├── squad-1-topology/                 #    Dark Seer, Kunkka, Treant Protector

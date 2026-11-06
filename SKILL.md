@@ -133,7 +133,7 @@ When triggered to generate, update, or synchronize technical documentation, diag
      - **🛠️ Doc Squad 3: Operations & Release (`references/heroes/doc-squads/squad-3-operations/`):**
        - Captain **`CHEN`** ([chen.md](./references/heroes/doc-squads/squad-3-operations/chen.md)) | **`OMNIKNIGHT`** ([omniknight.md](./references/heroes/doc-squads/squad-3-operations/omniknight.md)) | **`ZEUS`** ([zeus.md](./references/heroes/doc-squads/squad-3-operations/zeus.md))
    - Name the **Audience** for every document (who reads it, and whether they can open the repository) before any hero writes; for an existing document, list content the audience cannot use in the manifest.
-   - For multi-section documents, fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
+   - For multi-section documents, buy the item **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) and fix the **Document Outline** (body vs. appendix, reader-journey order, uniform chapter shape) before any hero writes; for an existing document, list outline deviations in the manifest instead of restructuring it.
 2. **Stage 2 · Teamfight — Doc Squad Authoring:**
    - Read the assembled Doc Squad hero files in parallel and compose or surgically update the target documentation.
 3. **Stage 3 · Deny — Filter `SILENCER`:**

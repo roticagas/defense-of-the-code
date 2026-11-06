@@ -26,28 +26,19 @@ Select **only** the Doc Squads and Heroes matching the user's documentation goal
   - **`ZEUS`** (`zeus.md`) — Assemble when generating **Pull Request Descriptions**, `CHANGELOG.md` entries, Release Notes, or Breaking Change / Rollout & Migration Guides from a branch or `git diff`.
 
 ## 3. Audience (Every Document)
-The same facts make a different document for a different reader, so INVOKER names the reader before any hero writes, and every hero writes for that reader only.
-1. **Name Two Things:** who reads the document, and what they can open besides it (this repository, internal docs and tools, or nothing else).
-2. **Default by Document Type:** `README.md` / onboarding → developers on this repository; runbook → on-call operators; PR description / `CHANGELOG.md` → reviewers and maintainers; ADR / `ARCHITECTURE.md` → engineers on this team. An API spec, integration guide or deliverable can be internal or external: decide from the user's words or the file's location (a `deliverable/` or `client/` folder, or a customer or partner name → external). Ask only when neither decides it, as one question per SKILL.md Lane Routing rule 2.
-3. **Reader Without Repository Access:** the document must stand alone. No links or paths to source files, internal docs, routes or configs; no class, method or module names; no diagrams of internal call flow. Describe observable behavior instead (request, response, error code, call sequence).
-
-**Existing documents:** When reviewing or syncing a document, check its content against the audience and list each mismatch in the manifest's **Audience** line (`<section> — <content the reader cannot use> — <proposed fix>`). Fix mismatches in the sections this run edits, or in every section when the user asked for a review.
+Before any hero writes, name who reads the document and what they can open besides it (this repository, internal docs, or nothing). Every hero writes for that reader only.
+- **Default by type:** README / onboarding → repo developers; runbook → on-call operators; PR / `CHANGELOG.md` → reviewers; ADR / `ARCHITECTURE.md` → team engineers. API specs and deliverables: decide from the user's words or the location (`deliverable/`, `client/`, a partner name → external); ask only if neither decides it (SKILL.md Lane Routing rule 2).
+- **No repository access:** the document stands alone—no source or internal doc paths, no class/method names, no internal call-flow diagrams; describe observable behavior instead.
+- **Existing documents:** list each mismatch in the manifest's **Audience** line (`<section> — <unusable content> — <fix>`); fix it in sections this run edits, or everywhere when the user asked for a review.
 
 ## 4. Document Outline (Multi-Section Documents Only)
-The heroes author sections in parallel and none of them owns the whole document, so INVOKER fixes the skeleton before any hero writes. Apply this step to any document with a table of contents or 3+ top-level sections (specs, handbooks, multi-chapter API docs). Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
-1. **Body vs. Appendix:** Material readers look up from several chapters rather than read in sequence (schema/object dictionaries, code lists, error catalogs, legacy or out-of-scope endpoints) moves to an appendix, and the body chapters link to it.
-2. **Reader-Journey Order:** Order body chapters by the audience's (§3) actual sequence (e.g., for an API consumer: Authentication & Standards → Endpoint Summary → each Action), not by implementation history or version.
-3. **Uniform Chapter Shape:** Chapters of the same kind share one sub-heading set (e.g., every endpoint chapter: `Overview` → `Request Definition` → `Response Definition`), and their titles follow one convention (all include `METHOD /path`, or none do).
-4. **One Grouping Axis:** Group chapters by a single axis throughout (by function *or* by API version, never both). If the same title prefix repeats on 3+ chapters (e.g., `API Specification: ...`), promote it to one parent chapter and nest the rest beneath it.
-5. **Coverage Matches Code:** Any endpoint summary or index lists exactly the routes found in code; endpoints intentionally left out are named in a one-line scope note.
-
-**Existing documents:** When updating or syncing a document you did not author in this run, audit its outline against rules 1–5 and list each deviation in the manifest's **Outline** line (`<section> — <rule> — <proposed move>`). Do not restructure an existing document unless the user asks; edit only the affected sections (SILENCER rule 4).
+For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
 
 ## 5. Execution Flow
 1. Output the **INVOKER Assembly Manifest** (3 lines, plus a 4th when §4 applies):
    - **Target Deliverables:** [Files or sections to generate/update, or chat output if requested inline]
    - **Audience:** [Reader — what they can open besides this document (e.g., `partner integrators — no repository access`). Existing document: add the §3 mismatches found, or `no mismatches`]
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes assembled within it]
-   - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the §4 deviations found, or `no deviations`]
+   - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the deviations from Aghanim's Scepter rules, or `no deviations`]
 2. Load only the assembled heroes' reference files and compose the documentation within the outline.
 3. Pass the drafted documentation through **`SILENCER`** (`./bot-lane-silencer.md`) to strip all fluff before presenting or writing the final output.
