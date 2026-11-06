@@ -25,9 +25,20 @@ Select **only** the Doc Squads and Heroes matching the user's documentation goal
   - **`OMNIKNIGHT`** (`omniknight.md`) — Draft when writing **Operational Runbooks**, production alert triage tables (`Symptom -> Root Cause -> Actionable Fix`), key rotation playbooks, or incident rollback SOPs.
   - **`ZEUS`** (`zeus.md`) — Draft when generating **Pull Request Descriptions**, `CHANGELOG.md` entries, Release Notes, or Breaking Change / Rollout & Migration Guides from a branch or `git diff`.
 
-## 3. Execution Flow
-1. Output a 2-line **INVOKER Draft Manifest**:
+## 3. Document Outline (Multi-Section Documents Only)
+The heroes author sections in parallel and none of them owns the whole document, so INVOKER fixes the skeleton before any hero writes. Apply this step to any document with a table of contents or 3+ top-level sections (specs, handbooks, multi-chapter API docs). Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
+1. **Body vs. Appendix:** Material readers look up from several chapters rather than read in sequence (schema/object dictionaries, code lists, error catalogs, legacy or out-of-scope endpoints) moves to an appendix, and the body chapters link to it.
+2. **Reader-Journey Order:** Order body chapters by the caller's actual sequence (e.g., Authentication & Standards → Endpoint Summary → each Action), not by implementation history or version.
+3. **Uniform Chapter Shape:** Chapters of the same kind share one sub-heading set (e.g., every endpoint chapter: `Overview` → `Request Definition` → `Response Definition`), and their titles follow one convention (all include `METHOD /path`, or none do).
+4. **One Grouping Axis:** Group chapters by a single axis throughout (by function *or* by API version, never both). If the same title prefix repeats on 3+ chapters (e.g., `API Specification: ...`), promote it to one parent chapter and nest the rest beneath it.
+5. **Coverage Matches Code:** Any endpoint summary or index lists exactly the routes found in code; endpoints intentionally left out are named in a one-line scope note.
+
+**Existing documents:** When updating or syncing a document you did not author in this run, audit its outline against rules 1–5 and list each deviation in the manifest's **Outline** line (`<section> — <rule> — <proposed move>`). Do not restructure an existing document unless the user asks; edit only the affected sections (SILENCER rule 4).
+
+## 4. Execution Flow
+1. Output the **INVOKER Draft Manifest** (2 lines, plus a 3rd when §3 applies):
    - **Target Deliverables:** [Files or sections to generate/update, or chat output if requested inline]
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes drafted within it]
-2. Load only the drafted heroes' reference files and compose the documentation.
+   - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the §3 deviations found, or `no deviations`]
+2. Load only the drafted heroes' reference files and compose the documentation within the outline.
 3. Pass the drafted documentation through **`SILENCER`** (`./bot-lane-silencer.md`) to strip all fluff before presenting or writing the final output.
