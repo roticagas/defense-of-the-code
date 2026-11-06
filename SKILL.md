@@ -37,7 +37,15 @@ When the user invokes `/defense-of-the-code <natural language request>` (or `/do
 - **🔨 Top Lane — Plan / Blueprint Intent** (e.g., *"ช่วยออกแบบหน่อย"*, *"วางแผนโค้ดต่อจากที่คุยกัน"*, *"ออกแบบโครงสร้าง"*, `/blueprint`) $\rightarrow$ Led by **`ELDER TITAN`**.
 - **🔮 Mid Lane (⚡ Default) — Standard Review Intent** (e.g., *"รีวิวโค้ดให้หน่อย"*, *"เช็ค PR นี้ที"*, *"ตรวจไฟล์ที่เพิ่งแก้"*, `/review`) $\rightarrow$ Led by **`ORACLE`** (In-Context Squads).
 - **🔮 Mid Lane (🔬 Deep) — Deep / Fresh-Eyes Review Intent** (e.g., *"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ตรวจลึกๆ ทุกจุด"*, *"fresh eyes"*, `/review deep`) $\rightarrow$ Led by **`ORACLE`** (Parallel Squad Subagents).
-- **📖 Bot Lane — Documentation & Sync Intent** (e.g., *"เขียน doc"*, *"อัปเดตเอกสารตามโค้ด"*, *"สรุป PR"*, *"วาด diagram"*, *"เขียน ADR"*, `/doc`) $\rightarrow$ Led by **`INVOKER`**.
+- **📖 Bot Lane — Documentation & Sync Intent** (e.g., *"เขียน doc"*, *"อัปเดตเอกสารตามโค้ด"*, *"สรุป PR"*, *"วาด diagram"*, *"เขียน ADR"*, *"ตรวจ/รีวิวเอกสาร (โครงสร้าง, หัวข้อ, สารบัญ)"*, `/doc`) $\rightarrow$ Led by **`INVOKER`**.
+
+#### Lane Routing (when phrasing alone is not enough)
+1. **Target decides first:** a `.md` / `docs/` / spec file, or a request about a document's structure, headings or table of contents $\rightarrow$ Bot Lane (a verb like *"รีวิว"* or *"ตรวจ"* does not move it to Mid Lane); source files, a diff or a PR $\rightarrow$ Mid Lane; *"ออกแบบ/วางแผน"* before code exists $\rightarrow$ Top Lane.
+2. **Ask only if two or more lanes still fit** (e.g., *"เช็คว่า doc ตรงกับโค้ดไหม"* — document structure vs. code drift). Ask **one** question with 2–3 options, recommended option first, each stating what it does and which lane runs it. Do not start any lane until answered.
+   - **How to ask (platform-neutral):** write the question as plain text with numbered options in the user's language and wait for the reply; if the host offers a structured question tool (e.g., `AskUserQuestion` in Claude Code), it may be used instead. Never depend on a tool that only one platform provides.
+   - **If the user cannot be asked** (non-interactive or headless run): run the recommended option and state the assumed lane in the first line of the output.
+3. **Never ask about what has a default:** Mid Lane Standard vs. Deep (Standard is the default), or which squads to draft (the Commander decides).
+4. **An unambiguous request runs immediately** — no confirmation step. An explicit lane command (`/blueprint`, `/review`, `/review deep`, `/doc`; Antigravity/Gemini only) fixes the lane directly and skips this routing; on Claude Code only `/defense-of-the-code` and `/dotc` exist, so rules 1–3 always apply to the text that follows them.
 
 ---
 
