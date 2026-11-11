@@ -8,6 +8,7 @@ Before drafting documentation:
    - `python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>]` to inspect changed files and lines.
    - `python3 <skill_dir>/scripts/doc_candidate_finder.py` to locate existing documentation, spec, and config files in the repository.
 2. Read the actual source files, routes, schemas, or existing markdown docs—**NEVER** invent endpoints, config keys, or parameters that do not exist in the code.
+3. Record every file you read for the document in the manifest's **Sources** line. Heroes write from those files; a hero that needs another file reads it and adds it to **Sources**, so the line always lists everything the document draws on.
 
 ## 2. Bot Lane Multi-Squad Roster (`references/heroes/doc-squads/`)
 Select **only** the Doc Squads and Heroes matching the user's documentation goal (usually 1 to 2 authoring Squads, 1 to 3 Heroes, plus Squad 4 for prose documents):
@@ -41,11 +42,12 @@ Before any hero writes, name who reads the document and what they can open besid
 For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
 
 ## 5. Execution Flow
-1. Output the **INVOKER Assembly Manifest** (4 lines, plus a 5th when §4 applies):
+1. Output the **INVOKER Assembly Manifest** (5 lines, plus a 6th when §4 applies):
    - **Purpose:** [What the audience will do with the document (integrate, decide, operate, approve)]
    - **Target Deliverables:** [Files or sections to generate/update, or chat output if requested inline]
+   - **Sources:** [Every file read for this document, repository-relative (e.g., `conf/routes`, `app/controllers/DocumentController.scala`); heroes append any file they read later]
    - **Audience:** [Reader — what they can open besides this document (e.g., `partner integrators — no repository access`). Existing document: add the §3 mismatches found, or `no mismatches`]
    - **Active Doc Squads & Heroes:** [List each active Doc Squad and the specific Heroes assembled within it; for a Hero Kit hero, add the abilities its triggers fire, e.g. `ENCHANTRESS (Passive + Active 2 + Ultimate)`]
    - **Outline:** [New document: the chapter and appendix skeleton each hero writes into. Existing document: the deviations from Aghanim's Scepter rules, or `no deviations`]
-2. **Stage 2 · Teamfight:** read only the assembled heroes' files, in parallel, and compose or surgically update the documentation within the outline; when Squad 4 is assembled, `CRYSTAL MAIDEN` polishes the wording and then `ENCHANTRESS` formats the full draft last.
+2. **Stage 2 · Teamfight:** read only the assembled heroes' files, in parallel, and compose or surgically update the documentation within the outline; when Squad 4 is assembled, `CRYSTAL MAIDEN` polishes the wording using **`DIFFUSAL BLADE`** ([diffusal-blade.md](../items/diffusal-blade.md)) and then `ENCHANTRESS` formats the full draft last.
 3. **Stage 3 · Deny:** pass the draft through **`SILENCER`** (`./doc-silencer.md`) before presenting or writing the final output.

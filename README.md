@@ -83,7 +83,7 @@ flowchart TD
 ---
 
 ### 📖 Bot Lane: Documentation & Knowledge Sync (สร้างและอัปเดตเอกสารทางเทคนิค — 4 Doc Squads, 9 Heroes)
-- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`doc-invoker.md`](./references/commanders/doc-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
+- **แม่ทัพเปิดเลน (Stage 1 · Assemble):** 📖 **`INVOKER`** ([`doc-invoker.md`](./references/commanders/doc-invoker.md)) — ระบุผู้อ่าน (Audience) ทุกเอกสาร ว่าใครอ่านและเปิด repository ได้หรือไม่ จดไฟล์ทุกไฟล์ที่อ่านไว้ในบรรทัด **Sources** ให้ฮีโร่เขียนจากชุดเดียวกันและ SILENCER ใช้ตรวจความถูกต้อง แล้วเมื่อเป็นเอกสารหลายบทจะซื้อไอเทม 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) มาวางโครงเอกสาร (Document Outline) ก่อนฮีโร่ลงมือเขียน: แยกเนื้อหาหลัก/ภาคผนวก เรียงตามเส้นทางผู้อ่าน และหัวข้อย่อยสม่ำเสมอ (เอกสารเดิมจะรายงานจุดที่ผิดโครงแทนการรื้อ)
 - **ผู้ตัดน้ำท่วมทุ่งปิดท้าย (Stage 3 · Deny):** 🤫 **`SILENCER`** ([`doc-silencer.md`](./references/commanders/doc-silencer.md)) — บังคับใช้ *Global Silence* ตัดเกริ่นนำขยะ เปลี่ยนข้อความยาวๆ เป็นตารางและไดอะแกรม Mermaid ตัดสิ่งที่ผู้อ่านใช้ไม่ได้ (path/ชื่อ class ภายใน เมื่อผู้อ่านไม่มี repository) ให้ข้อเท็จจริงหนึ่งเรื่องอยู่ที่เดียว และแทน secret/ข้อมูลส่วนตัว (token, เลขบัตร, อีเมล, hostname ภายใน) ด้วยค่าตัวอย่างปลอม
 
 | Doc Squad (`doc-squads/`) | กัปตันทีม (Captain) | ลูกทีมในสังกัด (`1 Hero = 1 File`) |
@@ -111,6 +111,7 @@ flowchart TD
 | 💠 **`GEM OF TRUE SIGHT`** ([`gem-of-true-sight.md`](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | ทุกงาน ตอนเริ่ม Stage 1 |
 | 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) | `INVOKER` | เอกสารที่มีสารบัญหรือหัวข้อหลัก 3 หัวข้อขึ้นไป |
 | 🧥 **`GLIMMER CAPE`** ([`glimmer-cape.md`](./references/items/glimmer-cape.md)) | `ELDER TITAN` → `VIPER`, `ORACLE` → `SHADOW FIEND`, `SILENCER` | เมื่อเรียก VIPER หรือ SHADOW FIEND และทุกเอกสารที่ SILENCER กรอง |
+| 🗡️ **`DIFFUSAL BLADE`** ([`diffusal-blade.md`](./references/items/diffusal-blade.md)) | `ELDER TITAN`, `DOOM`, `INVOKER` → `CRYSTAL MAIDEN`, `SILENCER` | ทุก Blueprint, ข้อความรีวิว, และเอกสารข้อความทั่วไป (Unslop Catalog) |
 
 ---
 
@@ -158,7 +159,8 @@ defense-of-the-code/
     ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาถือ (ใช้เฉพาะงาน / แชร์ข้ามเลน)
     │   ├── glimmer-cape.md                       #    ทุกเลน: นิยามข้อมูลอ่อนไหวและวิธีปิดบัง (PII & Secrets)
     │   ├── gem-of-true-sight.md                  #    ทุกเลน: ถามจุดประสงค์ก่อนเริ่มงาน (Purpose First)
-    │   └── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
+    │   ├── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
+    │   └── diffusal-blade.md                     #    ทุกเลน: แคตตาล็อกกำจัด AI Slop & วลีเยิ่นเย้อ (Unslop Purge)
     └── heroes/                                   # คลังฮีโร่ 14 Squads แยกไฟล์เดี่ยว (42 Squad Heroes)
         ├── plan-squads/                          # 🔨 Top Lane: 4 Plan Squads (10 Heroes)
         │   ├── squad-1-topology/                 #    Dark Seer, Kunkka, Treant Protector
