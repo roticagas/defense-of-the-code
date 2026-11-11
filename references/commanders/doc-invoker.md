@@ -38,8 +38,9 @@ Before any hero writes, name who reads the document and what they can open besid
 - **No repository access:** the document stands alone—no source or internal doc paths, no class/method names, no internal call-flow diagrams; describe observable behavior instead.
 - **Existing documents:** list each mismatch in the manifest's **Audience** line (`<section> — <unusable content> — <fix>`); fix it in sections this run edits, or everywhere when the user asked for a review.
 
-## 4. Document Outline (Multi-Section Documents Only)
-For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
+## 4. Document Outline & Anti-Slop (Multi-Section & Prose Documents)
+- **Multi-Section Outline:** For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
+- **Anti-Slop Catalog:** For every prose document (specs, handbooks, deliverable docs, PR summaries), buy **`DIFFUSAL BLADE`** ([diffusal-blade.md](../items/diffusal-blade.md)) before authoring begins. Heroes write without dual-language echoes, lecturing, or fluff from the first draft.
 
 ## 5. Execution Flow
 1. Output the **INVOKER Assembly Manifest** (5 lines, plus a 6th when §4 applies):
