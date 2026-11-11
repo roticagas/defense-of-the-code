@@ -62,6 +62,7 @@ An **item** is a procedure a Lane Commander buys and either uses itself or hands
 | 💠 **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | Every task, at Stage 1 |
 | 🔱 **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) | `INVOKER` | Documents with a table of contents or 3+ top-level sections |
 | 🧥 **`GLIMMER CAPE`** ([glimmer-cape.md](./references/items/glimmer-cape.md)) | `ELDER TITAN` → `VIPER`, `ORACLE` → `SHADOW FIEND`, `SILENCER` | When VIPER or SHADOW FIEND is assembled; every document SILENCER filters |
+| 🗡️ **`DIFFUSAL BLADE`** ([diffusal-blade.md](./references/items/diffusal-blade.md)) | `ELDER TITAN`, `DOOM`, `INVOKER` → `CRYSTAL MAIDEN`, `SILENCER` | Every blueprint, review findings, and prose document |
 
 #### Hero Kit (Pilot: `CRYSTAL MAIDEN`, `ENCHANTRESS`, `SHADOW FIEND`)
 A converted hero's rules are grouped by **when they run**: the 🟢 **Passive** applies every time the hero is assembled; each 🔵 **Active** and the 🟣 **Ultimate** run only when the trigger they name is present in the input. In the manifest, list each hero with the abilities it triggered, e.g. `SHADOW FIEND (Passive + Active 2)`. Heroes not yet converted keep their numbered rule list, and every rule in it applies whenever the hero is assembled.
