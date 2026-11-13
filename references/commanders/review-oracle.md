@@ -17,7 +17,7 @@ Before selecting squads, buy **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](../
 Select additional Squads (and pick only the relevant Heroes within each Squad) **ONLY** when the diff exhibits these signals:
 
 - **🪨 Squad 1: Topology & Style (`../heroes/review-squads/squad-1-topology/`):**
-  - Captain **`EARTHSHAKER`** (`earthshaker.md`): Module boundaries, 4-Axis partitioning, DAG cycles, Dominator gatekeepers, and polymorphic ingress error adapters.
+  - Captain **`EARTHSHAKER`** (`earthshaker.md`): Module boundaries, 4-Axis partitioning, DAG cycles, Dominator gatekeepers, and polymorphic ingress error adapters. When reviewing a multi-flow class or pipeline refactor, buy **`MANTA STYLE`** ([manta-style.md](../items/manta-style.md)) and hand it to `EARTHSHAKER` and `MAGNUS`.
   - **`TIMBERSAW`** (`timbersaw.md`): Assemble when `util/` or `common/` files are added/modified, or when pure helper extraction is needed.
   - **`MAGNUS`** (`magnus.md`): Assemble when new classes, methods, or multi-field DTO mappings are written (Stepdown Rule & Cross-Layer Symmetry).
   - **`SVEN`** (`sven.md`): Assemble when new identifiers/methods are declared or `[LAW-5 HINT]` triggers in preflight scan.

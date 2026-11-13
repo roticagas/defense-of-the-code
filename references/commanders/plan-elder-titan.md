@@ -16,7 +16,7 @@ Select **only** the Squads and Heroes needed for this task:
 
 - **🪨 Plan Squad 1: Topology & Skeleton (`../heroes/plan-squads/squad-1-topology/`):**
   - Captain **`DARK SEER`** (`dark-seer.md`) — *Mandatory for new modules/flows:* 4-Axis + Core Orthogonal Partitioning, Acyclic DAG Topology, and Pure Leaf Utilities (`Fan-Out = 0`).
-  - **`KUNKKA`** (`kunkka.md`) — *Mandatory:* Linear Stepdown Skeleton (`public` entry at top $\rightarrow$ `1 -> 2 -> 3` `private` helpers) and concise `~2–3` lexeme naming.
+  - **`KUNKKA`** (`kunkka.md`) — *Mandatory:* Linear Stepdown Skeleton (`public` entry at top $\rightarrow$ `1 -> 2 -> 3` `private` helpers) and concise `~2–3` lexeme naming. When designing a multi-flow class or pipeline refactor, buy **`MANTA STYLE`** ([manta-style.md](../items/manta-style.md)) and hand it to `KUNKKA` and `TINY`.
   - **`TREANT PROTECTOR`** (`treant-protector.md`) — *Assemble for Brownfield / Existing Codebases:* Surgical integration strategy (reuse existing axis collaborators, avoid breaking `*Spec` unit tests via constructor churn).
 
 - **⚡ Plan Squad 2: Domain, Data & Contracts (`../heroes/plan-squads/squad-2-domain/`):**
