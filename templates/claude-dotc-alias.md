@@ -3,7 +3,7 @@ name: dotc
 description: >-
   Short alias for the `defense-of-the-code` skill (3-Lane Plan / Review / Doc pipeline).
   Invoked explicitly as `/dotc <natural language request>`.
-argument-hint: "<ช่วยออกแบบ... | รีวิวโค้ด | รีวิวละเอียด | เขียนเอกสาร...>"
+argument-hint: "<ช่วยออกแบบ... | รีวิวโค้ด | รีวิวละเอียด | เขียนเอกสาร... | รีวิวทั้ง repo / audit>"
 disable-model-invocation: true
 ---
 

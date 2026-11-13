@@ -174,9 +174,10 @@ echo -e "  ${BOLD}/dotc ช่วยออกแบบ...${NC}                  
 echo -e "  ${BOLD}/dotc รีวิวโค้ดให้หน่อย${NC}              (🔮 Mid Lane: Standard Review — Oracle & 6 Review Squads)"
 echo -e "  ${BOLD}/dotc รีวิวละเอียด ขอ fresh eyes${NC}      (🔮 Mid Lane: Deep Review via Parallel Squad Subagents)"
 echo -e "  ${BOLD}/dotc เขียนเอกสาร / สรุป PR นี้ให้ที${NC}   (📖 Bot Lane: Documentation & Sync — Invoker & 4 Doc Squads)"
+echo -e "  ${BOLD}/dotc รีวิวทั้ง repo 3 เลน / audit${NC}    (⚔️ All-Lane: Whole-Repo Architecture & Health Audit)"
 if [ "$PLATFORM" = "claude" ]; then
-  echo -e "  ${CYAN}(หรือใช้คำสั่งเต็ม: ${BOLD}/defense-of-the-code${CYAN} — Claude Code ไม่มี /blueprint, /review, /doc)${NC}"
+  echo -e "  ${CYAN}(หรือใช้คำสั่งเต็ม: ${BOLD}/defense-of-the-code${CYAN} — Claude Code ไม่มี /blueprint, /review, /doc, /audit)${NC}"
 else
-  echo -e "  ${CYAN}(หรือใช้คำสั่งเต็ม/ย่อ: ${BOLD}/defense-of-the-code${CYAN}, ${BOLD}/blueprint${CYAN}, ${BOLD}/review${CYAN}, ${BOLD}/review deep${CYAN}, ${BOLD}/doc${CYAN})${NC}"
+  echo -e "  ${CYAN}(หรือใช้คำสั่งเต็ม/ย่อ: ${BOLD}/defense-of-the-code${CYAN}, ${BOLD}/blueprint${CYAN}, ${BOLD}/review${CYAN}, ${BOLD}/review deep${CYAN}, ${BOLD}/doc${CYAN}, ${BOLD}/audit${CYAN})${NC}"
 fi
 echo ""

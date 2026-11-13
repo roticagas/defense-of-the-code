@@ -95,6 +95,14 @@ flowchart TD
 
 ---
 
+### ⚔️ All-Lane: Whole-Repo Architecture & Health Audit (รัน 3 เลนต่อเนื่อง — [`audit-all-lanes.md`](./references/commanders/audit-all-lanes.md))
+เมื่อผู้ใช้ต้องการ **"รีวิวทั้ง repo"** หรือสั่ง `/audit` ระบบจะรันแบบ **3-Phase Sequential Pipeline** เพื่อแก้ปัญหา *การรีวิวโดยไม่มีโจทย์*:
+1. **Phase 1 · Top Lane (Architecture Discovery):** `ELDER TITAN` สกัดแผนผังสถาปัตยกรรม As-Is (4-Axis Partitioning, Dependency DAG, State Boundaries, Dominator Gatekeepers) ออกมาเป็น **System Invariants Baseline ("โจทย์ของระบบ")**
+2. **Phase 2 · Mid Lane (Architecture & Code Audit):** `ORACLE` และ `DOOM` ตรวจจับโค้ดทั้ง repo เทียบกับ Invariants ของ Phase 1 (ปลดล็อกกฎ untouched-line ของ DOOM สำหรับข้อบกพร่องระดับสถาปัตยกรรม กฎ 1–7, ความปลอดภัย และความทนทานต่อ Fault)
+3. **Phase 3 · Bot Lane (Doc & Drift Radar):** `INVOKER` และ `SILENCER` นำ Invariants และผลตรวจโค้ดไปเทียบกับเอกสารจริงใน repo เพื่อชี้เป้าเอกสารที่ล้าสมัย (Stale Docs), กฎสำคัญที่ยังไม่มีใครบันทึก (Undocumented Invariants), และจัดทำแผนอัปเดตเอกสาร (Action Plan)
+
+---
+
 ## 🎒 ไอเทม (Items — `1 Item = 1 File`)
 
 แม่ทัพและฮีโร่ผูกกับเลนเดียว ส่วน **ไอเทม** คือขั้นตอนที่แม่ทัพซื้อมาใช้เอง หรือส่งต่อให้ฮีโร่ที่เรียกมา ใช้เฉพาะงานที่ต้องการ หรือแชร์ข้ามเลนได้
