@@ -26,7 +26,7 @@ Select additional Squads (and pick only the relevant Heroes within each Squad) *
 - **⚡ Squad 2: State & Contract (`../heroes/review-squads/squad-2-state/`):**
   - Captain **`ARC WARDEN`** (`arc-warden.md`): Subgraph State Isolation (Law 4) & explicit context injection.
   - **`MEDUSA`** (`medusa.md`): Immutability, unintended reference mutation hazards, and schema-first domain modeling.
-  - **`FACELESS VOID`** (`faceless-void.md`): Domain calculation edge cases, `0`/negative/empty/`null`/`Option` boundaries, and "Parse, Don't Validate".
+  - **`FACELESS VOID`** (`faceless-void.md`): Domain calculation edge cases, `0`/negative/empty/`null`/`Option` boundaries, "Parse, Don't Validate", cross-file collaborator contract grounding, and test-branch realism.
   - **`BREWMASTER`** (`brewmaster.md`): Assemble when modifying existing DTOs, API payloads, DB columns, serialized state, or when modifying routes/controllers/shared security middleware affecting legacy or multi-version APIs (Dual-Stack Wire Isolation & Error Envelopes).
 
 - **👑 Squad 3: Fault & Concurrency (`../heroes/review-squads/squad-3-fault/`) — Assemble IF async, I/O, DB transactions, retries, or resource handles are touched:**
@@ -60,6 +60,7 @@ Output a concise **ORACLE Routing Manifest** before executing Stage 2:
 
 ## 4. Stage 2 · Teamfight — Review Squad Inspection
 Load **ONLY** the hero files assembled in §1–§2. When `RUBICK` is assembled, also run `python3 <skill_dir>/scripts/doc_candidate_finder.py`.
+- **Cross-File Grounding (Anti-Confirmation-Bias Rule):** Whenever changed code invokes or accesses attributes/methods on a collaborator imported from an untouched file, open and read that collaborator's definition during Stage 2 before approving—especially in Default Mode when reviewing code written earlier in the same conversation. Do not trust memory of untouched definitions.
 - **⚡ Default Mode (Standard Review — In-Context):** read the assembled hero files in parallel in the main agent and evaluate the changed code through each hero's checklist, keeping the full conversation context.
 - **🔬 Deep / Fresh-Eyes Mode (Parallel Squad Subagents):** only when the user asks for a deep or thorough review (*"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ขอ fresh eyes"*, `/review deep`):
   1. Re-run the §0 scan with `--dump-diff <scratch_dir>/current_review.diff` (`<scratch_dir>` = conversation scratch/artifact directory).
