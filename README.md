@@ -95,6 +95,14 @@ flowchart TD
 
 ---
 
+### ⚔️ All-Lane: Whole-Repo Architecture & Health Audit (รัน 3 เลนต่อเนื่อง — [`audit-all-lanes.md`](./references/commanders/audit-all-lanes.md))
+เมื่อผู้ใช้ต้องการ **"รีวิวทั้ง repo"** หรือสั่ง `/audit` ระบบจะรันแบบ **3-Phase Sequential Pipeline** เพื่อแก้ปัญหา *การรีวิวโดยไม่มีโจทย์*:
+1. **Phase 1 · Top Lane (Architecture Discovery):** `ELDER TITAN` สกัดแผนผังสถาปัตยกรรม As-Is (4-Axis Partitioning, Dependency DAG, State Boundaries, Dominator Gatekeepers) ออกมาเป็น **System Invariants Baseline ("โจทย์ของระบบ")**
+2. **Phase 2 · Mid Lane (Architecture & Code Audit):** `ORACLE` และ `DOOM` ตรวจจับโค้ดทั้ง repo เทียบกับ Invariants ของ Phase 1 (ปลดล็อกกฎ untouched-line ของ DOOM สำหรับข้อบกพร่องระดับสถาปัตยกรรม กฎ 1–7, ความปลอดภัย และความทนทานต่อ Fault)
+3. **Phase 3 · Bot Lane (Doc & Drift Radar):** `INVOKER` และ `SILENCER` นำ Invariants และผลตรวจโค้ดไปเทียบกับเอกสารจริงใน repo เพื่อชี้เป้าเอกสารที่ล้าสมัย (Stale Docs), กฎสำคัญที่ยังไม่มีใครบันทึก (Undocumented Invariants), และจัดทำแผนอัปเดตเอกสาร (Action Plan)
+
+---
+
 ## 🎒 ไอเทม (Items — `1 Item = 1 File`)
 
 แม่ทัพและฮีโร่ผูกกับเลนเดียว ส่วน **ไอเทม** คือขั้นตอนที่แม่ทัพซื้อมาใช้เอง หรือส่งต่อให้ฮีโร่ที่เรียกมา ใช้เฉพาะงานที่ต้องการ หรือแชร์ข้ามเลนได้
@@ -109,9 +117,12 @@ flowchart TD
 | ไอเทม | ผู้ซื้อ | เงื่อนไข |
 | :--- | :--- | :--- |
 | 💠 **`GEM OF TRUE SIGHT`** ([`gem-of-true-sight.md`](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | ทุกงาน ตอนเริ่ม Stage 1 |
+| 👁️ **`OBSERVER WARD`** ([`observer-ward.md`](./references/items/observer-ward.md)) | `ELDER TITAN` | งาน Blueprint ระดับ Standard/Multi-Axis ที่เจอทางแยกหรือสมมติฐานสำคัญ (หรือเมื่อสั่ง `คุยก่อน` / `discuss`) |
 | 🔱 **`AGHANIM'S SCEPTER`** ([`aghanims-scepter.md`](./references/items/aghanims-scepter.md)) | `INVOKER` | เอกสารที่มีสารบัญหรือหัวข้อหลัก 3 หัวข้อขึ้นไป |
 | 🧥 **`GLIMMER CAPE`** ([`glimmer-cape.md`](./references/items/glimmer-cape.md)) | `ELDER TITAN` → `VIPER`, `ORACLE` → `SHADOW FIEND`, `SILENCER` | เมื่อเรียก VIPER หรือ SHADOW FIEND และทุกเอกสารที่ SILENCER กรอง |
 | 🗡️ **`DIFFUSAL BLADE`** ([`diffusal-blade.md`](./references/items/diffusal-blade.md)) | `ELDER TITAN`, `DOOM`, `INVOKER` → `CRYSTAL MAIDEN`, `SILENCER` | ทุก Blueprint, ข้อความรีวิว, และเอกสารข้อความทั่วไป (Unslop Catalog) |
+| 🪞 **`MANTA STYLE`** ([`manta-style.md`](./references/items/manta-style.md)) | `ELDER TITAN` → `KUNKKA`/`TINY`, `ORACLE` → `EARTHSHAKER`/`MAGNUS` | คลาสที่มีหลาย flow (`UseCase`/`Service`) หรือการ refactor pipeline |
+| 📘 **`TOME OF KNOWLEDGE`** ([`tome-of-knowledge.md`](./references/items/tome-of-knowledge.md)) | `ANCIENT APPARITION`, `DOOM`, `SILENCER` | ท้าย Stage 3 ของงานที่ไม่ใช่การแก้จุดเล็ก เพื่อเปิดวงสนทนาเรื่อง Stress Point, Intent Check, Systemic Takeaway หรือ Knowledge Gap |
 
 ---
 
@@ -159,7 +170,9 @@ defense-of-the-code/
     ├── items/                                    # ไอเทมที่แม่ทัพซื้อมาถือ (ใช้เฉพาะงาน / แชร์ข้ามเลน)
     │   ├── glimmer-cape.md                       #    ทุกเลน: นิยามข้อมูลอ่อนไหวและวิธีปิดบัง (PII & Secrets)
     │   ├── gem-of-true-sight.md                  #    ทุกเลน: ถามจุดประสงค์ก่อนเริ่มงาน (Purpose First)
+    │   ├── observer-ward.md                      #    🔨 Top Lane: คุยทางแยกและเช็กสมมติฐานก่อนออกแบบ (Pre-Flight Alignment)
     │   ├── aghanims-scepter.md                   #    📖 Bot Lane: โครงเอกสารหลายบท (Document Outline)
+    │   ├── tome-of-knowledge.md                  #    ทุกเลน: คุยหลังทำเสร็จ (Stress Point, Intent Check, Systemic Takeaway, Knowledge Gap)
     │   └── diffusal-blade.md                     #    ทุกเลน: แคตตาล็อกกำจัด AI Slop & วลีเยิ่นเย้อ (Unslop Purge)
     └── heroes/                                   # คลังฮีโร่ 14 Squads แยกไฟล์เดี่ยว (42 Squad Heroes)
         ├── plan-squads/                          # 🔨 Top Lane: 4 Plan Squads (10 Heroes)

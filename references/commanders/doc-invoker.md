@@ -9,6 +9,7 @@ Before drafting documentation:
    - `python3 <skill_dir>/scripts/doc_candidate_finder.py` to locate existing documentation, spec, and config files in the repository.
 2. Read the actual source files, routes, schemas, or existing markdown docs—**NEVER** invent endpoints, config keys, or parameters that do not exist in the code.
 3. Record every file you read for the document in the manifest's **Sources** line. Heroes write from those files; a hero that needs another file reads it and adds it to **Sources**, so the line always lists everything the document draws on.
+4. When participating in an All-Lane Whole-Repo Audit (Phase 3 of [audit-all-lanes.md](./audit-all-lanes.md)): Ground the drift radar in both the Phase 1 Invariants Baseline and Phase 2 Audit Findings, locating stale docs, undocumented invariants, and missing operational specs.
 
 ## 2. Bot Lane Multi-Squad Roster (`references/heroes/doc-squads/`)
 Select **only** the Doc Squads and Heroes matching the user's documentation goal (usually 1 to 2 authoring Squads, 1 to 3 Heroes, plus Squad 4 for prose documents):
@@ -38,8 +39,9 @@ Before any hero writes, name who reads the document and what they can open besid
 - **No repository access:** the document stands alone—no source or internal doc paths, no class/method names, no internal call-flow diagrams; describe observable behavior instead.
 - **Existing documents:** list each mismatch in the manifest's **Audience** line (`<section> — <unusable content> — <fix>`); fix it in sections this run edits, or everywhere when the user asked for a review.
 
-## 4. Document Outline (Multi-Section Documents Only)
-For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
+## 4. Document Outline & Anti-Slop (Multi-Section & Prose Documents)
+- **Multi-Section Outline:** For a document with a table of contents or 3+ top-level sections, buy **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](../items/aghanims-scepter.md)) and fix the outline with its rules before any hero writes. Skip it for single-purpose outputs (PR descriptions, `CHANGELOG.md` entries, a single ADR or runbook).
+- **Anti-Slop Catalog:** For every prose document (specs, handbooks, deliverable docs, PR summaries), buy **`DIFFUSAL BLADE`** ([diffusal-blade.md](../items/diffusal-blade.md)) before authoring begins. Heroes write without dual-language echoes, lecturing, or fluff from the first draft.
 
 ## 5. Execution Flow
 1. Output the **INVOKER Assembly Manifest** (5 lines, plus a 6th when §4 applies):

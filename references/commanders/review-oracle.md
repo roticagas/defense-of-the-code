@@ -3,20 +3,21 @@
 You are **ORACLE**, Commander of Stage 1 in **Mid Lane (Progressive Code Review)**. You inspect the incoming code changes (`git diff`, commit/branch diff, or target files) alongside the output of `scripts/preflight_scan.py`, determine the architectural blast radius, and assemble **2 to 4 Specialist Review Squads** (the §1 baseline pair plus at most 2 more) (and the specific Heroes needed inside each Squad) for Stage 2. This file runs the whole Mid Lane pipeline: §0–§3 are Stage 1, §4 is Stage 2, and §5 hands the findings to `DOOM` for Stage 3.
 
 ## 0. Preflight Scan
-Run the scan from the target repository root. It falls back to `HEAD~1..HEAD` when the working tree is clean; pass `--base <branch>` when reviewing a feature branch against `main`/`develop`:
-`python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [target_files...]`
+Run the scan from the target repository root. It falls back to `HEAD~1..HEAD` when the working tree is clean; pass `--base <branch>` when reviewing a feature branch against `main`/`develop`, or pass `--all` (or directory paths) for whole-repo audits:
+`python3 <skill_dir>/scripts/preflight_scan.py [--base <branch>] [--all] [target_files...]`
 - If the scan cannot run, state the reason in `Preflight Signals: unavailable — <reason>` and gather the diff manually (`git diff HEAD` → `git diff --cached` → `git show HEAD` or target files).
 
 ## 1. Mandatory Baseline Squads
 Before selecting squads, buy **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](../items/gem-of-true-sight.md)) and state what the change is meant to do.
 - **Standard Code Changes:** Always assemble **Squad 1: Topology & Style** (led by **`EARTHSHAKER`**) and **Squad 2: State & Contract** (led by **`ARC WARDEN`**).
 - **Specification / Schema-Only Changes (`.md`, `.yaml`, `.proto`, `.sql` with no procedural code):** Assemble **Squad 2: State & Contract** (`ARC WARDEN`, `BREWMASTER`) and **Squad 6: Spec & Drift Radar** (`RUBICK`, `GRIMSTROKE`) as the baseline, plus **Squad 3** or **Squad 4** if the spec defines async/retry workflows or security protocols.
+- **Whole-Repo / Subsystem Audit (All-Lane Pipeline via [audit-all-lanes.md](./audit-all-lanes.md)):** Assemble **Squad 1** (`EARTHSHAKER`), **Squad 2** (`ARC WARDEN`, `FACELESS VOID`), **Squad 3** (`WRAITH KING`, `WEAVER`), and **Squad 4** (`TEMPLAR ASSASSIN`, `SHADOW FIEND`), evaluated against the Phase 1 Invariants Baseline.
 
 ## 2. Conditional Squad & Hero Selection Matrix
 Select additional Squads (and pick only the relevant Heroes within each Squad) **ONLY** when the diff exhibits these signals:
 
 - **🪨 Squad 1: Topology & Style (`../heroes/review-squads/squad-1-topology/`):**
-  - Captain **`EARTHSHAKER`** (`earthshaker.md`): Module boundaries, 4-Axis partitioning, DAG cycles, Dominator gatekeepers, and polymorphic ingress error adapters.
+  - Captain **`EARTHSHAKER`** (`earthshaker.md`): Module boundaries, 4-Axis partitioning, DAG cycles, Dominator gatekeepers, and polymorphic ingress error adapters. When reviewing a multi-flow class or pipeline refactor, buy **`MANTA STYLE`** ([manta-style.md](../items/manta-style.md)) and hand it to `EARTHSHAKER` and `MAGNUS`.
   - **`TIMBERSAW`** (`timbersaw.md`): Assemble when `util/` or `common/` files are added/modified, or when pure helper extraction is needed.
   - **`MAGNUS`** (`magnus.md`): Assemble when new classes, methods, or multi-field DTO mappings are written (Stepdown Rule & Cross-Layer Symmetry).
   - **`SVEN`** (`sven.md`): Assemble when new identifiers/methods are declared or `[LAW-5 HINT]` triggers in preflight scan.
@@ -25,7 +26,7 @@ Select additional Squads (and pick only the relevant Heroes within each Squad) *
 - **⚡ Squad 2: State & Contract (`../heroes/review-squads/squad-2-state/`):**
   - Captain **`ARC WARDEN`** (`arc-warden.md`): Subgraph State Isolation (Law 4) & explicit context injection.
   - **`MEDUSA`** (`medusa.md`): Immutability, unintended reference mutation hazards, and schema-first domain modeling.
-  - **`FACELESS VOID`** (`faceless-void.md`): Domain calculation edge cases, `0`/negative/empty/`null`/`Option` boundaries, and "Parse, Don't Validate".
+  - **`FACELESS VOID`** (`faceless-void.md`): Domain calculation edge cases, `0`/negative/empty/`null`/`Option` boundaries, "Parse, Don't Validate", cross-file collaborator contract grounding, and test-branch realism.
   - **`BREWMASTER`** (`brewmaster.md`): Assemble when modifying existing DTOs, API payloads, DB columns, serialized state, or when modifying routes/controllers/shared security middleware affecting legacy or multi-version APIs (Dual-Stack Wire Isolation & Error Envelopes).
 
 - **👑 Squad 3: Fault & Concurrency (`../heroes/review-squads/squad-3-fault/`) — Assemble IF async, I/O, DB transactions, retries, or resource handles are touched:**
@@ -59,6 +60,7 @@ Output a concise **ORACLE Routing Manifest** before executing Stage 2:
 
 ## 4. Stage 2 · Teamfight — Review Squad Inspection
 Load **ONLY** the hero files assembled in §1–§2. When `RUBICK` is assembled, also run `python3 <skill_dir>/scripts/doc_candidate_finder.py`.
+- **Cross-File Grounding (Anti-Confirmation-Bias Rule):** Whenever changed code invokes or accesses attributes/methods on a collaborator imported from an untouched file, open and read that collaborator's definition during Stage 2 before approving—especially in Default Mode when reviewing code written earlier in the same conversation. Do not trust memory of untouched definitions.
 - **⚡ Default Mode (Standard Review — In-Context):** read the assembled hero files in parallel in the main agent and evaluate the changed code through each hero's checklist, keeping the full conversation context.
 - **🔬 Deep / Fresh-Eyes Mode (Parallel Squad Subagents):** only when the user asks for a deep or thorough review (*"รีวิวละเอียด"*, *"รีวิวแบบเข้มๆ"*, *"ขอ fresh eyes"*, `/review deep`):
   1. Re-run the §0 scan with `--dump-diff <scratch_dir>/current_review.diff` (`<scratch_dir>` = conversation scratch/artifact directory).

@@ -6,11 +6,12 @@ One shared catalog of AI slop and padding patterns so all three lanes purge fluf
 
 | Antipattern | Signal / Bad Pattern (AI Slop) | Clean High-Signal Pattern (Unslopped) |
 | :--- | :--- | :--- |
-| **Dual-Language Echoes** | Translating a phrase to Thai and immediately echoing the English term in parentheses (`ประกาศปลดระวาง (Sunset Notice)`, `ถูกยกเลิกการให้บริการ (Removed)`, `การเปลี่ยนผ่าน (Migration)`). | Pick the single natural technical term the team uses without redundant translation echo: `⚠️ Sunset Notice: Endpoint ต่อไปนี้ถูกยกเลิกใน v2`. |
+| **Dual-Language Echoes** | Translating a phrase or heading to Thai and immediately echoing the English term in parentheses (`ประกาศปลดระวาง (Sunset Notice)`, `ถูกยกเลิกการให้บริการ (Removed)`, `# 4. แนวทางการย้ายระบบ (Migration Guide)`). | Pick the single natural technical term or title without redundant translation echo: `⚠️ Sunset Notice: Endpoint ต่อไปนี้ถูกยกเลิกใน v2`, `# 4. v1 Sunset & Migration` or `# 4. การย้ายระบบสู่ v2`. |
 | **Pedagogical Lecturing** | Tutoring basic CS/programming concepts engineers already know, explaining why a string cannot cast to an int, or pasting 36-character dummy UUIDs (`"a1b2c3d4-e5f6-7890-abcd-ef1234567890"`) into prose. | State the technical delta directly: `invoiceHdrId: int -> UUID (Breaking Change)`. |
 | **Corporate Policy Fluff** | Empty administrative justifications and management buzzwords that carry zero technical constraints or caller actions (*"การรวมศูนย์มาตรฐาน API: ผลักดันการจัดการทั้งหมดเข้าสู่สถาปัตยกรรม v2"*, *"In order to provide enterprise-grade synergy..."*). | Delete completely. Document only observable behavior, technical constraints, and caller action items. |
 | **Unnatural Literal Translation** | Translating established software terms into rigid, robotic Thai (*"เส้นทางบริการ"* for endpoint/route, *"สระการเชื่อมต่อ"* for connection pool, *"ลายเซ็นฟังก์ชัน"* for function signature). | Use industry-standard technical terms directly: `Endpoint`, `Connection Pool`, `Function Signature`. |
 | **Throat-Clearing Intro/Outro** | Preamble paragraphs and summarizing conclusions (*"In modern distributed architectures, it is crucial to..."*, *"This document provides a comprehensive overview of..."*, *"In conclusion, these changes ensure..."*). | Delete completely. Start immediately with concrete system facts, tables, or architecture diagrams. |
+| **Leaked Repository References** | Referencing internal git branch names, PR numbers, or local repository markdown paths (`[BREAKING_CHANGES.md](../BREAKING_CHANGES.md)`) in external deliverable or partner integration docs. | Link only to public specs or inline the relevant facts directly; keep internal repo paths in internal developer docs only. |
 
 ## 2. How Each Lane Uses It
 

@@ -62,16 +62,40 @@ HUNK_HEADER_RE = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@")
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Preflight scanner for Defense of the Code")
-    parser.add_argument("files", nargs="*", help="Optional target files to scan")
+    parser.add_argument("files", nargs="*", help="Optional target files or directories to scan")
     parser.add_argument("--base", dest="base_ref", help="Compare against a base branch/ref (e.g., main, origin/develop)")
+    parser.add_argument("--all", action="store_true", dest="scan_all", help="Scan entire repository/codebase (All-Lane Whole-Repo Audit mode)")
     parser.add_argument("--dump-diff", dest="dump_diff", help="Write unified diff snapshot to this file path")
     args = parser.parse_args()
 
     diff_ref = "HEAD"
     if args.files:
-        targets = [Path(arg) for arg in args.files if Path(arg).is_file()]
+        raw_targets: list[Path] = []
+        for arg in args.files:
+            p = Path(arg)
+            if p.is_file():
+                raw_targets.append(p)
+            elif p.is_dir():
+                dir_tracked = run_git(["ls-files", "--", str(p)])
+                if dir_tracked.strip():
+                    for line in dir_tracked.splitlines():
+                        sub_p = Path(line.strip())
+                        if sub_p.is_file():
+                            raw_targets.append(sub_p)
+                else:
+                    for sub_p in p.rglob("*"):
+                        if sub_p.is_file() and not any(part.startswith(".") for part in sub_p.parts):
+                            raw_targets.append(sub_p)
+        seen: set[Path] = set()
+        targets: list[Path] = []
+        for p in raw_targets:
+            if p not in seen:
+                seen.add(p)
+                targets.append(p)
         changed_lines: dict[Path, set[int] | None] = {p: None for p in targets}
-        mode_label = "explicit CLI files"
+        mode_label = "explicit CLI targets"
+    elif args.scan_all:
+        targets, changed_lines, diff_ref, mode_label = collect_repo_targets()
     else:
         targets, changed_lines, diff_ref, mode_label = collect_changed_targets(args.base_ref)
 
@@ -83,13 +107,50 @@ def main() -> None:
         dump_unified_diff(Path(args.dump_diff), targets, changed_lines, diff_ref)
 
     total_changed = count_changed_lines(targets, changed_lines)
+    is_whole_repo = mode_label.startswith("whole-repo") or (args.files and any(Path(arg).is_dir() for arg in args.files))
     print(
-        f"=== Preflight Scan on {len(targets)} file(s) [{mode_label} | ~{total_changed} changed line(s)] ==="
+        f"=== Preflight Scan on {len(targets)} file(s) [{mode_label} | ~{total_changed} {'total' if is_whole_repo else 'changed'} line(s)] ==="
     )
     scan_version_hazards(targets)
+
+    findings_by_file: dict[Path, list[str]] = {}
     for target in targets:
-        print(f" * {target} [{format_line_ranges(changed_lines.get(target))}]")
-        scan_file(target, changed_lines.get(target))
+        findings = scan_file(target, changed_lines.get(target))
+        if findings:
+            findings_by_file[target] = findings
+
+    if is_whole_repo:
+        if findings_by_file:
+            print(f"\n[SIGNALS DETECTED in {len(findings_by_file)} file(s)]")
+            for target, f_list in findings_by_file.items():
+                print(f" * {target}")
+                for msg in f_list:
+                    print(f"   {msg}")
+        else:
+            print("No Law 3 utility boundary violations or Law 5 naming issues detected across scanned files.")
+    else:
+        for target in targets:
+            print(f" * {target} [{format_line_ranges(changed_lines.get(target))}]")
+            for msg in findings_by_file.get(target, []):
+                print(f"   {msg}")
+
+
+def collect_repo_targets() -> tuple[list[Path], dict[Path, set[int] | None], str, str]:
+    tracked_out = run_git(["ls-files"])
+    files: list[Path] = []
+    seen: set[Path] = set()
+    changed_lines: dict[Path, set[int] | None] = {}
+
+    for line in tracked_out.splitlines():
+        p = Path(line.strip())
+        if p.is_file() and p not in seen:
+            seen.add(p)
+            files.append(p)
+            changed_lines[p] = None
+
+    diff_ref = "HEAD"
+    mode_label = "whole-repo audit (--all)"
+    return files, changed_lines, diff_ref, mode_label
 
 
 def collect_changed_targets(base_ref: str | None = None) -> tuple[list[Path], dict[Path, set[int] | None], str, str]:
@@ -266,11 +327,12 @@ def scan_version_hazards(files: list[Path]) -> None:
         )
 
 
-def scan_file(path: Path, active_lines: set[int] | None) -> None:
+def scan_file(path: Path, active_lines: set[int] | None) -> list[str]:
+    findings: list[str] = []
     try:
         lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
     except Exception:
-        return
+        return findings
 
     is_util = any(
         part.lower() in {"util", "utils", "utility", "utilities", "common", "helper", "helpers"}
@@ -283,7 +345,7 @@ def scan_file(path: Path, active_lines: set[int] | None) -> None:
             continue
 
         if is_util and FORBIDDEN_UTIL_IMPORTS.search(line):
-            print(
+            findings.append(
                 f"[LAW-3 VIOLATION] {path}:{idx} -> Utility file imports business/state layer: {line.strip()}"
             )
 
@@ -308,10 +370,12 @@ def scan_file(path: Path, active_lines: set[int] | None) -> None:
             )
 
             if len(core_words) > 3:
-                print(
+                findings.append(
                     f"[LAW-5 HINT] {path}:{idx} -> '{func_name}' has {len(core_words)} core words "
                     f"({'/'.join(core_words)}). Target is ~2-3 words if it can be shortened without losing domain clarity."
                 )
+
+    return findings
 
 
 def is_test_file(path: Path) -> bool:

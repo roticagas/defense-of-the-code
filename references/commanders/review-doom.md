@@ -9,7 +9,7 @@ Immediately **DISCARD** any Stage 2 finding that matches these criteria:
 3. **Discard Unfounded Theoretical Edge Cases:** Delete resilience, security, or performance warnings that lack a realistic trigger scenario within the system's actual operating context.
 4. **Discard Boilerplate Comment Requests:** Delete requests to add docstrings or inline comments explaining self-evident code.
 5. **Discard Pedantic Naming & Casing Nitpicks:** Law 5 (~2–3 Lexeme Conciseness) is a heuristic smell detector, not a rigid word cap. Delete complaints about 4-word identifiers or test method names when the identifier is clear and single-purpose. Delete any suggestion to convert `camelCase`/`PascalCase` to `snake_case` when the file or language ecosystem standard uses `camelCase`/`PascalCase`.
-6. **Discard Out-of-Scope Legacy Complaints & High-Churn Brownfield Demands:** Delete warnings targeting untouched lines outside the current diff unless the new changes directly break them. Never delete a `SHADOW FIEND` history finding (a secret committed and later removed inside the reviewed range): the secret is still leaked. Also delete demands to: (a) reorder pre-existing untouched methods in an existing file, (b) reorder existing `case class`/DTO/struct fields (which breaks positional callers), (c) extract a new `@Inject()` service for a minor addition that fits an existing collaborator (which breaks existing `*Spec` unit tests), or (d) rewrite an entire legacy `match`/`if-else` method when the diff only adds a small surgical branch.
+6. **Discard Out-of-Scope Legacy Complaints & High-Churn Brownfield Demands:** Delete warnings targeting untouched lines outside the current diff unless the new changes directly break them (*Whole-Repo Audit Exception:* when running in Whole-Repo Audit mode via `audit-all-lanes.md`, Rule 6's untouched-line ban is waived for Architectural Invariants [Laws 1–7], Security Boundaries, and Critical Fault/Resilience defects; discard only cosmetic nitpicks, trivial formatting, and minor legacy naming variations). Never delete a `SHADOW FIEND` history finding (a secret committed and later removed inside the reviewed range): the secret is still leaked. Also delete demands to: (a) reorder pre-existing untouched methods in an existing file, (b) reorder existing `case class`/DTO/struct fields (which breaks positional callers), (c) extract a new `@Inject()` service for a minor addition that fits an existing collaborator (which breaks existing `*Spec` unit tests), or (d) rewrite an entire legacy `match`/`if-else` method when the diff only adds a small surgical branch.
 7. **Deduplicate Overlapping Findings:** If multiple Heroes flag the same lines, consolidate them into a single precise point credited to the most specific Hero.
 8. **Discard Off-Purpose Redesigns:** Delete suggestions that change what the code is for (new features, an alternative design) rather than how it does what the manifest's **Purpose** says. Never discard a correctness or security finding under this rule.
 
@@ -28,7 +28,7 @@ Stage 2 heroes judge the diff against a checklist; DOOM checks that each survivi
 
 ## Final Verdict Output Format
 Present the surviving findings in the **user's conversation language** (keeping technical terms and code identifiers in English), concise and direct. Buy **`DIFFUSAL BLADE`** ([diffusal-blade.md](../items/diffusal-blade.md)): keep explanations crisp and free of pedagogical lecturing, filler, or dual-language echoes.
-**Important:** Omit any section (`🔴`, `🟡`, or `🗺️`) that has zero surviving items—never invent filler points to populate a header. If no `🔴 BLOCKER` or `🟡 SHOULD FIX` items survive, output ONLY:
+**Important:** Omit any section (`🔴`, `🟡`, or `🗺️`) that has zero surviving items—never invent filler points to populate a header. If no `🔴 BLOCKER` or `🟡 SHOULD FIX` items survive, output:
 > **🟢 APPROVED · THE ANCIENT STANDS** — All architectural invariants and domain contracts are satisfied. No actionable defects found.
 
 Otherwise, include only the non-empty sections below:
@@ -41,3 +41,6 @@ Otherwise, include only the non-empty sections below:
 
 ### 🗺️ MAP SYNC · WARDS NEEDED (Specifications / Configs / Documentation to Synchronize)
 - Exact project files that require updating to match the code changes (omit this section if none).
+
+### 📘 TOME OF KNOWLEDGE · Post-Flight Talkback
+Buy **`TOME OF KNOWLEDGE`** ([tome-of-knowledge.md](../items/tome-of-knowledge.md)) on non-trivial reviews (skipped in intermediate Whole-Repo Audit phases, which run it once at the end) to surface at most 1–3 **Intent Checks** or **Systemic Takeaways**—omit this section entirely when nothing meaningful remains to discuss.
