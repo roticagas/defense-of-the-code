@@ -51,7 +51,7 @@ When the user invokes `/defense-of-the-code <natural language request>` (or `/do
    - **How to ask (platform-neutral):** write the question as plain text with numbered options in the user's language and wait for the reply; if the host offers a structured question tool (e.g., `AskUserQuestion` in Claude Code), it may be used instead. Never depend on a tool that only one platform provides.
    - **If the user cannot be asked** (non-interactive or headless run): run the recommended option and state the assumed lane in the first line of the output.
 3. **Never ask about what has a default:** Mid Lane Standard vs. Deep (Standard is the default), or which squads to assemble (the Commander decides).
-4. **An unambiguous request runs immediately** — no confirmation step. An explicit lane command (`/blueprint`, `/review`, `/review deep`, `/doc`; Antigravity/Gemini only) fixes the lane directly and skips this routing; on Claude Code only `/defense-of-the-code` and `/dotc` exist, so rules 1–3 always apply to the text that follows them.
+4. **An unambiguous request enters its lane immediately** — no lane-routing confirmation step (Top Lane may still pause before Stage 2 via `OBSERVER WARD` when a major architectural fork or unverified constraint appears). An explicit lane command (`/blueprint`, `/review`, `/review deep`, `/doc`; Antigravity/Gemini only) fixes the lane directly and skips this routing; on Claude Code only `/defense-of-the-code` and `/dotc` exist, so rules 1–3 always apply to the text that follows them.
 
 #### Purpose First (all lanes)
 Before assembling any squad, every Lane Commander buys the shared item **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)): state what the work is for as the manifest's first line, inferred from the conversation, PR or commits, and ask one question only when nothing states it. Each lane's Stage 3 filter judges the output against that purpose.
@@ -62,10 +62,12 @@ An **item** is a procedure a Lane Commander buys and either uses itself or hands
 | Item | Bought by | Condition |
 | :--- | :--- | :--- |
 | 💠 **`GEM OF TRUE SIGHT`** ([gem-of-true-sight.md](./references/items/gem-of-true-sight.md)) | `ELDER TITAN`, `ORACLE`, `INVOKER` | Every task, at Stage 1 |
+| 👁️ **`OBSERVER WARD`** ([observer-ward.md](./references/items/observer-ward.md)) | `ELDER TITAN` | Standard/Multi-Axis blueprints with forks or unverified constraints (or explicit `คุยก่อน` / `discuss`) |
 | 🔱 **`AGHANIM'S SCEPTER`** ([aghanims-scepter.md](./references/items/aghanims-scepter.md)) | `INVOKER` | Documents with a table of contents or 3+ top-level sections |
 | 🧥 **`GLIMMER CAPE`** ([glimmer-cape.md](./references/items/glimmer-cape.md)) | `ELDER TITAN` → `VIPER`, `ORACLE` → `SHADOW FIEND`, `SILENCER` | When VIPER or SHADOW FIEND is assembled; every document SILENCER filters |
 | 🗡️ **`DIFFUSAL BLADE`** ([diffusal-blade.md](./references/items/diffusal-blade.md)) | `ELDER TITAN`, `DOOM`, `INVOKER` → `CRYSTAL MAIDEN`, `SILENCER` | Every blueprint, review findings, and prose document |
 | 🪞 **`MANTA STYLE`** ([manta-style.md](./references/items/manta-style.md)) | `ELDER TITAN` → `KUNKKA`/`TINY`, `ORACLE` → `EARTHSHAKER`/`MAGNUS` | Multi-flow classes (`UseCase`/`Service`) or pipeline refactors |
+| 📘 **`TOME OF KNOWLEDGE`** ([tome-of-knowledge.md](./references/items/tome-of-knowledge.md)) | `ANCIENT APPARITION`, `DOOM`, `SILENCER` | Non-trivial Stage 3 outputs with real stress points, intent checks, systemic takeaways, or knowledge gaps |
 
 #### Hero Kit (Pilot: `CRYSTAL MAIDEN`, `ENCHANTRESS`, `SHADOW FIEND`)
 A converted hero's rules are grouped by **when they run**: the 🟢 **Passive** applies every time the hero is assembled; each 🔵 **Active** and the 🟣 **Ultimate** run only when the trigger they name is present in the input. In the manifest, list each hero with the abilities it triggered, e.g. `SHADOW FIEND (Passive + Active 2)`. Heroes not yet converted keep their numbered rule list, and every rule in it applies whenever the hero is assembled.

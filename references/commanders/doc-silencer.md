@@ -23,5 +23,6 @@ After presenting or writing the documentation, append a short report in the user
 - **🤫 SILENCED (Unverified Claims Removed):** One line per claim purged by rule 5 — `<claim> — <why it could not be verified>` (e.g., `env var PAYMENT_TIMEOUT_MS — not read anywhere in src/`), so the user can confirm or supply the missing source.
 - **🔒 MASKED (Secrets & Personal Data Replaced):** One line per value replaced by rule 8 — `<section> — <kind of value> — <placeholder used>` (e.g., `3.1 cURL example — Bearer JWT — <JWT>`). Never repeat the original value.
 - **❓ QUESTIONED (Purpose Unclear):** One line per section kept under rule 9 — `<section> — what will the reader do with this? — <your best guess>`, so the user can keep or cut it.
+- **📘 TOME OF KNOWLEDGE · Post-Flight Talkback:** Buy **`TOME OF KNOWLEDGE`** ([tome-of-knowledge.md](../items/tome-of-knowledge.md)) on non-trivial docs to surface 1–2 **Knowledge Gaps** (undocumented business rules or implicit "Why" rationales in code that need user input).
 
-Report only rule 1, 5, 8 and 9 items (prose-to-diagram changes are not listed). Omit each section entirely if it has nothing; never invent filler.
+Report only rule 1, 5, 8, 9, and `TOME OF KNOWLEDGE` items (prose-to-diagram changes are not listed). Omit each section entirely if it has nothing; never invent filler.

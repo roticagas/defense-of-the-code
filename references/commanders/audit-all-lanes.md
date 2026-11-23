@@ -112,4 +112,7 @@ Present the complete Whole-Repo Audit report in the user's conversation language
 - **Stale Documentation:** [List of docs that describe obsolete code or config]
 - **Undocumented Critical Invariants:** [List of critical rules with no documentation]
 - **Action Plan:** [Exact files to update or create, e.g. ARCHITECTURE.md, ADR, or README sync]
+
+## 📘 TOME OF KNOWLEDGE · Strategic Talkback
+*(Run **`TOME OF KNOWLEDGE`** ([tome-of-knowledge.md](../items/tome-of-knowledge.md)) once here instead of per phase: 1–2 strategic discussion prompts on fix priority vs. intentional debt; omit if nothing remains)*
 ```

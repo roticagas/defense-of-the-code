@@ -28,7 +28,7 @@ Stage 2 heroes judge the diff against a checklist; DOOM checks that each survivi
 
 ## Final Verdict Output Format
 Present the surviving findings in the **user's conversation language** (keeping technical terms and code identifiers in English), concise and direct. Buy **`DIFFUSAL BLADE`** ([diffusal-blade.md](../items/diffusal-blade.md)): keep explanations crisp and free of pedagogical lecturing, filler, or dual-language echoes.
-**Important:** Omit any section (`🔴`, `🟡`, or `🗺️`) that has zero surviving items—never invent filler points to populate a header. If no `🔴 BLOCKER` or `🟡 SHOULD FIX` items survive, output ONLY:
+**Important:** Omit any section (`🔴`, `🟡`, or `🗺️`) that has zero surviving items—never invent filler points to populate a header. If no `🔴 BLOCKER` or `🟡 SHOULD FIX` items survive, output:
 > **🟢 APPROVED · THE ANCIENT STANDS** — All architectural invariants and domain contracts are satisfied. No actionable defects found.
 
 Otherwise, include only the non-empty sections below:
@@ -41,3 +41,6 @@ Otherwise, include only the non-empty sections below:
 
 ### 🗺️ MAP SYNC · WARDS NEEDED (Specifications / Configs / Documentation to Synchronize)
 - Exact project files that require updating to match the code changes (omit this section if none).
+
+### 📘 TOME OF KNOWLEDGE · Post-Flight Talkback
+Buy **`TOME OF KNOWLEDGE`** ([tome-of-knowledge.md](../items/tome-of-knowledge.md)) on non-trivial reviews (skipped in intermediate Whole-Repo Audit phases, which run it once at the end) to surface at most 1–3 **Intent Checks** or **Systemic Takeaways**—omit this section entirely when nothing meaningful remains to discuss.
